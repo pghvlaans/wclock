@@ -28,7 +28,7 @@ install:
 	@cp -v -L man/wclock.1.2 man-gz/wclock.1
 	@rm -f man/wclock.1.2
 	@mkdir -pv $(DESTDIR)$(MANDIR)
-	@cp -v --preserve=mode,timestamps man-gz/* $(DESTDIR)$(MANDIR)/man1
+	@cp -v -L man-gz/* $(DESTDIR)$(MANDIR)/man1
 	@gzip man-gz/*
 	@mkdir -p doc
 	@cp -v -L ./LICENSE doc/
