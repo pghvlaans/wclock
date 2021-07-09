@@ -16,22 +16,30 @@ all:
 	@echo
 
 install:
+	@mkdir -pv $(DESTDIR)$(BINDIR)
+	@sed 's|SHAREDIR=|SHAREDIR=$(SHAREDIR)|' wclock > wclock2
 	@echo
 	@rm -rf man-gz
-	@cp -v --preserve=mode,timestamps --dereference wclock $(DESTDIR)$(BINDIR)
+	@cp -v -L wclock2 $(DESTDIR)$(BINDIR)/wclock
+	@rm -f wclock2
 	@chmod 755 $(DESTDIR)$(BINDIR)/wclock
 	@mkdir man-gz
-	@cp -v --preserve=mode,timestamps man/* man-gz
+	@sed 's|SHAREDIR|$(SHAREDIR)|g' man/wclock.1 > man/wclock.1.2
+	@cp -v -L man/wclock.1.2 man-gz/wclock.1
+	@rm -f man/wclock.1.2
+	@mkdir -pv $(DESTDIR)$(MANDIR)
 	@cp -v --preserve=mode,timestamps man-gz/* $(DESTDIR)$(MANDIR)/man1
 	@gzip man-gz/*
 	@mkdir -p doc
-	@cp -v --preserve=mode,timestamps ./LICENSE doc/
-	@cp -v --preserve=mode,timestamps ./SIMPLEMAPS-LICENSE doc/
-	@cp -v --preserve=mode,timestamps ./README doc/
+	@cp -v -L ./LICENSE doc/
+	@cp -v -L ./SIMPLEMAPS-LICENSE doc/
+	@cp -v -L ./README doc/
+	@cp -v -L ./ATTRIBUTION doc/
+	@chmod 644 doc/* 
 	@mkdir -pv $(DESTDIR)$(DOCDIR)/wclock-$(VER)
-	@cp -v --preserve=mode,timestamps doc/* $(DESTDIR)$(DOCDIR)/wclock/$(VER)
+	@cp -v -L doc/* $(DESTDIR)$(DOCDIR)/wclock-$(VER)
 	@mkdir -pv $(DESTDIR)$(SHAREDIR)/wclock
-	@cp -v --preserve=mode,timestamps share/* $(DESTDIR)$(SHAREDIR)/wclock
+	@cp -v -L share/* $(DESTDIR)$(SHAREDIR)/wclock
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/*
 	@echo
 	@echo Done.

@@ -23,41 +23,37 @@
 # SOFTWARE.
 #
 # A simple world clock script for terminal emulator and tty use.
+#
 
 unset QUERY
 unset city
 unset zone
+unset SHAREDIR
+unset SUFFIX
+
+# Although both posix and right should be available in Linux installations, one
+# or both may be absent in a *BSD installation.
+if [ -d "/usr/share/zoneinfo/posix" ]; then
+	SUFFIX="posix/"
+elif [ -d "/usr/share/zoneinfo/right" ]; then
+	SUFFIX="right/"
+fi
+
+main (){
+# "make install" will fill this part in with SHAREDIR. SHAREDIR is PREFIX/share 
+# by default.
+SHAREDIR=
 
 ZONETEMP="$HOME/.zonetemp"
-EXTRAS=/usr/share/wclock/extras
-
-for arg in "$@"; do
-	case "$arg" in 
-		# Use query mode to help find genuine time zone names.
-		-q|--query)
-		QUERY=yes		
-		;;
-		*)
-		# Query with another argument
-		if [ "$QUERY" = "yes" ]; then
-			find /usr/share/zoneinfo/right/ -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
-			exit
-		else
-			# Replace spaces with underscores
-			[ -n "$city" ] && city="$city"_"$arg"
-			[ -z "$city" ] && city="$arg"
-		fi
-		;;
-	esac
-done
+EXTRAS="$SHAREDIR"/wclock/extras
 
 [ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo No arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
-[ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/posix/ -type d | cut -d'/' -f6- | less && exit
+[ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f6- | less && exit
 
 echo
 # First, search for a match among the named time zones.
-zone="$(find /usr/share/zoneinfo/posix/* -type f,l | grep -i "$city" | cut -d'/' -f6-)"
+zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f6-)"
 if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
 	mv "$ZONETEMP" "$ZONETEMP-backup"
 fi
@@ -67,7 +63,7 @@ fi
 if [ -f "$ZONETEMP" ]; then
 	while read -r place; do
 		echo "$(TZ="$place" date)"'	'"$place"
-	done < ~/.zonetemp
+	done < "$ZONETEMP"
 else
 	# If no match is available, resort to the "extras" list, which has
 	# countries and other cities.
@@ -92,3 +88,42 @@ if [ -f "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-bac
 else
 	rm -f "$ZONETEMP"
 fi
+}
+
+for arg in "$@"; do
+	case "$arg" in 
+		# Use query mode to help find genuine time zone names.
+		-h|--help)
+		echo
+		echo wclock - Retrieve world times based on a search term.
+		echo
+		echo SYNTAX:
+		echo wclock [-q\|--query [DIRECTORY]] SEARCH
+		echo
+		echo OPTIONS:
+		echo -q\|--query - With DIRECTORY, display defined time zones in the specified time zone directory.
+		echo '	'Without DIRECTORY, display all directories under /usr/share/zoneinfo with time zone data.
+		echo
+		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones,
+		echo '	'as well as a selection of other areas with a population of 400,000 or more.
+		echo
+		exit
+		;;
+		-q|--query)
+		QUERY=yes		
+		;;
+		*)
+		# Query with another argument
+		if [ "$QUERY" = "yes" ]; then
+			find /usr/share/zoneinfo/"$SUFFIX" -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
+			exit
+		else
+			# Replace spaces with underscores
+			[ -n "$city" ] && city="$city"_"$arg"
+			[ -z "$city" ] && city="$arg"
+		fi
+		;;
+	esac
+done
+
+main
