@@ -26,7 +26,7 @@ To report bugs or incorrect time zones, request alternate city spellings, etc., 
 
 *Acknowledgement*
 
-The list of extra cities was adapted from the World Cities Database (Basic) provided by simplemaps.com, covered by the Creative Commons 4.0 License. See ATTRIBUTION for details.
+The list of extra cities was adapted from the Basic World Cities Database provided by Pareto, Inc. through simplemaps.com, covered by the Creative Commons 4.0 License. See ATTRIBUTION and SIMPLEMAPS-LICENSE for details.
 
 (move below to ATTRIBUTION)
 Changes to the original source material include:
