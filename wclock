@@ -1,0 +1,94 @@
+#!/bin/sh
+#
+# wclock
+#
+# Copyright (c) 2021 K. Eugene Carlson  Tsukuba, Japan
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# A simple world clock script for terminal emulator and tty use.
+
+unset QUERY
+unset city
+unset zone
+
+ZONETEMP="$HOME/.zonetemp"
+EXTRAS=/usr/share/wclock/extras
+
+for arg in "$@"; do
+	case "$arg" in 
+		# Use query mode to help find genuine time zone names.
+		-q|--query)
+		QUERY=yes		
+		;;
+		*)
+		# Query with another argument
+		if [ "$QUERY" = "yes" ]; then
+			find /usr/share/zoneinfo/right/ -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
+			exit
+		else
+			# Replace spaces with underscores
+			[ -n "$city" ] && city="$city"_"$arg"
+			[ -z "$city" ] && city="$arg"
+		fi
+		;;
+	esac
+done
+
+[ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo No arguments. && wclock --help && exit
+# A blank query mode call displays available directories.
+[ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/posix/ -type d | cut -d'/' -f6- | less && exit
+
+echo
+# First, search for a match among the named time zones.
+zone="$(find /usr/share/zoneinfo/posix/* -type f,l | grep -i "$city" | cut -d'/' -f6-)"
+if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
+	mv "$ZONETEMP" "$ZONETEMP-backup"
+fi
+
+[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+
+if [ -f "$ZONETEMP" ]; then
+	while read -r place; do
+		echo "$(TZ="$place" date)"'	'"$place"
+	done < ~/.zonetemp
+else
+	# If no match is available, resort to the "extras" list, which has
+	# countries and other cities.
+	unset zones
+	zones="$(grep -i "$city" "$EXTRAS")"
+	[ -n "$zones" ] && echo "$zones" > "$ZONETEMP"
+	[ -f "$ZONETEMP" ] && while read -r line; do
+		unset name
+		unset place
+		name="$(echo "$line" | cut -d'	' -f1)"
+		place="$(echo "$line" | cut -d'	' -f2-)"
+		echo "$(TZ="$place" date)"'	'"$name" \("$place"\)
+	done < "$ZONETEMP"
+	# Bad luck; nothing was found.
+	[ ! -f "$ZONETEMP" ] && echo Search term revealed no time zones. Try wclock -q with a continent.
+fi
+echo
+
+# Cleaning up.
+if [ -f "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ]; then
+	mv "$ZONETEMP-backup" "$ZONETEMP"
+else
+	rm -f "$ZONETEMP"
+fi
