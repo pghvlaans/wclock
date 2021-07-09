@@ -17,7 +17,7 @@ wclock needs the following in place to work properly:
 * coreutils
 * grep
 * less
-* A POSIX-compliant shell (e.g. dash, ksh), or any other shell with a POSIX compliance mode (e.g. bash, zsh)
+* A POSIX-compliant shell, or any other shell with a POSIX compliance mode
 * sed (for installation)
 * gzip (for installation)
 
