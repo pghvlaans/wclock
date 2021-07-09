@@ -17,6 +17,7 @@ wclock needs the following in place to work properly:
 * grep
 * less
 * A POSIX-compliant shell (e.g. dash, ksh), or any other shell with a POSIX compliance mode (e.g. bash, zsh)
+* gzip (to install the man page)
 
 These packages should be included on almost any Linux or BSD installation. wclock has been tested with Linux and FreeBSD.
 
