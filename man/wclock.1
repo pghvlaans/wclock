@@ -1,0 +1,25 @@
+.\" Manpage for wclock
+.\" Contact (kvngncrlsn@gmail.com) to correct errors or typos.
+.TH man 1 "09 July 2021" "0.1.0" "wclock man page"
+.SH NAME
+wclock \- check times from around the world in a terminal emulator or tty 
+.SH SYNOPSIS
+wclock [-q|--query [DIRECTORY]] SEARCH
+.SH DESCRIPTION
+wclock is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in /usr/share/zoneinfo to retrieve the correct time zone, and passes this time zone to date(1) to report world times matching a search term. 
+
+Oustide of query mode, the search term can be either a city or a country; if the city or country is not defined in /usr/share/zoneinfo, then wclock will check SHAREDIR/wclock/extras to find it. This file contains a selection of cities and metro areas with a population of over 400,000, as well as countries with ISO codes in the tz database. Nearly 600 additional cities and almost every country are searchable in this manner.
+
+In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
+.SH OPTIONS
+SEARCH - A search term for the desired time; this can be a time zone as named in /usr/share/zoneinfo, a city included in SHAREDIR/wclock/extras, or a country.
+
+-q|--query - With a search term, display all time zones associated with that directory in /usr/share/zoneinfo. Without a search term, show a list of directories in /usr/share/zoneinfo. 
+
+-h|--help - Display the help menu.
+.SH SEE ALSO
+date(1)
+.SH BUGS
+To report bugs, request additional entries in SHAREDIR/wclock/extras, etc., email the author directly or open an issue at wclock's home on GitHub: https://github.com/pghvlaans/wclock.
+.SH AUTHOR
+K. Eugene Carlson (kvngncrlsn@gmail.com)
