@@ -21,7 +21,7 @@ wclock needs the following in place to work properly:
 * sed (for installation)
 * gzip (for installation)
 
-These packages should be included on almost any Linux or BSD installation. wclock has been tested with Linux and FreeBSD.
+These packages should be included on almost any Linux installation.
 
 *Bug Reporting*
 
