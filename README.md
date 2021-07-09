@@ -6,6 +6,7 @@ The following features are included for increased convenience:
 
 * Query mode: Use -q with a continent (or any other directory inside /usr/share/zoneinfo/posix) to get a list of available time zones, e.g. `wclock -q asia`. -q without further parameters gives a list of such directories.
 * Extra cities: A list of cities, metro areas, etc. with a population of over 400,000 is referenced if no matching time zone is found. `wclock washington`, for example, will return a time for Washington, DC using the America/New_York time zone.
+* Country search: Look up time zones by country.
 
 *Dependencies*
 
@@ -28,3 +29,7 @@ To report bugs or incorrect time zones, request alternate city spellings, etc., 
 *Acknowledgement*
 
 The list of extra cities was adapted from the Basic World Cities Database provided by Pareto Software, LLC through Simplemaps.com, covered by the Creative Commons 4.0 License. See ATTRIBUTION and SIMPLEMAPS-LICENSE for details.
+
+*Disclaimer*
+
+No listing (or absence of listing) in the "extras" document is intended as a political statement or as an endorsement of any particular interpretation of statehood claims or national borders. If extra names, old spellings, etc. were added at any point, it was for the sole purpose of making things easier to find.
