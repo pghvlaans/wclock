@@ -26,15 +26,4 @@ To report bugs or incorrect time zones, request alternate city spellings, etc., 
 
 *Acknowledgement*
 
-The list of extra cities was adapted from the Basic World Cities Database provided by Pareto, Inc. through simplemaps.com, covered by the Creative Commons 4.0 License. See ATTRIBUTION and SIMPLEMAPS-LICENSE for details.
-
-(move below to ATTRIBUTION)
-Changes to the original source material include:
-
-* Removing entries associated with cities populated by less than 400,000 people
-* Removing entries matching an existing time zone name (New York, Shanghai, London, etc.)
-* Removing all data except for the city name in ASCII
-* Replacing spaces with underscores
-* Adding alternate spellings for some cities
-* Placing the resulting data in a text file
-* Appending a time zone to each entry
+The list of extra cities was adapted from the Basic World Cities Database provided by Pareto Software, LLC through Simplemaps.com, covered by the Creative Commons 4.0 License. See ATTRIBUTION and SIMPLEMAPS-LICENSE for details.
