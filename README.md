@@ -33,4 +33,4 @@ The list of extra cities was adapted from the Basic World Cities Database provid
 
 *Disclaimer*
 
-No listing (or absence of listing) in the "extras" document is intended as a political statement or as an endorsement of any particular interpretation of statehood claims or national borders. If extra names, old spellings, etc. were added at any point, it was for the sole purpose of making things easier to find.
+No listing (or absence of listing) in the "extras" document is intended as a political statement or as an endorsement of any particular interpretation of statehood claims or national borders. Any extra names, old spellings, etc. were added for the sole purpose of making the search functionality more convenient.
