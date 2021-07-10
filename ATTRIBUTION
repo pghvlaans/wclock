@@ -1,0 +1,24 @@
+The collection of extra cities in the "extras" document was adapted from the
+Basic World Cities Database from Pareto, LLC's Simplemaps.com, covered by the
+Creative Commons 4.0 License. The database itself can be found here:
+
+  https://simplemaps.com/data/world-cities
+
+For information about the Creative Commons 4.0 License, see the following
+pages:
+
+  Summary: https://creativecommons.org/licenses/by/4.0/
+  Full License: https://creativecommons.org/licenses/by/4.0/legalcode
+
+In the course of adaptation, the following changes were made to the data:
+
+* Removed entries for cities with a population of under 400,000
+* Removed cities with names matching a defined time zone (New York, London,
+  Shanghai, etc.)
+* Removed all data except for the city names in ASCII.
+* Placed the remainder in a text file.
+* Added alternate spellings.
+* Appended a time zone for each entry.
+* Added a list of countries with time zones.
+* Alphabetized the text file.
+* Added deprecated time zones for BSD interoperability.

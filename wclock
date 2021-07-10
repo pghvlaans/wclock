@@ -52,24 +52,38 @@ EXTRAS="$SHAREDIR"/wclock/extras
 [ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f6- | less && exit
 
 echo
-# First, search for a match among the named time zones.
-zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f6-)"
+
 if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
 	mv "$ZONETEMP" "$ZONETEMP-backup"
 fi
 
+# If there's an exact match in the extras file, go with that.
+zone="$(grep -i "^$city	" "$SHAREDIR"/wclock/extras)"
+[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+[ -f "$ZONETEMP" ] && while read -r line; do
+	unset name
+	unset place
+	name="$(echo "$line" | cut -d'	' -f1)"
+	place="$(echo "$line" | cut -d'	' -f2-)"
+	echo "$(TZ="$place" date)"'	'"$name" \("$place"\)
+done < "$ZONETEMP"
+
+# First, search for a match among the named time zones.
+unset zone
+[ ! -f "$ZONETEMP" ] && zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f6-)"
+
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 
-if [ -f "$ZONETEMP" ]; then
+if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 	while read -r place; do
 		echo "$(TZ="$place" date)"'	'"$place"
 	done < "$ZONETEMP"
-else
+elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	# If no match is available, resort to the "extras" list, which has
 	# countries and other cities.
 	unset zones
 	zones="$(grep -i "$city" "$EXTRAS")"
-	[ -n "$zones" ] && echo "$zones" > "$ZONETEMP"
+	[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
 	[ -f "$ZONETEMP" ] && while read -r line; do
 		unset name
 		unset place
@@ -81,7 +95,6 @@ else
 	[ ! -f "$ZONETEMP" ] && echo Search term revealed no time zones. Try wclock -q with a continent.
 fi
 echo
-
 # Cleaning up.
 if [ -f "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ]; then
 	mv "$ZONETEMP-backup" "$ZONETEMP"
