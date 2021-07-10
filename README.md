@@ -24,7 +24,11 @@ The following are installation dependencies:
 * sed (GNU or BSD)
 * gzip
 
-These packages should be included on almost any Linux or BSD installation.
+These packages should be included on almost any Linux or BSD installation. wclock has been tested on Linux, FreeBSD and OpenBSD.
+
+*Installation*
+
+See INSTALL for installation instructions.
 
 *Bug Reporting*
 

@@ -1,0 +1,48 @@
+wclock-0.1.0 Installation Guide
+
+  ***********
+  * Actions *
+  ***********
+
+Makefile accepts the following instructions:
+
+  make install	 - Install wclock under a specified DESTDIR
+  make clean	 - Remove the zipped man page and doc from the source directory
+  make uninstall - Remove wclock from a specified DESTDIR
+
+  ************
+  * Defaults *
+  ************
+
+The default installation settings are as follows:
+
+PREFIX=/usr
+SHAREDIR=PREFIX/share
+MANDIR=PREFIX/man
+DOCDIR=PREFIX/doc
+BINDIR=PREFIX/bin
+
+To change one or more of these settings, simply pass the appropriate parameters
+when calling "make install:"
+
+  make PREFIX=/usr/local install
+
+DESTDIR is also available, and will install everything under the specified
+DESTDIR:
+
+  make DESTDIR=/tmp/wclock-0.1.0 PREFIX=/usr/local install
+
+When using "make uninstall," be sure to pass the same parameters that were used
+for "make install." Editing Makefile directly may be convenient.
+
+  ***********************
+  * FreeBSD and OpenBSD *
+  ***********************
+
+If PREFIX is not set to /usr/local, MANDIR should be set directly:
+
+  make MANDIR=/usr/share/man install
+
+When using /usr/local as PREFIX, no special action is needed:
+
+  make PREFIX=/usr/local install

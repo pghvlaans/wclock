@@ -27,9 +27,9 @@ install:
 	@sed 's|SHAREDIR|$(SHAREDIR)|g' man/wclock.1 > man/wclock.1.2
 	@cp -v -L man/wclock.1.2 man-gz/wclock.1
 	@rm -f man/wclock.1.2
-	@mkdir -p $(DESTDIR)$(MANDIR)
-	@cp -v -L man-gz/* $(DESTDIR)$(MANDIR)/man1
 	@gzip man-gz/*
+	@mkdir -p $(DESTDIR)$(MANDIR)/man1
+	@cp -v -L man-gz/* $(DESTDIR)$(MANDIR)/man1
 	@mkdir -p doc
 	@cp -v -L ./LICENSE doc/
 	@cp -v -L ./SIMPLEMAPS-LICENSE doc/
