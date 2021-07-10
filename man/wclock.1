@@ -8,7 +8,9 @@ wclock [-q|--query [DIRECTORY]] SEARCH
 .SH DESCRIPTION
 wclock is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in /usr/share/zoneinfo to retrieve the correct time zone, and passes this time zone to date(1) to report world times matching a search term. 
 
-Oustide of query mode, the search term can be either a city or a country; if the city or country is not defined in /usr/share/zoneinfo, then wclock will check SHAREDIR/wclock/extras to find it. This file contains a selection of cities and metro areas with a population of over 400,000, as well as countries with ISO codes in the tz database. Nearly 600 additional cities and almost every country are searchable in this manner.
+Oustide of query mode, the search term can be either a city or a country; wclock will first check SHAREDIR/wclock/extras for an exact match. This file contains a selection of cities and metro areas with a population of over 400,000, as well as countries with ISO codes in the tz database. Nearly 600 additional cities and almost every country are searchable in this manner.
+
+If an exact match is not found, defined time zones are searched. If the search term has still not been found, SHAREDIR/wclock/extras is checked once more for non-exact matches.
 
 In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
 .SH OPTIONS
