@@ -16,7 +16,7 @@ all:
 	@echo
 
 install:
-	@mkdir -pv $(DESTDIR)$(BINDIR)
+	@mkdir -p $(DESTDIR)$(BINDIR)
 	@sed 's|SHAREDIR=|SHAREDIR=$(SHAREDIR)|' wclock > wclock2
 	@echo
 	@rm -rf man-gz
@@ -27,7 +27,7 @@ install:
 	@sed 's|SHAREDIR|$(SHAREDIR)|g' man/wclock.1 > man/wclock.1.2
 	@cp -v -L man/wclock.1.2 man-gz/wclock.1
 	@rm -f man/wclock.1.2
-	@mkdir -pv $(DESTDIR)$(MANDIR)
+	@mkdir -p $(DESTDIR)$(MANDIR)
 	@cp -v -L man-gz/* $(DESTDIR)$(MANDIR)/man1
 	@gzip man-gz/*
 	@mkdir -p doc
@@ -36,9 +36,9 @@ install:
 	@cp -v -L ./README doc/
 	@cp -v -L ./ATTRIBUTION doc/
 	@chmod 644 doc/* 
-	@mkdir -pv $(DESTDIR)$(DOCDIR)/wclock-$(VER)
+	@mkdir -p $(DESTDIR)$(DOCDIR)/wclock-$(VER)
 	@cp -v -L doc/* $(DESTDIR)$(DOCDIR)/wclock-$(VER)
-	@mkdir -pv $(DESTDIR)$(SHAREDIR)/wclock
+	@mkdir -p $(DESTDIR)$(SHAREDIR)/wclock
 	@cp -v -L share/* $(DESTDIR)$(SHAREDIR)/wclock
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/*
 	@echo

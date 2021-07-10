@@ -30,6 +30,7 @@ unset city
 unset zone
 unset SHAREDIR
 unset SUFFIX
+unset SLASHES
 
 # Although both posix and right should be available in Linux installations, one
 # or both may be absent in a *BSD installation.
@@ -38,6 +39,9 @@ if [ -d "/usr/share/zoneinfo/posix" ]; then
 elif [ -d "/usr/share/zoneinfo/right" ]; then
 	SUFFIX="right/"
 fi
+
+SLASHES="$(echo "/usr/share/zoneinfo/$SUFFIX" | tr -cd '/' | wc -c)"
+SLASHES=$((SLASHES + 1))
 
 main (){
 # "make install" will fill this part in with SHAREDIR. SHAREDIR is PREFIX/share 
@@ -49,7 +53,7 @@ EXTRAS="$SHAREDIR"/wclock/extras
 
 [ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo No arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
-[ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f6- | less && exit
+[ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f"$SLASHES"- | less && exit
 
 echo
 
@@ -70,7 +74,7 @@ done < "$ZONETEMP"
 
 # First, search for a match among the named time zones.
 unset zone
-[ ! -f "$ZONETEMP" ] && zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f6-)"
+[ ! -f "$ZONETEMP" ] && zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
 
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 
