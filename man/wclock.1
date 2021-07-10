@@ -4,7 +4,9 @@
 .SH NAME
 wclock \- check times from around the world in a terminal emulator or tty 
 .SH SYNOPSIS
-wclock [-q|--query [DIRECTORY]] SEARCH
+wclock SEARCH [-b|--break SEARCH] ...
+.SH QUERY MODE
+wclock -q|--query [DIRECTORY]
 .SH DESCRIPTION
 wclock is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in /usr/share/zoneinfo to retrieve the correct time zone, and passes this time zone to date(1) to report world times matching a search term. 
 
@@ -12,11 +14,15 @@ Oustide of query mode, the search term can be either a city or a country; wclock
 
 If an exact match is not found, defined time zones are searched. If the search term has still not been found, SHAREDIR/wclock/extras is checked once more for non-exact matches.
 
+To fetch times for multiple locations, place -b (--break) between the individual search terms. -b has no effect before the first search term.
+
 In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
 .SH OPTIONS
 SEARCH - A search term for the desired time; this can be a time zone as named in /usr/share/zoneinfo, a city included in SHAREDIR/wclock/extras, or a country.
 
--q|--query - With a search term, display all time zones associated with that directory in /usr/share/zoneinfo. Without a search term, show a list of directories in /usr/share/zoneinfo. 
+-q|--query - With a search term, display all time zones associated with that directory in /usr/share/zoneinfo. Without a search term, show a list of directories in /usr/share/zoneinfo. Incompatible with -b.
+
+-b|--break - For multiple searches, use -b between each search term. Incompatible with -q.
 
 -h|--help - Display the help menu.
 .SH SEE ALSO
