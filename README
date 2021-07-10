@@ -16,6 +16,11 @@ The following features are included for increased convenience:
 
 * Country search: Look up time zones by country.
 
+* Breaks: Use -b between search terms to retrieve the time in multiple
+  locations:
+
+    wclock los angeles -b sendai -b south africa
+
 * Query mode: Use -q with a continent (or any other directory inside 
   /usr/share/zoneinfo/posix) to get a list of available time zones, e.g. 
   

@@ -98,7 +98,6 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	# Bad luck; nothing was found.
 	[ ! -f "$ZONETEMP" ] && echo Search term revealed no time zones. Try wclock -q with a continent.
 fi
-echo
 # Cleaning up.
 if [ -f "$ZONETEMP-backup" ] || [ -d "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ]; then
 	mv "$ZONETEMP-backup" "$ZONETEMP"
@@ -115,11 +114,17 @@ for arg in "$@"; do
 		echo wclock - Retrieve world times based on a search term.
 		echo
 		echo SYNTAX:
-		echo wclock [-q\|--query [DIRECTORY]] SEARCH
+		echo wclock SEARCH [-b\|--break SEARCH] ...
+		echo
+		echo QUERY MODE:
+		echo wclock -q\|--query [DIRECTORY]
 		echo
 		echo OPTIONS:
 		echo -q\|--query - With DIRECTORY, display defined time zones in the specified time zone directory.
 		echo '	'Without DIRECTORY, display all directories under /usr/share/zoneinfo with time zone data.
+		echo '	'Incompatible with -b.
+		echo
+		echo -b\|--break - Enter between search terms to retrieve multiple times.
 		echo
 		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones,
 		echo '	'as well as a selection of other areas with a population of 400,000 or more.
@@ -128,6 +133,10 @@ for arg in "$@"; do
 		;;
 		-q|--query)
 		QUERY=yes		
+		;;
+		-b|--break)
+		[ -n "$city" ] && main
+		unset city
 		;;
 		*)
 		# Query with another argument
@@ -144,3 +153,4 @@ for arg in "$@"; do
 done
 
 main
+echo
