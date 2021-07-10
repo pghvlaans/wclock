@@ -776,7 +776,6 @@ Turkey	Asia/Istanbul
 Turkmenistan	Asia/Ashgabat
 Turks_and_Caicos	America/Grand_Turk
 Tuvalu	Pacific/Funafuti
-UAE	Asia/Dubai
 USVI	America/St_Thomas
 US_Virgin_Islands	America/St_Thomas
 Ufa	Asia/Yekaterinburg
@@ -930,6 +929,7 @@ UTC	Etc/UTC
 UCT	Etc/UTC
 Universal	Etc/UTC
 Zulu	Etc/UTC
+GMT	Etc/GMT
 GMT+0	Etc/GMT
 GMT-0	Etc/GMT
 GMT0	Etc/GMT
