@@ -100,7 +100,7 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 fi
 echo
 # Cleaning up.
-if [ -f "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ]; then
+if [ -f "$ZONETEMP-backup" ] || [ -d "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ]; then
 	mv "$ZONETEMP-backup" "$ZONETEMP"
 else
 	rm -f "$ZONETEMP"
