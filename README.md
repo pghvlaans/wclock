@@ -24,10 +24,10 @@ wclock needs the following in place to work properly:
 
 The following are installation dependencies:
 
-* sed (GNU or BSD)
+* sed
 * gzip
 
-These packages should be included on almost any Linux or BSD installation. wclock has been tested on Linux, FreeBSD and OpenBSD.
+These packages should be included on almost any Linux installation.
 
 *Installation*
 
@@ -43,4 +43,4 @@ The list of extra cities was adapted from the Basic World Cities Database provid
 
 *Disclaimer*
 
-No listing (or absence of listing) in the "extras" document is intended as a political statement or as an endorsement of any particular interpretation of statehood claims or national borders. Any extra names, old spellings, etc. were added for making the search functionality more convenient or ensuring correct operation on BSD systems.
+No listing (or absence of listing) in the "extras" document is intended as a political statement or as an endorsement of any particular interpretation of statehood claims or national borders. Any extra names, old spellings, etc. were added for making the search functionality more convenient or avoiding deprecated time zones.
