@@ -57,8 +57,11 @@ EXTRAS="$SHAREDIR"/wclock/extras
 
 echo
 
+unset TIMESTAMP
+
 if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
-	mv "$ZONETEMP" "$ZONETEMP-backup"
+	TIMESTAMP="$(date +%s)"
+	mv "$ZONETEMP" "$ZONETEMP-$TIMESTAMP"
 fi
 
 # If there's an exact match in the extras file, go with that.
@@ -72,7 +75,7 @@ zone="$(grep -i "^$city	" "$SHAREDIR"/wclock/extras)"
 	echo "$(TZ="$place" date)"'	'"$name" \("$place"\)
 done < "$ZONETEMP"
 
-# First, search for a match among the named time zones.
+# Otherwise, search for a match among the named time zones.
 unset zone
 [ ! -f "$ZONETEMP" ] && zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
 
@@ -98,11 +101,11 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	# Bad luck; nothing was found.
 	[ ! -f "$ZONETEMP" ] && echo Search term revealed no time zones. Try wclock -q with a continent.
 fi
+
 # Cleaning up.
-if [ -f "$ZONETEMP-backup" ] || [ -d "$ZONETEMP-backup" ] || [ -h "$ZONETEMP-backup" ]; then
-	mv "$ZONETEMP-backup" "$ZONETEMP"
-else
-	rm -f "$ZONETEMP"
+rm -f "$ZONETEMP"
+if [ -f "$ZONETEMP-$TIMESTAMP" ] || [ -d "$ZONETEMP-$TIMESTAMP" ] || [ -h "$ZONETEMP-$TIMESTAMP" ]; then
+	mv "$ZONETEMP-$TIMESTAMP" "$ZONETEMP"
 fi
 }
 
