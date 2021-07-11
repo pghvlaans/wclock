@@ -51,11 +51,10 @@ wclock needs the following in place to work properly:
 
 The following are installation dependencies:
 
-* sed (GNU or BSD)
+* sed
 * gzip
 
-These packages should be included on almost any Linux or BSD installation.
-wclock has been tested on Linux, FreeBSD and OpenBSD.
+These packages should be included on almost any Linux installation.
 
 *Installation*
 
@@ -77,5 +76,5 @@ Commons 4.0 License. See ATTRIBUTION and SIMPLEMAPS-LICENSE for details.
 No listing (or absence of listing) in the "extras" document is intended as a
 political statement or as an endorsement of any particular interpretation of
 statehood claims or national borders. Any extra names, old spellings, etc. were
-added for making the search functionality more convenient or ensuring correct
-operation on BSD systems.
+added for making the search functionality more convenient or avoiding deprecated
+time zones.
