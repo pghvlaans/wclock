@@ -37,8 +37,8 @@ unset NOECHO
 unset WRITTEN
 unset FLAGS
 
-# Although both posix and right should be available in Linux installations, one
-# or both may be absent in a *BSD installation.
+# Although both posix and right should be available in Linux installations, just
+# to be safe.
 if [ -d "/usr/share/zoneinfo/posix" ]; then
 	SUFFIX="posix/"
 elif [ -d "/usr/share/zoneinfo/right" ]; then
