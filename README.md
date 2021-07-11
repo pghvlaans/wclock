@@ -1,6 +1,6 @@
 **wclock-0.1.0**
 
-wclock is a simple shell script to conveniently get times from around the world in terminal emulators and tty. It interfaces with /usr/share/zoneinfo to acquire time zones that match a user-provided search term (case- and space-insensitive).
+wclock is a simple shell script to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and `/usr/share/zoneinfo` to acquire time zones that match a user-provided search term (case- and space-insensitive).
 
 The following features are included for increased convenience:
 
