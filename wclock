@@ -180,9 +180,9 @@ for arg in "$@"; do
 		echo
 		echo -b\|--break - Enter between search terms to retrieve multiple time zones.
 		echo
-		echo -t\--there - Find your local time when it is DATETIME in SEARCH.
+		echo -t\|--there - Find your local time when it is DATETIME in SEARCH.
 		echo
-		echo -l\--local - Find the time in SEARCH when it is DATETIME in your time.
+		echo -l\|--local - Find the time in SEARCH when it is DATETIME in your time.
 		echo
 		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones,
 		echo '	'as well as a selection of other areas with a population of 400,000 or more.
