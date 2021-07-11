@@ -20,5 +20,5 @@ In the course of adaptation, the following changes were made to the data:
 * Added alternate spellings.
 * Appended a time zone for each entry.
 * Added a list of countries with time zones.
+* Added deprecated time zones to avoid calling them directly.
 * Alphabetized the text file.
-* Added deprecated time zones for BSD interoperability.
