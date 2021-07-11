@@ -53,8 +53,7 @@ if [ "$THERE" = "yes" ]; then
 	ENTRY="--date=TZ=\""$place"\" $FLAGS"
 	echo '	'$(date "$ENTRY") here
 	echo '	'"$(TZ="$place" date "$ENTRY")" in "$headup"
-	echo
-	NOECHO=yes
+	[ "$X" != "1 $ZONETEMP" ] && echo && NOECHO=yes
 fi
 		
 if [ "$HERE" = "yes" ]; then
@@ -70,14 +69,20 @@ main (){
 # by default.
 SHAREDIR=
 
-ZONETEMP="$HOME/.zonetemp"
+# For users without a HOME directory, use /tmp instead.
+if [ -n "$HOME" ] && [ -d "$HOME" ]; then
+	ZONETEMP="$HOME/.zonetemp"
+else
+	ZONETEMP=/tmp/.zonetemp
+fi
+
 EXTRAS="$SHAREDIR"/wclock/extras
 
 [ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo '	'No search arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
 [ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f"$SLASHES"- | less && exit
 
-echo
+[ "$NOECHO" != "yes" ] && echo
 
 unset TIMESTAMP
 
@@ -91,7 +96,7 @@ zone="$(grep -i "^$city	" "$SHAREDIR"/wclock/extras)"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 unset WRITTEN
 [ -f "$ZONETEMP" ] && while read -r line; do
-	X=$(wc -l "$ZONETEMP")
+	X="$(wc -l "$ZONETEMP")"
 	unset name
 	unset place
 	name="$(echo "$line" | cut -d'	' -f1)"
@@ -115,6 +120,7 @@ unset zone
 
 if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 	while read -r place; do
+		X="$(wc -l "$ZONETEMP")"
 		headup="$place"
 	
 		[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$place"
@@ -127,7 +133,7 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	zones="$(grep -i "$city" "$EXTRAS")"
 	[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
 	[ -f "$ZONETEMP" ] && while read -r line; do
-		X=$(wc -l "$ZONETEMP")
+		X="$(wc -l "$ZONETEMP")"
 		unset name
 		unset place
 		name="$(echo "$line" | cut -d'	' -f1)"
@@ -203,12 +209,16 @@ for arg in "$@"; do
 		unset city
 		;;
 		-t|--there)
+		[ -n "$city" ] && main
+		unset city
 		unset HERE	
 		GETFLAG=yes
 		unset FLAGS
 		THERE=yes
 		;;
 		-l|--local)
+		[ -n "$city" ] && main
+		unset city
 		unset THERE
 		GETFLAG=yes
 		unset FLAGS
@@ -239,4 +249,4 @@ for arg in "$@"; do
 	esac
 done
 main
-[ "$NOECHO" != "yes" ] && echo
+[ "$THERE" != "yes" ] || [ "$NOECHO" != "yes" ] && echo
