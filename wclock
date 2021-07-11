@@ -31,6 +31,11 @@ unset zone
 unset SHAREDIR
 unset SUFFIX
 unset SLASHES
+unset THERE
+unset HERE
+unset NOECHO
+unset WRITTEN
+unset FLAGS
 
 # Although both posix and right should be available in Linux installations, one
 # or both may be absent in a *BSD installation.
@@ -43,6 +48,23 @@ fi
 SLASHES="$(echo "/usr/share/zoneinfo/$SUFFIX" | tr -cd '/' | wc -c)"
 SLASHES=$((SLASHES + 1))
 
+comparemethod (){
+if [ "$THERE" = "yes" ]; then
+	ENTRY="--date=TZ=\""$place"\" $FLAGS"
+	echo '	'$(date "$ENTRY") here
+	echo '	'"$(TZ="$place" date "$ENTRY")" in "$headup"
+	echo
+	NOECHO=yes
+fi
+		
+if [ "$HERE" = "yes" ]; then
+	ENTRY="--date=$FLAGS"
+	[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY")" here
+	echo '	'$(TZ="$place" date "$ENTRY") in "$headup"
+	WRITTEN=yes
+fi
+}
+
 main (){
 # "make install" will fill this part in with SHAREDIR. SHAREDIR is PREFIX/share 
 # by default.
@@ -51,7 +73,7 @@ SHAREDIR=
 ZONETEMP="$HOME/.zonetemp"
 EXTRAS="$SHAREDIR"/wclock/extras
 
-[ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo No arguments. && wclock --help && exit
+[ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo '	'No search arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
 [ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f"$SLASHES"- | less && exit
 
@@ -67,12 +89,22 @@ fi
 # If there's an exact match in the extras file, go with that.
 zone="$(grep -i "^$city	" "$SHAREDIR"/wclock/extras)"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+unset WRITTEN
 [ -f "$ZONETEMP" ] && while read -r line; do
+	X=$(wc -l "$ZONETEMP")
 	unset name
 	unset place
 	name="$(echo "$line" | cut -d'	' -f1)"
 	place="$(echo "$line" | cut -d'	' -f2-)"
-	echo "$(TZ="$place" date)"'	'"$name" \("$place"\)
+
+	if [ ! "$X" = "1 $ZONETEMP" ]; then
+		headup="$place"
+	else
+		headup="$name ($place)"
+	fi
+
+	[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$name" \("$place"\)
+	[ -n "$FLAGS" ] && comparemethod
 done < "$ZONETEMP"
 
 # Otherwise, search for a match among the named time zones.
@@ -83,7 +115,10 @@ unset zone
 
 if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 	while read -r place; do
-		echo "$(TZ="$place" date)"'	'"$place"
+		headup="$place"
+	
+		[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$place"
+		[ -n "$FLAGS" ] && comparemethod
 	done < "$ZONETEMP"
 elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	# If no match is available, resort to the "extras" list, which has
@@ -92,14 +127,23 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	zones="$(grep -i "$city" "$EXTRAS")"
 	[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
 	[ -f "$ZONETEMP" ] && while read -r line; do
+		X=$(wc -l "$ZONETEMP")
 		unset name
 		unset place
 		name="$(echo "$line" | cut -d'	' -f1)"
 		place="$(echo "$line" | cut -d'	' -f2-)"
-		echo "$(TZ="$place" date)"'	'"$name" \("$place"\)
+	
+		if [ ! "$X" = "1 $ZONETEMP" ]; then
+			headup="$place"
+		else
+			headup="$name ($place)"
+		fi
+	
+		[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$name" \("$place"\)
+		[ -n "$FLAGS" ] && comparemethod
 	done < "$ZONETEMP"
 	# Bad luck; nothing was found.
-	[ ! -f "$ZONETEMP" ] && echo Search term revealed no time zones. Try wclock -q with a continent.
+	[ ! -f "$ZONETEMP" ] && echo The search term revealed no time zones.
 fi
 
 # Cleaning up.
@@ -117,7 +161,8 @@ for arg in "$@"; do
 		echo wclock - Retrieve world times based on a search term.
 		echo
 		echo SYNTAX:
-		echo wclock SEARCH [-b\|--break SEARCH] ...
+		echo wclock [-t\|--there DATETIME -b] SEARCH [-b\|--break SEARCH] ...
+		echo wclock [-l\|--local DATETIME -b] SEARCH [-b\|--break SEARCH] ...
 		echo
 		echo QUERY MODE:
 		echo wclock -q\|--query [DIRECTORY]
@@ -127,10 +172,25 @@ for arg in "$@"; do
 		echo '	'Without DIRECTORY, display all directories under /usr/share/zoneinfo with time zone data.
 		echo '	'Incompatible with -b.
 		echo
-		echo -b\|--break - Enter between search terms to retrieve multiple times.
+		echo -b\|--break - Enter between search terms to retrieve multiple time zones.
+		echo
+		echo -t\--there - Find your local time when it is DATETIME in SEARCH.
+		echo
+		echo -l\--local - Find the time in SEARCH when it is DATETIME in your time.
 		echo
 		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones,
 		echo '	'as well as a selection of other areas with a population of 400,000 or more.
+		echo
+		echo DATETIME - A past or future date and/or time to check. wclock will add any required time
+		echo '	'zone information automatically. In general, the preferred syntax is "TIME DAY". DAY can
+		echo '	'be a day of the week, full date, etc. For example,
+		echo
+		echo '		'wclock --there 16:00 next Thu -b washington
+		echo '		'wclock --local 12:00 2021/09/26 -b india
+		echo
+		echo '	'See date\(1\) for more information about formatting.
+		echo
+		echo A man page can be found at wclock\(1\).
 		echo
 		exit
 		;;
@@ -139,13 +199,37 @@ for arg in "$@"; do
 		;;
 		-b|--break)
 		[ -n "$city" ] && main
+		unset GETFLAG
 		unset city
+		;;
+		-t|--there)
+		unset HERE	
+		GETFLAG=yes
+		unset FLAGS
+		THERE=yes
+		;;
+		-l|--local)
+		unset THERE
+		GETFLAG=yes
+		unset FLAGS
+		HERE=yes
 		;;
 		*)
 		# Query with another argument
 		if [ "$QUERY" = "yes" ]; then
 			find /usr/share/zoneinfo/"$SUFFIX" -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
 			exit
+		elif [ "$GETFLAG" = "yes" ]; then
+			if [ -z "$FLAGS" ] && [ "$HERE" = "yes" ]; then 
+				FLAGS="$arg"\ "$(date +%z)"
+				DISPFLAGS="$arg"
+			elif [ -z "$FLAGS" ] && [ "$THERE" = "yes" ]; then
+				FLAGS="$arg"
+				DISPFLAGS="$arg"
+			else
+				FLAGS="$FLAGS"\ "$arg"
+				DISPFLAGS="$DISPFLAGS"\ "$arg"
+			fi
 		else
 			# Replace spaces with underscores
 			[ -n "$city" ] && city="$city"_"$arg"
@@ -154,6 +238,5 @@ for arg in "$@"; do
 		;;
 	esac
 done
-
 main
-echo
+[ "$NOECHO" != "yes" ] && echo
