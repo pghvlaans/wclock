@@ -17,27 +17,34 @@ If an exact match is not found, defined time zones are searched. If the search t
 
 To fetch times for multiple locations, place -b (--break) between the individual search terms. -b has no effect before the first search term, unless -t (--there) or -l (--local) is used.
 
---there and --local are used to pass a DATETIME parameter to date(1). Because wclock handles all time zone information, only the time and day are required. For more information, see "DATETIME" below; date(1) is another useful reference. When using --there and --local, any search arguments that are not to the left of a --break flag relative to -t or -l will be checked for DATETIME:
+--there and --local are used to pass a DATETIME parameter to date(1):
 
-\t wclock -t 10:00 next Wed -b washington -b kiev  # DATETIME check for Washington and Kiev.
+\t --there: Find your local time at DATETIME in the SEARCH time zone.
 
-\t wclock washington -t 10:00 next 10:00 -b kiev   # DATETIME check for Washington and Kiev.
+\t --local: Find the time in SEARCH at DATETIME in your local time zone.
 
-\t wclock washington -b kiev -t 10:00 next Wed     # DATETIME check for Kiev only.
+Because wclock will add time zone information to DATETIME, only the time (and day, if desired) are needed. For more information, see "DATETIME" below; date(1) is another useful reference. When using --there and --local, any following search arguments will have the corresponding DATETIME check, until the opposite flag is used:
 
-To ensure that all search arguments get the same DATETIME check, it is easiest to put -t or -l first.
+\t wclock -t 10:00 next Wed -b glasgow -b kiev
+"there" checks for Glasgow and Kiev.
+
+\t wclock glasgow -t 10:00 next Wed -b kiev
+"there" check for Kiev only.
+
+\t wclock -l 16:00 -b glasgow -t 10:00 next Wed -b kiev
+"local" check for Glasgow; "there" check for Kiev.
 
 In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
 .SH OPTIONS
 SEARCH - A search term for the desired time; this can be a time zone as named in /usr/share/zoneinfo, a city included in SHAREDIR/wclock/extras, or a country.
 
--q|--query - With a search term, display all time zones associated with that directory in /usr/share/zoneinfo. Without a search term, show a list of directories in /usr/share/zoneinfo. Incompatible with -b.
+-q|--query - With a search term, display all time zones associated with that directory in /usr/share/zoneinfo. Without a search term, show a list of directories in /usr/share/zoneinfo. Incompatible with -b, -t and -l.
 
 -b|--break - For multiple searches, use -b between each search term. Incompatible with -q.
 
--t|--there - Find your local time when it is DATETIME in SEARCH.
+-t|--there - Find your local time when it is DATETIME in SEARCH. Incompatible with -q.
 
--l|--local - Find the time in SEARCH when it is DATETIME in your local time.
+-l|--local - Find the time in SEARCH when it is DATETIME in your local time. Incompatible with -q.
 
 DATETIME - A future or past time to check. This parameter is passed to date(1); wclock handles setting TZ and passing the local time offset automatically. Input should not be quoted. In general, the preferred syntax is TIME [DAY], where DAY can be a date, a day of the week, or a relative term (e.g., "tomorrow."). As an example,
 
@@ -49,7 +56,7 @@ shows the local time when it is 17:00 in Minneapolis on July 16th.
 
 shows the time in Luxembourg at 12:00 local time, tomorrow.
 
-When passing DATETIME, it should come before any instance of -b (--break). DATETIME will be checked for all city/country search arguments if this is the case.
+When passing DATETIME with --local or --there, all following search arguments will have the check applied until the opposite check is used.
 
 -h|--help - Display the help menu.
 .SH SEE ALSO
