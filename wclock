@@ -84,6 +84,8 @@ EXTRAS="$SHAREDIR"/wclock/extras
 
 [ "$NOECHO" != "yes" ] && echo
 
+[ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'/usr/share/zoneinfo/"$SUFFIX" will be searched. && echo
+
 unset TIMESTAMP
 
 if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
@@ -92,7 +94,7 @@ if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
 fi
 
 # If there's an exact match in the extras file, go with that.
-zone="$(grep -i "^$city	" "$SHAREDIR"/wclock/extras)"
+[ -f "$EXTRAS" ] && zone="$(grep -i "^$city	" "$EXTRAS")"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 unset WRITTEN
 [ -f "$ZONETEMP" ] && while read -r line; do
@@ -130,7 +132,7 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	# If no match is available, resort to the "extras" list, which has
 	# countries and other cities.
 	unset zones
-	zones="$(grep -i "$city" "$EXTRAS")"
+	[ -f "$EXTRAS" ] && zones="$(grep -i "$city" "$EXTRAS")"
 	[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
 	[ -f "$ZONETEMP" ] && while read -r line; do
 		X="$(wc -l "$ZONETEMP")"
@@ -149,7 +151,7 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 		[ -n "$FLAGS" ] && comparemethod
 	done < "$ZONETEMP"
 	# Bad luck; nothing was found.
-	[ ! -f "$ZONETEMP" ] && echo The search term revealed no time zones.
+	[ ! -f "$ZONETEMP" ] && echo '	'The search term revealed no time zones.
 fi
 
 # Cleaning up.
