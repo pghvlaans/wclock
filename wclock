@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# A simple world clock script for terminal emulator and tty use.
+# A world clock script for terminal emulator and tty use.
 #
 
 unset QUERY
@@ -48,16 +48,87 @@ fi
 SLASHES="$(echo "/usr/share/zoneinfo/$SUFFIX" | tr -cd '/' | wc -c)"
 SLASHES=$((SLASHES + 1))
 
+localcheckval (){
+# Here, telling "date" about how the local time offset is handled, if necessary.
+if [ "$HERE" = "yes" ]; then
+	unset OK
+	unset OK2
+	unset OVERWRITE
+	SPACES="$(echo "$FLAGS" | tr -cd ' ' | wc -c)"
+	count=0
+	# One-argument DATETIME is a special case; just the offset and go
+	if [ "$SPACES" != "0" ]; then
+		while [ ! "$count" -gt "$SPACES" ] && [ "$OK" != "yes" ]; do
+			cutpoint="$((count +1))"
+			tester="$(echo "$FLAGS" | cut -d' ' -f"$cutpoint")"
+			tester2="$tester$(date +%z)"
+			# If this returns "OK", either the most recent element
+			# is a time, or DATETIME is probably malformed.
+			date --date="$tester2" > /dev/null 2>&1 && OK=yes || true
+			# Mitigating three- and four-digit times without colons
+			# not working with time offsets in "date".
+			if [ "$OK" != "yes" ]; then
+				[ "$cutpoint" = "1" ] && isolate="$tester"
+				[ "$cutpoint" != "1" ] && isolate="$(echo "$tester" | cut -d' ' -f-"$((cutpoint - 1))" | cut -d' ' -f"$cutpoint"-)"
+				Y="$(echo "$isolate" | grep -x [0-1][0-9][0-5][0-9])"
+				Y2="$(echo "$isolate" | grep -x [0-2][0-3][0-5][0-9])"
+				Z="$(echo "$isolate" | grep -x [0-9][0-5][0-9])"
+				if [ -n "$Y" ] || [ -n "$Y2" ]; then
+					isolate="$(echo "$isolate" | cut -c-2)"':'"$(echo "$isolate" | cut -c3-)"
+					OVERWRITE=yes
+				elif [ -n "$Z" ]; then
+					isolate="$(echo "$isolate" | cut -c-1)"':'"$(echo "$isolate" | cut -c2-)"
+					OVERWRITE=yes
+				fi
+				if [ "$OVERWRITE" = "yes" ]; then
+					[ "$cutpoint" = "1" ] && FLAGTEST="$isolate"\ "$(date +%z)"
+					[ "$cutpoint" != "1" ] && FLAGTEST="$(echo "$FLAGS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(date +%z)"
+					# Checking for a well-formed "date"
+					# string again.
+					date --date="$FLAGTEST" > /dev/null 2>&1 && OK2=yes || true
+				fi
+				if [ "$OK2" = "yes" ]; then
+					[ "$cutpoint" = "1" ] && FLAGS="$isolate"\ "$(echo "$FLAGS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
+					[ "$cutpoint" != "1" ] && FLAGS="$(echo "$FLAGS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(echo "$FLAGS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
+				fi
+			fi
+			count=$((count + 1))
+		done
+		# Putting the time zone information inside FLAGS, based on the
+		# test above.
+		FLAGS="$(echo "$FLAGS" | cut -d' ' -f-"$cutpoint")"\ "$(date +%z)"\ "$(echo "$FLAGS" | cut -d' ' -f"$((cutpoint + 1))"-)"
+	# Single-argment case
+	else
+		# Although "date" accepts four-digit numbers to represent the
+		# time in the --date string, it doesn't work with offsets.
+		Y="$(echo "$FLAGS" | grep -x [0-1][0-9][0-5][0-9])"
+		Y2="$(echo "$FLAGS" | grep -x [0-2][0-3][0-5][0-9])"
+		Z="$(echo "$FLAGS" | grep -x [0-9][0-5][0-9])"
+		if [ -n "$Y" ] || [ -n "$Y2" ]; then
+			FLAGS="$(echo "$FLAGS" | cut -c-2)"':'"$(echo "$FLAGS" | cut -c3-)"
+		elif [ -n "$Z" ]; then
+			FLAGS="$(echo "$FLAGS" | cut -c-1)"':'"$(echo "$FLAGS" | cut -c2-)"
+		fi
+		FLAGS="$FLAGS"\ "$(date +%z)"
+	fi
+fi
+}
+
+# X, headup and ZONETEMP carried over from main.
 comparemethod (){
 if [ "$THERE" = "yes" ]; then
 	ENTRY="--date=TZ=\""$place"\" $FLAGS"
 	echo '	'$(date "$ENTRY") here
 	echo '	'"$(TZ="$place" date "$ENTRY")" in "$headup"
+	# Want echoes between different time zones, but not at the end of the
+	# script or before the next break flag.
 	[ "$X" != "1 $ZONETEMP" ] && echo && NOECHO=yes
 fi
 		
 if [ "$HERE" = "yes" ]; then
 	ENTRY="--date=$FLAGS"
+	# The local time should only be written out once if there are multiple
+	# time zones for comparison.
 	[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY")" here
 	echo '	'$(TZ="$place" date "$ENTRY") in "$headup"
 	WRITTEN=yes
@@ -84,6 +155,7 @@ EXTRAS="$SHAREDIR"/wclock/extras
 
 [ "$NOECHO" != "yes" ] && echo
 
+# If the extras file is missing, just check the directories directly.
 [ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'/usr/share/zoneinfo/"$SUFFIX" will be searched. && echo
 
 unset TIMESTAMP
@@ -109,8 +181,10 @@ unset WRITTEN
 	else
 		headup="$name ($place)"
 	fi
-
+	
+	# No time check.
 	[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$name" \("$place"\)
+	# Time check.
 	[ -n "$FLAGS" ] && comparemethod
 done < "$ZONETEMP"
 
@@ -129,8 +203,8 @@ if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 		[ -n "$FLAGS" ] && comparemethod
 	done < "$ZONETEMP"
 elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
-	# If no match is available, resort to the "extras" list, which has
-	# countries and other cities.
+	# If no match is available, resort to inexact matches from the extras
+	# list.
 	unset zones
 	[ -f "$EXTRAS" ] && zones="$(grep -i "$city" "$EXTRAS")"
 	[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
@@ -163,7 +237,6 @@ fi
 
 for arg in "$@"; do
 	case "$arg" in 
-		# Use query mode to help find genuine time zone names.
 		-h|--help)
 		echo
 		echo wclock - Retrieve world times based on a search term.
@@ -190,8 +263,8 @@ for arg in "$@"; do
 		echo '	'as well as a selection of other areas with a population of 400,000 or more.
 		echo
 		echo DATETIME - A past or future date and/or time to check. wclock will add any required time
-		echo '	'zone information automatically. In general, the preferred syntax is "TIME DAY". DAY can
-		echo '	'be a day of the week, full date, etc. For example,
+		echo '	'zone information automatically. In general, the syntax is [DAY] TIME [DAY]. DAY can be
+		echo '	'a day of the week \(in English\), a full date, etc. For example,
 		echo
 		echo '		'wclock --there 16:00 next Thu -b washington
 		echo '		'wclock --local 12:00 2021/09/26 -b india
@@ -206,12 +279,12 @@ for arg in "$@"; do
 		QUERY=yes		
 		;;
 		-b|--break)
-		[ -n "$city" ] && main
+		[ -n "$city" ] && localcheckval && main
 		unset GETFLAG
 		unset city
 		;;
 		-t|--there)
-		[ -n "$city" ] && main
+		[ -n "$city" ] && localcheckval && main
 		unset city
 		unset HERE	
 		GETFLAG=yes
@@ -219,7 +292,7 @@ for arg in "$@"; do
 		THERE=yes
 		;;
 		-l|--local)
-		[ -n "$city" ] && main
+		[ -n "$city" ] && localcheckval && main
 		unset city
 		unset THERE
 		GETFLAG=yes
@@ -231,11 +304,10 @@ for arg in "$@"; do
 		if [ "$QUERY" = "yes" ]; then
 			find /usr/share/zoneinfo/"$SUFFIX" -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
 			exit
+		# Gather arguments for specific time checks between -t or -l and
+		# any other flag.
 		elif [ "$GETFLAG" = "yes" ]; then
-			if [ -z "$FLAGS" ] && [ "$HERE" = "yes" ]; then 
-				FLAGS="$arg"\ "$(date +%z)"
-				DISPFLAGS="$arg"
-			elif [ -z "$FLAGS" ] && [ "$THERE" = "yes" ]; then
+			if [ -z "$FLAGS" ]; then 
 				FLAGS="$arg"
 				DISPFLAGS="$arg"
 			else
@@ -243,12 +315,13 @@ for arg in "$@"; do
 				DISPFLAGS="$DISPFLAGS"\ "$arg"
 			fi
 		else
-			# Replace spaces with underscores
+			# Accounting for multi-word city and country names.
 			[ -n "$city" ] && city="$city"_"$arg"
 			[ -z "$city" ] && city="$arg"
 		fi
 		;;
 	esac
 done
+localcheckval
 main
 [ "$THERE" != "yes" ] || [ "$NOECHO" != "yes" ] && echo
