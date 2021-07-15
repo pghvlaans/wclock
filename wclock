@@ -199,13 +199,13 @@ if [ "$HERE" = "yes" ]; then
 	if [ -n "$HEREZONE" ]; then
 		# Etc/* time zones have inverted signs; fix this here if
 		# needed.
-		unset FIRSTCHAR
-		FIRSTCHAR="$(echo "$HEREZONE" | cut -c8 | cut -c1-)"
-		case "$FIRSTCHAR" in
-			+)
+		unset FIRSTCHARS
+		FIRSTCHARS="$(echo "$HEREZONE" | cut -c7 | cut -c2-)"
+		case "$FIRSTCHARS" in
+			/+)
 			HEREZONE="$(echo "$HEREZONE" | tr '+' '-')"
 			;;
-			-)
+			/-)
 			HEREZONE="$(echo "$HEREZONE" | tr '-' '+')"
 			;;
 		esac
