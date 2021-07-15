@@ -15,7 +15,7 @@ The following features are included for increased convenience:
 
 wclock needs the following in place to work properly:
 
-* tzdata (specifically, time zone data in /usr/share/zoneinfo)
+* tzdata (specifically, time zone data in /usr/share/zoneinfo or /etc/zoneinfo)
 * findutils
 * coreutils
 * grep

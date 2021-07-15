@@ -2,8 +2,8 @@ VER = 0.1.0
 
 PREFIX ?= /usr
 SHAREDIR ?= $(PREFIX)/share
-MANDIR ?= $(PREFIX)/man
-DOCDIR ?= $(PREFIX)/doc
+MANDIR ?= $(SHAREDIR)/man
+DOCDIR ?= $(SHAREDIR)/doc
 BINDIR ?= $(PREFIX)/bin
 
 all:

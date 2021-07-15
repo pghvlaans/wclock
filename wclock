@@ -28,7 +28,6 @@
 unset QUERY
 unset city
 unset zone
-unset SHAREDIR
 unset SUFFIX
 unset SLASHES
 unset THERE
@@ -38,17 +37,30 @@ unset WRITTEN
 unset TCPARAMS
 unset PARAMSFIXED
 unset WARNED
+unset ZONEINFO
+
+if [ -d "/usr/share/zoneinfo" ]; then
+	ZONEINFO=/usr/share/zoneinfo
+elif [ -d "/etc/zoneinfo" ]; then
+	ZONEINFO=/etc/zoneinfo
+else
+	echo '	'The zoneinfo directory was not found. Exiting.
+	echo
+	exit
+fi
 
 # Although both posix and right should be available in Linux installations, just
 # to be safe.
-if [ -d "/usr/share/zoneinfo/posix" ]; then
+if [ -d "$ZONEINFO/posix" ]; then
 	SUFFIX="posix/"
-elif [ -d "/usr/share/zoneinfo/right" ]; then
+elif [ -d "$ZONEINFO/right" ]; then
 	SUFFIX="right/"
 fi
 
-SLASHES="$(echo "/usr/share/zoneinfo/$SUFFIX" | tr -cd '/' | wc -c)"
+SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
 SLASHES=$((SLASHES + 1))
+
+	
 
 localcheckval (){
 # Here, telling "date" about how the local time offset is handled, if necessary.
@@ -142,7 +154,7 @@ if [ "$HERE" = "yes" ]; then
 		# /etc/localtime nor /etc/timezone.
 		SHORTDATE="$(date +"%-z")"
 		TRYDATE=GMT"${SHORTDATE%00}"
-		if [ -f "/usr/share/zoneinfo/Etc/$TRYDATE" ]; then
+		if [ -f "$ZONEINFO/"$SUFFIX"Etc/$TRYDATE" ]; then
 			HEREZONE=Etc/"$TRYDATE"
 		else
 			# The above method doesn't work for time zones that
@@ -233,12 +245,12 @@ EXTRAS="$SHAREDIR"/wclock/extras
 
 [ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo '	'No search arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
-[ "$QUERY" = "yes" ] && [ -z "$city" ] && find /usr/share/zoneinfo/"$SUFFIX" -type d | cut -d'/' -f"$SLASHES"- | less && exit
+[ "$QUERY" = "yes" ] && [ -z "$city" ] && find "$ZONEINFO"/"$SUFFIX" -type d | cut -d'/' -f"$SLASHES"- | less && exit
 
 [ "$NOECHO" != "yes" ] && echo
 
 # If the extras file is missing, just check the directories directly.
-[ "$WARNED" != "yes" ] && [ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'/usr/share/zoneinfo/"$SUFFIX" will be searched. && WARNED=yes && echo
+[ "$WARNED" != "yes" ] && [ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'"$ZONEINFO"/"$SUFFIX" will be searched. && WARNED=yes && echo
 
 unset TIMESTAMP
 
@@ -273,7 +285,7 @@ done < "$ZONETEMP"
 
 # Otherwise, search for a match among the named time zones.
 unset zone
-[ ! -f "$ZONETEMP" ] && zone="$(find /usr/share/zoneinfo/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
+[ ! -f "$ZONETEMP" ] && zone="$(find "$ZONEINFO"/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
 
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 
@@ -333,7 +345,7 @@ for arg in "$@"; do
 		echo
 		echo OPTIONS:
 		echo -q\|--query - With DIRECTORY, display defined time zones in the specified time zone directory.
-		echo '	'Without DIRECTORY, display all directories under /usr/share/zoneinfo with time zone data.
+		echo '	'Without DIRECTORY, display all directories under "$ZONEINFO" with time zone data.
 		echo '	'Incompatible with -b.
 		echo
 		echo -b\|--break - Enter between search terms to retrieve multiple time zones.
@@ -385,17 +397,15 @@ for arg in "$@"; do
 		*)
 		# Query with another argument
 		if [ "$QUERY" = "yes" ]; then
-			find /usr/share/zoneinfo/"$SUFFIX" -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
+			find "$ZONEINFO"/"$SUFFIX" -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
 			exit
 		# Gather arguments for specific time checks between -t or -l and
 		# any other flag.
 		elif [ "$GETPARAM" = "yes" ]; then
 			if [ -z "$TCPARAMS" ]; then 
 				TCPARAMS="$arg"
-				DISPTCPARAMS="$arg"
 			else
 				TCPARAMS="$TCPARAMS"\ "$arg"
-				DISPTCPARAMS="$DISPTCPARAMS"\ "$arg"
 			fi
 		else
 			# Accounting for multi-word city and country names.
