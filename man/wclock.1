@@ -24,7 +24,7 @@ To fetch times for multiple locations, place -b (--break) between the individual
 
 \t --local: Find the time in SEARCH at DATETIME in your local time zone.
 
-Because wclock will add time zone information to DATETIME, only the time (and day, if desired) are needed. For more information, see "DATETIME" below; date(1) is another useful reference. When using --there and --local, any following search arguments will have the corresponding DATETIME check, until the opposite flag is used:
+Because wclock will add time zone information to DATETIME, only the time (and day, if desired) are needed. For more information, see "DATETIME" below; date(1) is another useful reference. When using --there and --local, any following search arguments will have the corresponding DATETIME check, until -l or -t is used again:
 
 \t wclock -t 10:00 next Wed -b glasgow -b kiev
 
@@ -60,7 +60,7 @@ shows the local time when it is 16:00 in Minneapolis on July 17th.
 
 shows the time in Luxembourg at 12:00 local time, tomorrow.
 
-When passing DATETIME with --local or --there, all following search arguments will have the check applied until the opposite check is used.
+When passing DATETIME with --local or --there, all following search arguments will have the check applied until -l or -t is used again.
 
 -h|--help - Display the help menu.
 .SH SEE ALSO
