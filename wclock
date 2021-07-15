@@ -35,7 +35,9 @@ unset THERE
 unset HERE
 unset NOECHO
 unset WRITTEN
-unset FLAGS
+unset TCPARAMS
+unset PARAMSFIXED
+unset WARNED
 
 # Although both posix and right should be available in Linux installations, just
 # to be safe.
@@ -50,17 +52,18 @@ SLASHES=$((SLASHES + 1))
 
 localcheckval (){
 # Here, telling "date" about how the local time offset is handled, if necessary.
+[ "$PARAMSFIXED" = "yes" ] && return
 if [ "$HERE" = "yes" ]; then
 	unset OK
 	unset OK2
 	unset OVERWRITE
-	SPACES="$(echo "$FLAGS" | tr -cd ' ' | wc -c)"
+	SPACES="$(echo "$TCPARAMS" | tr -cd ' ' | wc -c)"
 	count=0
 	# One-argument DATETIME is a special case; just the offset and go
 	if [ "$SPACES" != "0" ]; then
 		while [ ! "$count" -gt "$SPACES" ] && [ "$OK" != "yes" ]; do
 			cutpoint="$((count +1))"
-			tester="$(echo "$FLAGS" | cut -d' ' -f"$cutpoint")"
+			tester="$(echo "$TCPARAMS" | cut -d' ' -f"$cutpoint")"
 			tester2="$tester$(date +%z)"
 			# If this returns "OK", either the most recent element
 			# is a time, or DATETIME is probably malformed.
@@ -81,57 +84,136 @@ if [ "$HERE" = "yes" ]; then
 					OVERWRITE=yes
 				fi
 				if [ "$OVERWRITE" = "yes" ]; then
-					[ "$cutpoint" = "1" ] && FLAGTEST="$isolate"\ "$(date +%z)"
-					[ "$cutpoint" != "1" ] && FLAGTEST="$(echo "$FLAGS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(date +%z)"
+					[ "$cutpoint" = "1" ] && PARAMTEST="$isolate"\ "$(date +%z)"
+					[ "$cutpoint" != "1" ] && PARAMTEST="$(echo "$TCPARAMS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(date +%z)"
 					# Checking for a well-formed "date"
 					# string again.
-					date --date="$FLAGTEST" > /dev/null 2>&1 && OK2=yes || true
+					date --date="$PARAMTEST" > /dev/null 2>&1 && OK2=yes || true
 				fi
 				if [ "$OK2" = "yes" ]; then
-					[ "$cutpoint" = "1" ] && FLAGS="$isolate"\ "$(echo "$FLAGS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
-					[ "$cutpoint" != "1" ] && FLAGS="$(echo "$FLAGS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(echo "$FLAGS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
+					[ "$cutpoint" = "1" ] && TCPARAMS="$isolate"\ "$(echo "$TCPARAMS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
+					[ "$cutpoint" != "1" ] && TCPARAMS="$(echo "$TCPARAMS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(echo "$TCPARAMS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
 				fi
 			fi
 			count=$((count + 1))
 		done
-		# Putting the time zone information inside FLAGS, based on the
+		# Putting the time zone information inside TCPARAMS, based on the
 		# test above.
-		FLAGS="$(echo "$FLAGS" | cut -d' ' -f-"$cutpoint")"\ "$(date +%z)"\ "$(echo "$FLAGS" | cut -d' ' -f"$((cutpoint + 1))"-)"
+		TCPARAMS="$(echo "$TCPARAMS" | cut -d' ' -f-"$cutpoint")"\ "$(date +%z)"\ "$(echo "$TCPARAMS" | cut -d' ' -f"$((cutpoint + 1))"-)"
 	# Single-argment case
 	else
 		# Although "date" accepts four-digit numbers to represent the
 		# time in the --date string, it doesn't work with offsets.
-		Y="$(echo "$FLAGS" | grep -x [0-1][0-9][0-5][0-9])"
-		Y2="$(echo "$FLAGS" | grep -x [0-2][0-3][0-5][0-9])"
-		Z="$(echo "$FLAGS" | grep -x [0-9][0-5][0-9])"
+		Y="$(echo "$TCPARAMS" | grep -x [0-1][0-9][0-5][0-9])"
+		Y2="$(echo "$TCPARAMS" | grep -x [0-2][0-3][0-5][0-9])"
+		Z="$(echo "$TCPARAMS" | grep -x [0-9][0-5][0-9])"
 		if [ -n "$Y" ] || [ -n "$Y2" ]; then
-			FLAGS="$(echo "$FLAGS" | cut -c-2)"':'"$(echo "$FLAGS" | cut -c3-)"
+			TCPARAMS="$(echo "$TCPARAMS" | cut -c-2)"':'"$(echo "$TCPARAMS" | cut -c3-)"
 		elif [ -n "$Z" ]; then
-			FLAGS="$(echo "$FLAGS" | cut -c-1)"':'"$(echo "$FLAGS" | cut -c2-)"
+			TCPARAMS="$(echo "$TCPARAMS" | cut -c-1)"':'"$(echo "$TCPARAMS" | cut -c2-)"
 		fi
-		FLAGS="$FLAGS"\ "$(date +%z)"
+		TCPARAMS="$TCPARAMS"\ "$(date +%z)"
 	fi
 fi
+PARAMSFIXED=yes
 }
 
 # X, headup and ZONETEMP carried over from main.
 comparemethod (){
 if [ "$THERE" = "yes" ]; then
-	ENTRY="--date=TZ=\""$place"\" $FLAGS"
-	echo '	'$(date "$ENTRY") here
-	echo '	'"$(TZ="$place" date "$ENTRY")" in "$headup"
+	ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
+	# Error-checking
+	TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
+	echo '	'$(date "$ENTRY" +"%X %Z %x (%a)")'	'here
+	echo '	'"$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")"'	'"$headup"
 	# Want echoes between different time zones, but not at the end of the
 	# script or before the next break flag.
 	[ "$X" != "1 $ZONETEMP" ] && echo && NOECHO=yes
 fi
 		
 if [ "$HERE" = "yes" ]; then
-	ENTRY="--date=$FLAGS"
-	# The local time should only be written out once if there are multiple
-	# time zones for comparison.
-	[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY")" here
-	echo '	'$(TZ="$place" date "$ENTRY") in "$headup"
-	WRITTEN=yes
+	if [ -h "/etc/localtime" ]; then
+		HEREZONE="$(readlink /etc/localtime | cut -d'/' -f5-)"
+	elif [ -f "/etc/timezone" ]; then
+		# Debian compatibility.
+		HEREZONE="$(cat /etc/timezone)"
+	else
+		# In case the time zone setting method references neither
+		# /etc/localtime nor /etc/timezone.
+		SHORTDATE="$(date +"%-z")"
+		TRYDATE=GMT"${SHORTDATE%00}"
+		if [ -f "/usr/share/zoneinfo/Etc/$TRYDATE" ]; then
+			HEREZONE=Etc/"$TRYDATE"
+		else
+			# The above method doesn't work for time zones that
+			# have "minutes" in the UTC offset; checking for these
+			# here.
+			case "$SHORTDATE" in
+				-230|-330)
+				HEREZONE=America/St_Johns
+				;;
+				+430)
+				HEREZONE=Asia/Kabul
+				;;
+				+530)
+				HEREZONE=Asia/Kolkata
+				;;
+				+545)
+				HEREZONE=Asia/Kathmandu
+				;;
+				+630)
+				# Most-populated
+				HEREZONE=Asia/Yangon
+				;;
+				+845)
+				HEREZONE=Australia/Eucla
+				;;
+				+930)
+				HEREZONE=Australia/Darwin
+				;;
+				+1030)
+				# Outside of DST, same as Darwin.
+				# Most-populated
+				HEREZONE=Australia/Adelaide
+				;;				
+				+1245|+1345)
+				HEREZONE=Pacific/Chatham
+				;;
+			esac
+		fi
+	fi
+	if [ -n "$HEREZONE" ]; then
+		# Etc/* time zones have inverted signs; fix this here if
+		# needed.
+		unset FIRSTCHAR
+		FIRSTCHAR="$(echo "$HEREZONE" | cut -c8 | cut -c1-)"
+		case "$FIRSTCHAR" in
+			+)
+			HEREZONE="$(echo "$HEREZONE" | tr '+' '-')"
+			;;
+			-)
+			HEREZONE="$(echo "$HEREZONE" | tr '-' '+')"
+			;;
+		esac
+		ENTRY="--date=TZ=\""$HEREZONE"\" $TCPARAMS"
+		# Error-checking
+		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
+		# The local time should only be written out once if there are multiple
+		# time zones for comparison.
+		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'here
+		echo '	'$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")'	'"$headup"
+		WRITTEN=yes
+	else
+		ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
+		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
+		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'here
+		echo '	'$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")'	'"$headup"
+		WRITTEN=yes
+		echo
+		echo '	'No local time zone could be found. If the times shown
+		echo '	'above fall on different days, the earlier time will
+		echo '	'be exactly 24 hours earlier than it should be.
+	fi
 fi
 }
 
@@ -156,7 +238,7 @@ EXTRAS="$SHAREDIR"/wclock/extras
 [ "$NOECHO" != "yes" ] && echo
 
 # If the extras file is missing, just check the directories directly.
-[ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'/usr/share/zoneinfo/"$SUFFIX" will be searched. && echo
+[ "$WARNED" != "yes" ] && [ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'/usr/share/zoneinfo/"$SUFFIX" will be searched. && WARNED=yes && echo
 
 unset TIMESTAMP
 
@@ -166,6 +248,7 @@ if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
 fi
 
 # If there's an exact match in the extras file, go with that.
+unset zone
 [ -f "$EXTRAS" ] && zone="$(grep -i "^$city	" "$EXTRAS")"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 unset WRITTEN
@@ -183,9 +266,9 @@ unset WRITTEN
 	fi
 	
 	# No time check.
-	[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$name" \("$place"\)
+	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$name" \("$place"\)
 	# Time check.
-	[ -n "$FLAGS" ] && comparemethod
+	[ -n "$TCPARAMS" ] && comparemethod
 done < "$ZONETEMP"
 
 # Otherwise, search for a match among the named time zones.
@@ -199,8 +282,8 @@ if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 		X="$(wc -l "$ZONETEMP")"
 		headup="$place"
 	
-		[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$place"
-		[ -n "$FLAGS" ] && comparemethod
+		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$place"
+		[ -n "$TCPARAMS" ] && comparemethod
 	done < "$ZONETEMP"
 elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 	# If no match is available, resort to inexact matches from the extras
@@ -221,8 +304,8 @@ elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
 			headup="$name ($place)"
 		fi
 	
-		[ -z "$FLAGS" ] && echo '	'"$(TZ="$place" date)"'	'"$name" \("$place"\)
-		[ -n "$FLAGS" ] && comparemethod
+		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$name" \("$place"\)
+		[ -n "$TCPARAMS" ] && comparemethod
 	done < "$ZONETEMP"
 	# Bad luck; nothing was found.
 	[ ! -f "$ZONETEMP" ] && echo '	'The search term revealed no time zones.
@@ -280,23 +363,23 @@ for arg in "$@"; do
 		;;
 		-b|--break)
 		[ -n "$city" ] && localcheckval && main
-		unset GETFLAG
 		unset city
+		unset GETPARAM
 		;;
 		-t|--there)
 		[ -n "$city" ] && localcheckval && main
 		unset city
 		unset HERE	
-		GETFLAG=yes
-		unset FLAGS
+		GETPARAM=yes
+		unset TCPARAMS
 		THERE=yes
 		;;
 		-l|--local)
 		[ -n "$city" ] && localcheckval && main
 		unset city
 		unset THERE
-		GETFLAG=yes
-		unset FLAGS
+		GETPARAM=yes
+		unset TCPARAMS
 		HERE=yes
 		;;
 		*)
@@ -306,13 +389,13 @@ for arg in "$@"; do
 			exit
 		# Gather arguments for specific time checks between -t or -l and
 		# any other flag.
-		elif [ "$GETFLAG" = "yes" ]; then
-			if [ -z "$FLAGS" ]; then 
-				FLAGS="$arg"
-				DISPFLAGS="$arg"
+		elif [ "$GETPARAM" = "yes" ]; then
+			if [ -z "$TCPARAMS" ]; then 
+				TCPARAMS="$arg"
+				DISPTCPARAMS="$arg"
 			else
-				FLAGS="$FLAGS"\ "$arg"
-				DISPFLAGS="$DISPFLAGS"\ "$arg"
+				TCPARAMS="$TCPARAMS"\ "$arg"
+				DISPTCPARAMS="$DISPTCPARAMS"\ "$arg"
 			fi
 		else
 			# Accounting for multi-word city and country names.
