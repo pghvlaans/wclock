@@ -1,6 +1,6 @@
 .\" Manpage for wclock
 .\" Contact (kvngncrlsn@gmail.com) to correct errors or typos.
-.TH man 1 "09 July 2021" "0.1.0" "wclock man page"
+.TH man 1 "15 July 2021" "0.1.0" "wclock man page"
 .SH NAME
 wclock \- check times from around the world in a terminal emulator or tty 
 .SH SYNOPSIS
@@ -26,11 +26,17 @@ To fetch times for multiple locations, place -b (--break) between the individual
 
 Because wclock will add time zone information to DATETIME, only the time (and day, if desired) are needed. For more information, see "DATETIME" below; date(1) is another useful reference. When using --there and --local, any following search arguments will have the corresponding DATETIME check, until the opposite flag is used:
 
-\t wclock -t 10:00 next Wed -b glasgow -b kiev		# "there" checks for Glasgow and Kiev.
+\t wclock -t 10:00 next Wed -b glasgow -b kiev
 
-\t wclock glasgow -t 10:00 next Wed -b kiev		# "there" check for Kiev only.
+# "there" checks for Glasgow and Kiev.
 
-\t wclock -l 16:00 -b glasgow -t 10:00 next Wed -b kiev	# "local": Glasgow; "there": Kiev
+\t wclock glasgow -t 10:00 next Wed -b kiev
+
+# "there" check for Kiev only.
+
+\t wclock -l 16:00 -b glasgow -t 10:00 next Wed -b kiev
+
+# "local": Glasgow; "there": Kiev
 
 In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
 .SH OPTIONS
@@ -46,9 +52,9 @@ SEARCH - A search term for the desired time; this can be a time zone as named in
 
 DATETIME - A future or past time to check. This parameter is passed to date(1); wclock handles setting TZ and passing the local time offset automatically. Input should not be quoted. Time is mandatory, and day is optional: [DAY] TIME [DAY], where DAY can be a date, an English day of the week, or an English relative term (e.g., "tomorrow."). As an example,
 
-\t wclock -t 17:00 2021/07/16 -b minneapolis
+\t wclock -t 16:00 2021/07/17 -b minneapolis
 
-shows the local time when it is 17:00 in Minneapolis on July 16th.
+shows the local time when it is 16:00 in Minneapolis on July 17th.
 
 \t wclock -l tomorrow 12 -b luxembourg
 
