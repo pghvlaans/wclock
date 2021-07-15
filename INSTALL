@@ -17,10 +17,10 @@ Makefile accepts the following instructions:
 The default installation settings are as follows:
 
 PREFIX=/usr
-SHAREDIR=PREFIX/share
-MANDIR=SHAREDIR/man
-DOCDIR=SHAREDIR/doc
-BINDIR=PREFIX/bin
+SHAREDIR=PREFIX/share	(/usr/share)
+MANDIR=SHAREDIR/man	(/usr/share/man)
+DOCDIR=SHAREDIR/doc	(/usr/share/doc)
+BINDIR=PREFIX/bin	(/usr/bin)
 
 To change one or more of these settings, simply pass the appropriate parameters
 when calling "make install:"

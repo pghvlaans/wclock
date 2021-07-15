@@ -1,21 +1,21 @@
 **wclock-0.1.0**
 
-wclock is a simple shell script to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and `/usr/share/zoneinfo` to acquire time zones that match a user-provided search term (case- and space-insensitive).
+wclock is a simple shell script to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and the zoneinfo directory to acquire time zones that match user-provided search terms (case-insensitive, spaces OK).
 
 The following features are included for increased convenience:
 
-* Extra cities: A list of cities, metro areas, etc. with a population of over 400,000 is referenced if no matching time zone is found. `wclock washington`, for example, will return a time for Washington, DC using the America/New_York time zone.
+* Extra cities: A list of cities, metro areas, etc. with a population of over 400,000 is referenced in addition to the named time zones. `wclock washington`, for example, will return a time for Washington, DC using the America/New_York time zone.
 * Country search: Look up time zones by country.
 * Breaks: Use -b between search terms to retrieve the time in multiple locations: `wclock los angeles -b sendai -b south africa`
 * Time and date check: use -t to find your local time at a given day and time in the search location: `wclock -t 10:00 2021/07/13 -b finland`
 * Reverse time and date check: Alternatively, use -l to find the time in the search location when it is the given time in your local time zone: `wclock -l 10:00 2021/07/13 -b lagos`
-* Query mode: Use -q with a continent (or any other directory inside /usr/share/zoneinfo/posix) to get a list of available time zones, e.g. `wclock -q asia`. -q without further parameters gives a list of such directories.
+* Query mode: Use -q with a continent (or any other directory inside `/usr/share/zoneinfo/posix`) to get a list of available time zones, e.g. `wclock -q asia`. -q without further parameters gives a list of such directories.
 
 *Dependencies*
 
 wclock needs the following in place to work properly:
 
-* tzdata (specifically, time zone data in /usr/share/zoneinfo or /etc/zoneinfo)
+* tzdata (specifically, time zone data in `/usr/share/zoneinfo` or `/etc/zoneinfo`)
 * findutils
 * coreutils
 * grep

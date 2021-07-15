@@ -1,14 +1,14 @@
 wclock-0.1.0
 
 wclock is a simple shell script to conveniently get times from around the world
-in terminal emulators and tty. It interfaces with "date" and /usr/share/zoneinfo
-to acquire time zones that match a user-provided search term (case- and space-
-insensitive).
+in terminal emulators and tty. It interfaces with "date" and the zoneinfo 
+directory to acquire time zones that match user-provided search terms (case-
+insensitive, spaces OK).
 
 The following features are included for increased convenience:
 
 * Extra cities: A list of cities, metro areas, etc. with a population of over 
-  400,000 is referenced in case no matching time zone is found. For example,
+  400,000 is referenced in addition to the named time zones. For example,
   
     wclock washington 
   

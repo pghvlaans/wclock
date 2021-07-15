@@ -44,6 +44,7 @@ if [ -d "/usr/share/zoneinfo" ]; then
 elif [ -d "/etc/zoneinfo" ]; then
 	ZONEINFO=/etc/zoneinfo
 else
+	echo
 	echo '	'The zoneinfo directory was not found. Exiting.
 	echo
 	exit
@@ -60,7 +61,6 @@ fi
 SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
 SLASHES=$((SLASHES + 1))
 
-	
 
 localcheckval (){
 # Here, telling "date" about how the local time offset is handled, if necessary.
@@ -136,7 +136,7 @@ if [ "$THERE" = "yes" ]; then
 	ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
 	# Error-checking
 	TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
-	echo '	'$(date "$ENTRY" +"%X %Z %x (%a)")'	'here
+	echo '	'$(date "$ENTRY" +"%X %Z %x (%a)")'	'Here
 	echo '	'"$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")"'	'"$headup"
 	# Want echoes between different time zones, but not at the end of the
 	# script or before the next break flag.
@@ -145,7 +145,9 @@ fi
 		
 if [ "$HERE" = "yes" ]; then
 	if [ -h "/etc/localtime" ]; then
-		HEREZONE="$(readlink /etc/localtime | cut -d'/' -f5-)"
+		SLASHES2="$(echo "$ZONEINFO/" | tr -cd '/' | wc -c)"
+		SLASHES2=$((SLASHES2 + 1))
+		HEREZONE="$(readlink /etc/localtime | cut -d'/' -f"$SLASHES2"-)"
 	elif [ -f "/etc/timezone" ]; then
 		# Debian compatibility.
 		HEREZONE="$(cat /etc/timezone)"
@@ -212,13 +214,13 @@ if [ "$HERE" = "yes" ]; then
 		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
 		# The local time should only be written out once if there are multiple
 		# time zones for comparison.
-		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'here
+		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
 		echo '	'$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")'	'"$headup"
 		WRITTEN=yes
 	else
 		ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
 		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
-		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'here
+		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
 		echo '	'$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")'	'"$headup"
 		WRITTEN=yes
 		echo
@@ -352,7 +354,8 @@ for arg in "$@"; do
 		echo
 		echo -t\|--there - Find your local time when it is DATETIME in SEARCH.
 		echo
-		echo -l\|--local - Find the time in SEARCH when it is DATETIME in your time.
+		echo -l\|--local - Find the time in SEARCH when it is DATETIME in your time. Like "date," the TZ
+		echo '	'parameter can be used to spoof a different local time zone.
 		echo
 		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones,
 		echo '	'as well as a selection of other areas with a population of 400,000 or more.
@@ -384,6 +387,7 @@ for arg in "$@"; do
 		unset HERE	
 		GETPARAM=yes
 		unset TCPARAMS
+		unset PARAMSFIXED
 		THERE=yes
 		;;
 		-l|--local)
@@ -392,6 +396,7 @@ for arg in "$@"; do
 		unset THERE
 		GETPARAM=yes
 		unset TCPARAMS
+		unset PARAMSFIXED
 		HERE=yes
 		;;
 		*)
