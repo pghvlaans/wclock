@@ -166,6 +166,10 @@ if [ "$HERE" = "yes" ]; then
 				-230|-330)
 				HEREZONE=America/St_Johns
 				;;
+				+330)
+				# DST is the same as Kabul
+				HEREZONE=Asia/Tehran
+				;;
 				+430)
 				HEREZONE=Asia/Kabul
 				;;
