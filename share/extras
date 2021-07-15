@@ -489,7 +489,7 @@ Feira_de_Santana	America/Sao_Paulo
 Fengcheng	Asia/Shanghai
 Fenyang	Asia/Shanghai
 Fes	Africa/Casablanca
-Fez	Africa/Casablanka
+Fez	Africa/Casablanca
 Finland	Europe/Helsinki
 Florianopolis	America/Sao_Paulo
 Fort_Wayne	America/Indiana/Indianapolis
@@ -503,7 +503,7 @@ French_Polynesia	Pacific/Gambier
 French_Polynesia	Pacific/Marquesas
 French_Southern_and_Antarctic_Lands	Indian/Kerguelen
 Fresno	America/Los_Angeles
-Fu'an	Asia/Shanghao
+Fu'an	Asia/Shanghai
 Fuan	Asia/Shanghai
 Fuding	Asia/Shanghai
 Fujin	Asia/Shanghai
@@ -814,9 +814,9 @@ Khulna	Asia/Dhaka
 Kikwit	Africa/Brazzaville
 Kimhae	Asia/Seoul
 Kingston	America/Jamaica
+Kiribati	Pacific/Tarawa
 Kiribati	Pacific/Enderbury
 Kiribati	Pacific/Kiritimati
-Kiribati	Pacific/Tarawa
 Kirkuk	Asia/Baghdad
 Kisangani	Africa/Lubumbashi
 Kisumu	Africa/Nairobi
@@ -1514,7 +1514,7 @@ Tamale	Africa/Accra
 Tampa	America/New_York
 Tanbei	Asia/Shanghai
 Tangerang	Asia/Jakarta
-Tangier	Asia/Casablanca
+Tangier	Africa/Casablanca
 Tangshan	Asia/Shanghai
 Tanta	Africa/Cairo
 Tanzania	Africa/Dar_es_Salaam
