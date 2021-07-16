@@ -39,10 +39,13 @@ unset PARAMSFIXED
 unset WARNED
 unset ZONEINFO
 
+# Most distributions use /usr/share/zoneinfo, but some don't, e.g. NixOS.
 if [ -d "/usr/share/zoneinfo" ]; then
 	ZONEINFO=/usr/share/zoneinfo
 elif [ -d "/etc/zoneinfo" ]; then
 	ZONEINFO=/etc/zoneinfo
+# To get compatibility for another zoneinfo location, please don't hesitate to
+# raise a GitHub issue!
 else
 	echo
 	echo '	'The zoneinfo directory was not found. Exiting.
@@ -61,9 +64,11 @@ fi
 SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
 SLASHES=$((SLASHES + 1))
 
+# This method is used to tell "date" about the local time offset when using the
+# --local flag.
 
 localcheckval (){
-# Here, telling "date" about how the local time offset is handled, if necessary.
+# The local time offset should only be applied once.
 [ "$PARAMSFIXED" = "yes" ] && return
 if [ "$HERE" = "yes" ]; then
 	unset OK
@@ -73,21 +78,27 @@ if [ "$HERE" = "yes" ]; then
 	count=0
 	# One-argument DATETIME is a special case; just the offset and go
 	if [ "$SPACES" != "0" ]; then
+		# Testing each argument individually; if the arguments up to
+		# that point form a valid "date" string when followed by the
+		# local time offset, then the last argument tested is the
+		# time of day.
 		while [ ! "$count" -gt "$SPACES" ] && [ "$OK" != "yes" ]; do
 			cutpoint="$((count +1))"
 			tester="$(echo "$TCPARAMS" | cut -d' ' -f"$cutpoint")"
 			tester2="$tester$(date +%z)"
-			# If this returns "OK", either the most recent element
-			# is a time, or DATETIME is probably malformed.
+			# The actual test.
 			date --date="$tester2" > /dev/null 2>&1 && OK=yes || true
 			# Mitigating three- and four-digit times without colons
 			# not working with time offsets in "date".
 			if [ "$OK" != "yes" ]; then
+				# Isolating the argument that's being examined.
 				[ "$cutpoint" = "1" ] && isolate="$tester"
 				[ "$cutpoint" != "1" ] && isolate="$(echo "$tester" | cut -d' ' -f-"$((cutpoint - 1))" | cut -d' ' -f"$cutpoint"-)"
+				# The possible three- and four-digit times.
 				Y="$(echo "$isolate" | grep -x [0-1][0-9][0-5][0-9])"
 				Y2="$(echo "$isolate" | grep -x [0-2][0-3][0-5][0-9])"
 				Z="$(echo "$isolate" | grep -x [0-9][0-5][0-9])"
+				# Inserting a colon.
 				if [ -n "$Y" ] || [ -n "$Y2" ]; then
 					isolate="$(echo "$isolate" | cut -c-2)"':'"$(echo "$isolate" | cut -c3-)"
 					OVERWRITE=yes
@@ -95,6 +106,7 @@ if [ "$HERE" = "yes" ]; then
 					isolate="$(echo "$isolate" | cut -c-1)"':'"$(echo "$isolate" | cut -c2-)"
 					OVERWRITE=yes
 				fi
+				# Replacing the incoming argument for testing.
 				if [ "$OVERWRITE" = "yes" ]; then
 					[ "$cutpoint" = "1" ] && PARAMTEST="$isolate"\ "$(date +%z)"
 					[ "$cutpoint" != "1" ] && PARAMTEST="$(echo "$TCPARAMS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(date +%z)"
@@ -102,6 +114,9 @@ if [ "$HERE" = "yes" ]; then
 					# string again.
 					date --date="$PARAMTEST" > /dev/null 2>&1 && OK2=yes || true
 				fi
+				# If a well-formed date string was found, alter
+				# the actual parameter sequence and exit the
+				# loop.
 				if [ "$OK2" = "yes" ]; then
 					[ "$cutpoint" = "1" ] && TCPARAMS="$isolate"\ "$(echo "$TCPARAMS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
 					[ "$cutpoint" != "1" ] && TCPARAMS="$(echo "$TCPARAMS" | cut -d' ' -f-"$((cutpoint - 1))")"\ "$isolate"\ "$(echo "$TCPARAMS" | cut -d' ' -f"$((cutpoint + 1))"-)" && OK=yes
@@ -112,7 +127,7 @@ if [ "$HERE" = "yes" ]; then
 		# Putting the time zone information inside TCPARAMS, based on the
 		# test above.
 		TCPARAMS="$(echo "$TCPARAMS" | cut -d' ' -f-"$cutpoint")"\ "$(date +%z)"\ "$(echo "$TCPARAMS" | cut -d' ' -f"$((cutpoint + 1))"-)"
-	# Single-argment case
+	# Single-argument case
 	else
 		# Although "date" accepts four-digit numbers to represent the
 		# time in the --date string, it doesn't work with offsets.
@@ -124,14 +139,18 @@ if [ "$HERE" = "yes" ]; then
 		elif [ -n "$Z" ]; then
 			TCPARAMS="$(echo "$TCPARAMS" | cut -c-1)"':'"$(echo "$TCPARAMS" | cut -c2-)"
 		fi
+		# comparemethod() will be called later, and it has error
+		# checking for bad date strings.
 		TCPARAMS="$TCPARAMS"\ "$(date +%z)"
 	fi
 fi
 PARAMSFIXED=yes
 }
 
-# X, headup and ZONETEMP carried over from main.
+# The method to use in case of time checks with --local or --there.
+
 comparemethod (){
+# --there flag was used.
 if [ "$THERE" = "yes" ]; then
 	ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
 	# Error-checking
@@ -142,7 +161,8 @@ if [ "$THERE" = "yes" ]; then
 	# script or before the next break flag.
 	[ "$X" != "1 $ZONETEMP" ] && echo && NOECHO=yes
 fi
-		
+
+# --local flag was used.
 if [ "$HERE" = "yes" ]; then
 	if [ -h "/etc/localtime" ]; then
 		SLASHES2="$(echo "$ZONEINFO/" | tr -cd '/' | wc -c)"
@@ -216,12 +236,15 @@ if [ "$HERE" = "yes" ]; then
 		ENTRY="--date=TZ=\""$HEREZONE"\" $TCPARAMS"
 		# Error-checking
 		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
-		# The local time should only be written out once if there are multiple
-		# time zones for comparison.
+		# The local time should only be written out once if there are
+		# multiple time zones for comparison.
 		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
 		echo '	'$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")'	'"$headup"
 		WRITTEN=yes
 	else
+		# An alternative method to be used if the actual local time 
+		# zone can't be found. Somewhat unreliable, as seen in the
+		# echo statements below.
 		ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
 		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
 		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
@@ -235,6 +258,8 @@ if [ "$HERE" = "yes" ]; then
 fi
 }
 
+# The main loop for each country/city search argument.
+
 main (){
 # "make install" will fill this part in with SHAREDIR. SHAREDIR is PREFIX/share 
 # by default.
@@ -245,6 +270,16 @@ if [ -n "$HOME" ] && [ -d "$HOME" ]; then
 	ZONETEMP="$HOME/.zonetemp"
 else
 	ZONETEMP=/tmp/.zonetemp
+fi
+
+# Failsafe: enforcing the use of either a HOME or a writable /tmp directory.
+if [ ! -d "$HOME" ] && [ ! -w "/tmp" ]; then
+	echo
+	echo '	'Neither a home nor a writable /tmp directory was found. 
+	echo '	'Please try again with a user account that has a home 
+	echo '	'directory or write permissions in /tmp.
+	echo
+	exit
 fi
 
 EXTRAS="$SHAREDIR"/wclock/extras
@@ -267,6 +302,7 @@ fi
 
 # If there's an exact match in the extras file, go with that.
 unset zone
+unset headup
 [ -f "$EXTRAS" ] && zone="$(grep -i "^$city	" "$EXTRAS")"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 unset WRITTEN
@@ -274,9 +310,11 @@ unset WRITTEN
 	X="$(wc -l "$ZONETEMP")"
 	unset name
 	unset place
+	# "name" is the name of the city; "place" is the time zone.
 	name="$(echo "$line" | cut -d'	' -f1)"
 	place="$(echo "$line" | cut -d'	' -f2-)"
 
+	# For display purposes.
 	if [ ! "$X" = "1 $ZONETEMP" ]; then
 		headup="$place"
 	else
@@ -297,6 +335,7 @@ unset zone
 
 if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 	while read -r place; do
+		# For display purposes.
 		X="$(wc -l "$ZONETEMP")"
 		headup="$place"
 	
@@ -409,7 +448,7 @@ for arg in "$@"; do
 			find "$ZONEINFO"/"$SUFFIX" -type f,l | grep -i "$arg" | cut -d'/' -f6- | cut -d'/' -f2- | sort | less
 			exit
 		# Gather arguments for specific time checks between -t or -l and
-		# any other flag.
+		# any other parameter.
 		elif [ "$GETPARAM" = "yes" ]; then
 			if [ -z "$TCPARAMS" ]; then 
 				TCPARAMS="$arg"
