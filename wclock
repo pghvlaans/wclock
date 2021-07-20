@@ -38,6 +38,7 @@ unset TCPARAMS
 unset PARAMSFIXED
 unset WARNED
 unset ZONEINFO
+unset DONE
 
 # Most distributions use /usr/share/zoneinfo, but some don't, e.g. NixOS.
 if [ -d "/usr/share/zoneinfo" ]; then
@@ -64,10 +65,10 @@ fi
 SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
 SLASHES=$((SLASHES + 1))
 
-# This method is used to tell "date" about the local time offset when using the
-# --local flag.
+# If a local time zone cannot be found when calling --local, this method will
+# apply an offset to the time check parameters as a fallback.
 
-localcheckval (){
+fallback (){
 # The local time offset should only be applied once.
 [ "$PARAMSFIXED" = "yes" ] && return
 if [ "$HERE" = "yes" ]; then
@@ -159,7 +160,7 @@ if [ "$THERE" = "yes" ]; then
 	echo '	'"$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")"'	'"$headup"
 	# Want echoes between different time zones, but not at the end of the
 	# script or before the next break flag.
-	[ "$X" != "1 $ZONETEMP" ] && echo && NOECHO=yes
+	echo && NOECHO=yes
 fi
 
 # --local flag was used.
@@ -174,7 +175,7 @@ if [ "$HERE" = "yes" ]; then
 	else
 		# In case the time zone setting method references neither
 		# /etc/localtime nor /etc/timezone.
-		SHORTDATE="$(date +"%-z")"
+		SHORTDATE="$(date --date="$TCPARAMS" +"%-z")"
 		TRYDATE=GMT"${SHORTDATE%00}"
 		if [ -f "$ZONEINFO/"$SUFFIX"Etc/$TRYDATE" ]; then
 			HEREZONE=Etc/"$TRYDATE"
@@ -245,6 +246,7 @@ if [ "$HERE" = "yes" ]; then
 		# An alternative method to be used if the actual local time 
 		# zone can't be found. Somewhat unreliable, as seen in the
 		# echo statements below.
+		fallback
 		ENTRY="--date=TZ=\""$place"\" $TCPARAMS"
 		TZ="$place" date "$ENTRY" > /dev/null 2>&1 || { echo '	'The check date for "$headup" appears to have a formatting error. ; return ; }
 		[ "$WRITTEN" != "yes" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
@@ -300,9 +302,10 @@ if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
 	mv "$ZONETEMP" "$ZONETEMP-$TIMESTAMP"
 fi
 
-# If there's an exact match in the extras file, go with that.
 unset zone
 unset headup
+unset DONE
+# If there's an exact match in the extras file, go with that.
 [ -f "$EXTRAS" ] && zone="$(grep -i "^$city	" "$EXTRAS")"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
 unset WRITTEN
@@ -314,56 +317,75 @@ unset WRITTEN
 	name="$(echo "$line" | cut -d'	' -f1)"
 	place="$(echo "$line" | cut -d'	' -f2-)"
 
-	# For display purposes.
+	# For display purposes (in practical terms, headup should never be
+	# "place" here except for countries with multiple time zones).
 	if [ ! "$X" = "1 $ZONETEMP" ]; then
 		headup="$place"
+		[ "$WRITTEN" != "yes" ] && echo '	'"$name" | tr '_' ' ' && echo && WRITTEN=yes
 	else
-		headup="$name ($place)"
+		headup="$(echo "$name" | tr '_' ' ') ($place)"
 	fi
 	
 	# No time check.
-	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$name" \("$place"\)
+	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
 	# Time check.
 	[ -n "$TCPARAMS" ] && comparemethod
+	DONE=yes
 done < "$ZONETEMP"
 
-# Otherwise, search for a match among the named time zones.
-unset zone
-[ ! -f "$ZONETEMP" ] && zone="$(find "$ZONEINFO"/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
-
-[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
-
-if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
-	while read -r place; do
-		# For display purposes.
-		X="$(wc -l "$ZONETEMP")"
-		headup="$place"
+if [ "$DONE" != "yes" ]; then
+	# Otherwise, search for a match among the named time zones.
+	unset zone
+	zone="$(find "$ZONEINFO"/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
 	
-		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$place"
-		[ -n "$TCPARAMS" ] && comparemethod
-	done < "$ZONETEMP"
-elif [ -z "$zone" ] && [ ! -f "$ZONETEMP" ]; then
-	# If no match is available, resort to inexact matches from the extras
-	# list.
-	unset zones
-	[ -f "$EXTRAS" ] && zones="$(grep -i "$city" "$EXTRAS")"
-	[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
-	[ -f "$ZONETEMP" ] && while read -r line; do
+	[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+
+	# If an exact match was found, don't search extras again.
+	unset EXACTMATCH
+	if [ -f "$ZONETEMP" ]; then
 		X="$(wc -l "$ZONETEMP")"
-		unset name
-		unset place
-		name="$(echo "$line" | cut -d'	' -f1)"
-		place="$(echo "$line" | cut -d'	' -f2-)"
-	
-		if [ ! "$X" = "1 $ZONETEMP" ]; then
-			headup="$place"
-		else
+		while read -r line; do
+			unset Y
+			line2="$(basename "$line")"
+			Y="$(echo "$line2" | grep -i -x "$city")"
+			[ -n "$Y" ] && EXACTMATCH="yes"
+		done < "$ZONETEMP"
+	fi
+	if [ "$EXACTMATCH" != "yes" ] || [ ! -f "$ZONETEMP" ]; then
+		[ -f "$EXTRAS" ] && zones="$(grep -i "$city\w*[[:space:]]" "$EXTRAS")"
+	fi
+
+	# If one or more matches was found among the named time zones, display.
+	if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
+		while read -r place; do
+			# For display purposes.
+			name="$(basename "$place" | tr '_' ' ')"
+			X="$(wc -l "$ZONETEMP")"
 			headup="$name ($place)"
-		fi
-	
-		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$name" \("$place"\)
-		[ -n "$TCPARAMS" ] && comparemethod
-	done < "$ZONETEMP"
+		
+			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+			[ -n "$TCPARAMS" ] && comparemethod
+		done < "$ZONETEMP"
+	fi
+
+	# Only go forward if no exact match found up to this point ("zones"
+	# cannot exist otherwise).
+	if [ -n "$zones" ]; then
+		echo "$zones" > "$ZONETEMP"
+		[ -f "$ZONETEMP" ] && while read -r line; do
+			X="$(wc -l "$ZONETEMP")"
+			unset name
+			unset place
+			name="$(echo "$line" | cut -d'	' -f1)"
+			place="$(echo "$line" | cut -d'	' -f2-)"
+		
+			headup="$(echo "$name" | tr '_' ' ') ($place)"
+		
+			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$(echo "$name" | tr '_' ' ')" \("$place"\)
+			[ -n "$TCPARAMS" ] && comparemethod
+		done < "$ZONETEMP"
+	fi
+
 	# Bad luck; nothing was found.
 	[ ! -f "$ZONETEMP" ] && echo '	'The search term revealed no time zones.
 fi
@@ -391,7 +413,7 @@ for arg in "$@"; do
 		echo OPTIONS:
 		echo -q\|--query - With DIRECTORY, display defined time zones in the specified time zone directory.
 		echo '	'Without DIRECTORY, display all directories under "$ZONEINFO" with time zone data.
-		echo '	'Incompatible with -b.
+		echo '	'Incompatible with -b, -t and -l.
 		echo
 		echo -b\|--break - Enter between search terms to retrieve multiple time zones.
 		echo
@@ -400,12 +422,12 @@ for arg in "$@"; do
 		echo -l\|--local - Find the time in SEARCH when it is DATETIME in your time. Like "date," the TZ
 		echo '	'parameter can be used to spoof a different local time zone.
 		echo
-		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones,
-		echo '	'as well as a selection of other areas with a population of 400,000 or more.
+		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones, as
+		echo '	'well as a selection of other areas with a population of 400,000 or more.
 		echo
-		echo DATETIME - A past or future date and/or time to check. wclock will add any required time
-		echo '	'zone information automatically. In general, the syntax is [DAY] TIME [DAY]. DAY can be
-		echo '	'a day of the week \(in English\), a full date, etc. For example,
+		echo DATETIME - A past or future date and/or time to check. wclock will add any required time zone
+		echo '	'information automatically. In general, the syntax is [DAY] TIME [DAY]. DAY can be a day
+		echo '	'of the week \(in English\), a full date, etc. For example,
 		echo
 		echo '		'wclock --there 16:00 next Thu -b washington
 		echo '		'wclock --local 12:00 2021/09/26 -b india
@@ -420,12 +442,12 @@ for arg in "$@"; do
 		QUERY=yes		
 		;;
 		-b|--break)
-		[ -n "$city" ] && localcheckval && main
+		[ -n "$city" ] &&  main
 		unset city
 		unset GETPARAM
 		;;
 		-t|--there)
-		[ -n "$city" ] && localcheckval && main
+		[ -n "$city" ] && main
 		unset city
 		unset HERE	
 		GETPARAM=yes
@@ -434,7 +456,7 @@ for arg in "$@"; do
 		THERE=yes
 		;;
 		-l|--local)
-		[ -n "$city" ] && localcheckval && main
+		[ -n "$city" ] && main
 		unset city
 		unset THERE
 		GETPARAM=yes
@@ -463,6 +485,5 @@ for arg in "$@"; do
 		;;
 	esac
 done
-localcheckval
 main
-[ "$THERE" != "yes" ] || [ "$NOECHO" != "yes" ] && echo
+[ "$NOECHO" != "yes" ] && echo
