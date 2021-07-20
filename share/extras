@@ -26,7 +26,7 @@ Al_Hillah	Asia/Baghdad
 Al_Hofuf	Asia/Riyadh
 Al_Hudaydah	Asia/Aden
 Al_Hufuf	Asia/Riyadh
-Al_Mahallah_al_Kubra	Africa/Cairo	
+Al_Mahallah_al_Kubra	Africa/Cairo
 Al_Mansurah	Africa/Cairo
 Al_`Ayn	Asia/Riyadh
 Aland	Europe/Mariehamn
@@ -39,7 +39,7 @@ Aleutian	America/Adak
 Alexandria	Africa/Cairo
 Algeria	Africa/Algiers
 Aligarh	Asia/Kolkata
-Allahabad	Asia/Kolkata	
+Allahabad	Asia/Kolkata
 Allentown	America/New_York
 American_Samoa	Pacific/Pago_Pago
 Americana	America/Sao_Paulo
@@ -268,7 +268,7 @@ Carrefour	America/Port-au-Prince
 Cartagena	America/Bogota
 Catamarca	America/Argentina/Catamarca
 Catia_La_Mar	America/Caracas
-Cawnpore	Asia/Kolkata	
+Cawnpore	Asia/Kolkata
 Cayman_Islands	America/Cayman
 Cebu_City	Asia/Manila
 Celaya	America/Mexico_City
@@ -296,7 +296,7 @@ Chaozhou	Asia/Shanghai
 Charleston	America/New_York
 Charlotte	America/New_York
 Chattanooga	America/New_York
-Chattogram	Asia/Dhaka	
+Chattogram	Asia/Dhaka
 Cheboksary	Europe/Moscow
 Chelyabinsk	Asia/Yekaterinburg
 Chengde	Asia/Shanghai
@@ -369,7 +369,7 @@ Cucuta	America/Bogota
 Culiacan	America/Chihuahua
 Curitiba	America/Sao_Paulo
 Currie	Australia/Hobart
-Cusco	America/Lima	
+Cusco	America/Lima
 Cuttack	Asia/Kolkata
 Cuzco	America/Lima
 Cyprus	Asia/Nicosia
@@ -438,7 +438,7 @@ Durgapur	Asia/Kolkata
 Durham	Europe/London
 Dusseldorf	Europe/Berlin
 Duyun	Asia/Shanghai
-E'zhou	Asia/Shanghai	
+E'zhou	Asia/Shanghai
 EET	Europe/Helsinki
 EST	America/Cancun
 EST5EDT	America/New_York
@@ -612,7 +612,7 @@ Hangzhou	Asia/Shanghai
 Hannover	Europe/Berlin
 Hanoi	Asia/Ho_Chi_Minh
 Hanzhong	Asia/Shanghai
-Haora	Asia/Kolkata	
+Haora	Asia/Kolkata
 Harbin	Asia/Shanghai
 Harrisburg	America/New_York
 Hartford	America/New_York
@@ -835,11 +835,11 @@ Korla	Asia/Shanghai
 Kota	Asia/Kolkata
 Kota_Bharu	Asia/Kuala_Lumpur
 Kota_Kinabalu	Asia/Kuching
-Kozhikode	Asia/Kolkata	
+Kozhikode	Asia/Kolkata
 Krakow	Europe/Warsaw
 Krasnodar	Europe/Moscow
 Krivoi_Rog	Europe/Kiev
-Kryvyy_Rih	Europe/Kiev	
+Kryvyy_Rih	Europe/Kiev
 Kuantan	Asia/Kuala_Lumpur
 Kumamoto	Asia/Tokyo
 Kumasi	Africa/Accra
@@ -1058,7 +1058,7 @@ Murrieta	America/Los_Angeles
 Myanmar	Asia/Yangon
 Mykolaiv	Europe/Kiev
 Mysore	Asia/Kolkata
-N'Djamena	Africa/Lagos	
+N'Djamena	Africa/Lagos
 NSW	Australia/Sydney
 NZ	Pacific/Auckland
 NZ	Pacific/Chatham
@@ -1139,7 +1139,7 @@ Oakland	America/Los_Angeles
 Odesa	Europe/Kiev
 Odessa	Europe/Kiev
 Ogbomosho	Africa/Lagos
-Ogbomoso	Africa/Lagos	
+Ogbomoso	Africa/Lagos
 Ogden	America/Denver
 Oita	Asia/Tokyo
 Okayama	Asia/Tokyo
@@ -1172,7 +1172,7 @@ Palermo	Europe/Rome
 Palestine	Asia/Gaza
 Palestine	Asia/Hebron
 Palm_Bay	America/New_York
-Palm_Coast	America/New_York	
+Palm_Coast	America/New_York
 Palma	Europe/Madrid
 Panama_City	America/Panama
 Panshi	Asia/Shanghai
@@ -1234,7 +1234,7 @@ Putian	Asia/Shanghai
 Puxi	Asia/Shanghai
 Puyang	Asia/Shanghai
 Pyeongtaek	Asia/Seoul
-Qamdo	Asia/Shanghai	
+Qamdo	Asia/Shanghai
 Qaraghandy	Asia/Almaty
 Qian'an	Asia/Shanghai
 Qianan	Asia/Shanghai
@@ -1267,14 +1267,14 @@ Qum	Asia/Tehran
 Quzhou	Asia/Shanghai
 ROC	Asia/Taipei
 ROK	Asia/Seoul
-Rabat	Africa/Casablanca	
+Rabat	Africa/Casablanca
 Raipur	Asia/Kolkata
 Rajkot	Asia/Kolkata
 Rajshahi	Asia/Dhaka
 Raleigh	America/New_York
 Ranchi	Asia/Kolkata
 Rangoon	Asia/Yangon
-Rasht	Asia/Tehran	
+Rasht	Asia/Tehran
 Rast	Asia/Tehran
 Raurkela	Asia/Kolkata
 Rawalpindi	Asia/Karachi
@@ -1344,12 +1344,12 @@ San_Jose_del_Monte	Asia/Manila
 San_Luis_Potosi	America/Mexico_City
 San_Miguel_de_Tucuman	America/Argentina/Tucuman
 San_Nicolas_de_los_Garza	America/Mexico_City
-San_Pedro_Sula	America/Tegucigalpa	
+San_Pedro_Sula	America/Tegucigalpa
 San_Salvador	America/El_Salvador
 Sanaa	Asia/Riyadh
 Sangli	Asia/Kolkata
 Sanhe	Asia/Shanghai
-Sanliurfa	Asia/Istanbul	
+Sanliurfa	Asia/Istanbul
 Sanmenxia	Asia/Shanghai
 Sanming	Asia/Shanghai
 Santa_Cruz	America/La_Paz
@@ -1472,7 +1472,7 @@ Suihua	Asia/Shanghai
 Suining	Asia/Shanghai
 Sukkur	Asia/Karachi
 Sunch'on	Asia/Pyongyang
-Suncheon	Asia/Seoul	
+Suncheon	Asia/Seoul
 Sunchon	Asia/Pyongyang
 Suqian	Asia/Shanghai
 Surabaya	Asia/Jakarta
@@ -1676,7 +1676,7 @@ Voronezh	Europe/Moscow
 W-SU	Europe/Moscow
 WET	Europe/Berlin
 Wafangdian	Asia/Shanghai
-Wallis_and_Futuna	Pacific/Wallis	
+Wallis_and_Futuna	Pacific/Wallis
 Wancheng	Asia/Shanghai
 Warangal	Asia/Kolkata
 Warri	Africa/Lagos

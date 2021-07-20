@@ -11,7 +11,7 @@ The following features are included for increased convenience:
 * Reverse time and date check: Alternatively, use -l to find the time in the search location when it is the given time in your local time zone: `wclock -l 10:00 2021/07/13 -b lagos`
 * Query mode: Use -q with a continent (or any other directory inside `/usr/share/zoneinfo/posix`) to get a list of available time zones, e.g. `wclock -q asia`. -q without further parameters gives a list of such directories.
 
-[![screenshot](https://user-images.githubusercontent.com/74497663/126025685-390e0251-3342-4888-a4b6-ec88082fafcf.png?raw=true)](https://user-images.githubusercontent.com/74497663/126025685-390e0251-3342-4888-a4b6-ec88082fafcf.png?raw=true)
+[![screenshot](https://user-images.githubusercontent.com/74497663/126334543-be612228-80d2-4bda-9dc0-73d9ab60bcbf.png?raw=true)](https://user-images.githubusercontent.com/74497663/126334543-be612228-80d2-4bda-9dc0-73d9ab60bcbf.png?raw=true)
 
 *Dependencies*
 

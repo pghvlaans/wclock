@@ -14,7 +14,7 @@ wclock is a shell script for checking times from any time zone while using a tty
 
 Oustide of query mode, the search term can be either a city or a country; wclock will first check SHAREDIR/wclock/extras for an exact match. This file contains a selection of cities and metro areas with a population of over 400,000, as well as countries with ISO codes in the tz database. Aside from time zone namesakes, nearly 1400 additional cities and almost every country are searchable in this manner.
 
-If an exact match is not found, defined time zones are searched. If the search term has still not been found, SHAREDIR/wclock/extras is checked once more for non-exact matches.
+If an exact match is not found, defined time zones are searched. If the exact search term has still not been found, SHAREDIR/wclock/extras is checked once more for non-exact matches.
 
 To fetch times for multiple locations, place -b (--break) between the individual search terms. -b has no effect before the first search term, unless -t (--there) or -l (--local) is used.
 
@@ -50,7 +50,7 @@ SEARCH - A search term for the desired time; this can be a time zone as named in
 
 -l|--local - Find the time in SEARCH when it is DATETIME in your local time. Incompatible with -q.
 
-DATETIME - A future or past time to check. This parameter is passed to date(1); wclock handles setting TZ and passing the local time offset automatically. Input should not be quoted. Time is mandatory, and day is optional: [DAY] TIME [DAY], where DAY can be a date, an English day of the week, or an English relative term (e.g., "tomorrow."). As an example,
+DATETIME - A future or past time to check. This parameter is passed to date(1); wclock handles setting TZ and passing the local time zone (or offset, if necessary) automatically. Input should not be quoted. Time is mandatory, and day is optional: [DAY] TIME [DAY], where DAY can be a date, an English day of the week, or an English relative term (e.g., "tomorrow."). As an example,
 
 \t wclock -t 16:00 2021/07/17 -b minneapolis
 
@@ -60,7 +60,7 @@ shows the local time when it is 16:00 in Minneapolis on July 17th.
 
 shows the time in Luxembourg at 12:00 local time, tomorrow.
 
-When passing DATETIME with --local or --there, all following search arguments will have the check applied until -l or -t is used again.
+When passing DATETIME with --local or --there, all subsequent search arguments will have the check applied until -l or -t is used again.
 
 -h|--help - Display the help menu.
 .SH SEE ALSO
