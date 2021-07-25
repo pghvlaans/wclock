@@ -1,6 +1,6 @@
 .\" Manpage for wclock
 .\" Contact (kvngncrlsn@gmail.com) to correct errors or typos.
-.TH man 1 "15 July 2021" "0.1.0" "wclock man page"
+.TH man 1 "25 July 2021" "0.1.1" "wclock man page"
 .SH NAME
 wclock \- check times from around the world in a terminal emulator or tty 
 .SH SYNOPSIS
@@ -39,6 +39,8 @@ Because wclock will add time zone information to DATETIME, only the time (and da
 # "local": Glasgow; "there": Kiev
 
 In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
+.SH COMPATIBILITY
+This version of wclock was written against tzdata-2021a. However, it should be compatible with past versions of tzdata to tzdata-2012a at the latest. Those time zones added to the database since are accounted for by checks against SHAREDIR/wclock/compat. These checks only occur if the given time zone is not installed on the system.
 .SH OPTIONS
 SEARCH - A search term for the desired time; this can be a time zone as named in /usr/share/zoneinfo, a city included in SHAREDIR/wclock/extras, or a country.
 
@@ -66,6 +68,8 @@ When passing DATETIME with --local or --there, all subsequent search arguments w
 .SH SEE ALSO
 date(1)
 .SH BUGS
+Antarctica/Troll is unaccounted for in SHAREDIR/wclock/compat for performance reasons (affects systems with tzdata-2014a and earlier).
+
 To report bugs, request additional entries in SHAREDIR/wclock/extras, etc., email the author directly or open an issue at wclock's home on GitHub: https://github.com/pghvlaans/wclock.
 .SH AUTHOR
 K. Eugene Carlson (kvngncrlsn@gmail.com)

@@ -39,6 +39,8 @@ unset PARAMSFIXED
 unset WARNED
 unset ZONEINFO
 unset DONE
+unset EXTRAS
+unset COMPAT
 
 # Most distributions use /usr/share/zoneinfo, but some don't, e.g. NixOS.
 if [ -d "/usr/share/zoneinfo" ]; then
@@ -285,6 +287,7 @@ if [ ! -d "$HOME" ] && [ ! -w "/tmp" ]; then
 fi
 
 EXTRAS="$SHAREDIR"/wclock/extras
+COMPAT="$SHAREDIR"/wclock/compat
 
 [ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo '	'No search arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
@@ -325,13 +328,35 @@ unset WRITTEN
 	else
 		headup="$(echo "$name" | tr '_' ' ') ($place)"
 	fi
-	
-	# No time check.
-	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
-	# Time check.
-	[ -n "$TCPARAMS" ] && comparemethod
-	DONE=yes
+
+	# For backwards compatibility, only use the time zone from the extras
+	# file if that time zone actually exists on the system. If it does not,
+	# proceed to the COMPAT loop.
+	if [ -f "$ZONEINFO/$SUFFIX""$place" ] || [ -h "$ZONEINFO/$SUFFIX""$place" ]; then
+		# No time check.
+		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+		# Time check.
+		[ -n "$TCPARAMS" ] && comparemethod
+		DONE=yes
+	# For old versions of tzdata (back to 2012a)
+	elif [ -f "$COMPAT" ] && [ -n "$(grep -m 1 "$place" "$COMPAT")" ]; then
+		place="$(grep -m 1 "$place" "$COMPAT" | cut -d'	' -f2-)"
+		# Easier to just do this again here if necessary. Rare case.
+		if [ ! "$X" = "1 $ZONETEMP" ]; then
+			headup="$place"
+			[ "$WRITTEN" != "yes" ] && echo '	'"$name" | tr '_' ' ' && echo && WRITTEN=yes
+		else
+			headup="$(echo "$name" | tr '_' ' ') ($place)"
+		fi
+		# No time check.
+		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+		# Time check.
+		[ -n "$TCPARAMS" ] && comparemethod
+		DONE=yes
+	fi
 done < "$ZONETEMP"
+
+unset DONE2
 
 if [ "$DONE" != "yes" ]; then
 	# Otherwise, search for a match among the named time zones.
@@ -365,6 +390,7 @@ if [ "$DONE" != "yes" ]; then
 		
 			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
 			[ -n "$TCPARAMS" ] && comparemethod
+			DONE2=yes
 		done < "$ZONETEMP"
 	fi
 
@@ -381,8 +407,43 @@ if [ "$DONE" != "yes" ]; then
 		
 			headup="$(echo "$name" | tr '_' ' ') ($place)"
 		
-			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$(echo "$name" | tr '_' ' ')" \("$place"\)
+			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
 			[ -n "$TCPARAMS" ] && comparemethod
+			DONE2=yes
+		done < "$ZONETEMP"
+	fi
+	
+	# A last-ditch attempt with COMPAT, in case of old version and unlucky
+	# time zone check.
+	if [ "$DONE2" != "yes" ] && [ -f "$COMPAT" ]; then
+		unset zone
+		zone="$(grep -i "/$city	" "$COMPAT")"
+		[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+		unset WRITTEN
+		[ -f "$ZONETEMP" ] && while read -r line; do
+			X="$(wc -l "$ZONETEMP")"
+			unset name
+			unset place
+			# "name" is the name of the city; "place" is the time 
+			# zone.
+			name="$(echo "$line" | cut -d'/' -f2- | cut -d'	' -f1 | tr '_' ' ')"
+			place="$(echo "$line" | cut -d'	' -f2-)"
+
+			# For display purposes (in practical terms, headup 
+			# should never be "place" here except for countries with
+			# multiple time zones).
+			if [ ! "$X" = "1 $ZONETEMP" ]; then
+				headup="$place"
+				[ "$WRITTEN" != "yes" ] && echo '	'"$name" | tr '_' ' ' && echo && WRITTEN=yes
+			else
+				headup="$(echo "$name" | tr '_' ' ') ($place)"
+			fi
+			if [ -f "$ZONEINFO/$SUFFIX""$place" ] || [ -h "$ZONEINFO/$SUFFIX""$place" ]; then
+				# No time check.
+				[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+				# Time check.
+				[ -n "$TCPARAMS" ] && comparemethod
+			fi
 		done < "$ZONETEMP"
 	fi
 

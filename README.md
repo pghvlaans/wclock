@@ -1,4 +1,4 @@
-**wclock-0.1.0**
+**wclock-0.1.1**
 
 wclock is a shell program to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and the zoneinfo directory to acquire time zones that match user-provided search terms (case-insensitive, spaces OK).
 
@@ -30,6 +30,10 @@ The following are installation dependencies:
 * gzip
 
 These packages should be included on almost any Linux installation.
+
+*Compatibility*
+
+This version of wclock was written against tzdata-2021a. However, it should operate correctly with versions of tzdata dating back to tzdata-2012a.
 
 *Installation*
 
