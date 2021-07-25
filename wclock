@@ -265,7 +265,7 @@ fi
 main (){
 # "make install" will fill this part in with SHAREDIR. SHAREDIR is PREFIX/share 
 # by default.
-SHAREDIR=
+SHAREDIR=/usr/share
 
 # For users without a HOME directory, use /tmp instead.
 if [ -n "$HOME" ] && [ -d "$HOME" ]; then
@@ -325,12 +325,13 @@ unset WRITTEN
 	else
 		headup="$(echo "$name" | tr '_' ' ') ($place)"
 	fi
-	
-	# No time check.
-	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
-	# Time check.
-	[ -n "$TCPARAMS" ] && comparemethod
-	DONE=yes
+	if [ -f "$ZONEINFO/$SUFFIX""$place" ] || [ -h "$ZONEINFO/$SUFFIX""$place" ]; then
+		# No time check.
+		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+		# Time check.
+		[ -n "$TCPARAMS" ] && comparemethod
+		DONE=yes
+	fi
 done < "$ZONETEMP"
 
 if [ "$DONE" != "yes" ]; then
