@@ -331,14 +331,14 @@ unset WRITTEN
 
 	# For backwards compatibility, only use the time zone from the extras
 	# file if that time zone actually exists on the system. If it does not,
-	# proceed to the directory search loop.
+	# proceed to the COMPAT loop.
 	if [ -f "$ZONEINFO/$SUFFIX""$place" ] || [ -h "$ZONEINFO/$SUFFIX""$place" ]; then
 		# No time check.
 		[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
 		# Time check.
 		[ -n "$TCPARAMS" ] && comparemethod
 		DONE=yes
-	# For old versions of tzdata (back to 2012e)
+	# For old versions of tzdata (back to 2012a)
 	elif [ -f "$COMPAT" ] && [ -n "$(grep -m 1 "$place" "$COMPAT")" ]; then
 		place="$(grep -m 1 "$place" "$COMPAT" | cut -d'	' -f2-)"
 		# Easier to just do this again here if necessary. Rare case.
@@ -407,7 +407,7 @@ if [ "$DONE" != "yes" ]; then
 		
 			headup="$(echo "$name" | tr '_' ' ') ($place)"
 		
-			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$(echo "$name" | tr '_' ' ')" \("$place"\)
+			[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
 			[ -n "$TCPARAMS" ] && comparemethod
 			DONE2=yes
 		done < "$ZONETEMP"
