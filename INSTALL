@@ -1,4 +1,4 @@
-wclock-0.1.0 Installation Guide
+wclock-0.1.1 Installation Guide
 
   ***********
   * Actions *
@@ -30,7 +30,7 @@ when calling "make install:"
 DESTDIR is also available, and will install everything under the specified
 DESTDIR:
 
-  make DESTDIR=/tmp/wclock-0.1.0 MANDIR=/usr/man install
+  make DESTDIR=/tmp/wclock-0.1.1 MANDIR=/usr/man install
 
 When using "make uninstall," be sure to pass the same parameters that were used
 for "make install." Editing Makefile directly may be convenient.
