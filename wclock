@@ -204,7 +204,12 @@ if [ "$HERE" = "yes" ]; then
 				;;
 				+630)
 				# Most-populated
-				HEREZONE=Asia/Yangon
+				if [ -f "$ZONEINFO/$SUFFIX"Asia/Yangon ] || [ -h "$ZONEINFO/$SUFFIX"Asia/Yangon ]; then
+					HEREZONE=Asia/Yangon
+				else
+					# For backwards compatibility.
+					HEREZONE=Asia/Rangoon
+				fi
 				;;
 				+845)
 				HEREZONE=Australia/Eucla
