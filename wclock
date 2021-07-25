@@ -491,7 +491,7 @@ for arg in "$@"; do
 		echo '	'of the week \(in English\), a full date, etc. For example,
 		echo
 		echo '		'wclock --there 16:00 next Thu -b washington
-		echo '		'wclock --local 12:00 20.1.19/26 -b india
+		echo '		'wclock --local 12:00 2021/09/26 -b india
 		echo
 		echo '	'See date\(1\) for more information about formatting.
 		echo
