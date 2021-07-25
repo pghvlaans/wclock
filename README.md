@@ -31,6 +31,10 @@ The following are installation dependencies:
 
 These packages should be included on almost any Linux installation.
 
+*Compatibility*
+
+This version of wclock was tested against tzdata-2021a. However, it should operate correctly with versions of tzdata dating back to tzdata-2012a.
+
 *Installation*
 
 See INSTALL for installation instructions.
