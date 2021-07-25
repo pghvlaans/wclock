@@ -426,7 +426,7 @@ if [ "$DONE" != "yes" ]; then
 			unset place
 			# "name" is the name of the city; "place" is the time 
 			# zone.
-			name="$(echo "$line" | cut -d'	' -f1)"
+			name="$(echo "$line" | cut -d'/' -f2- | cut -d'	' -f1 | tr '_' ' ')"
 			place="$(echo "$line" | cut -d'	' -f2-)"
 
 			# For display purposes (in practical terms, headup 
