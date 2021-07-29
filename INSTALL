@@ -1,4 +1,4 @@
-wclock-0.1.1 Installation Guide
+wclock-0.1.2 Installation Guide
 
   ***********
   * Actions *
@@ -16,11 +16,12 @@ Makefile accepts the following instructions:
 
 The default installation settings are as follows:
 
-PREFIX=/usr
-SHAREDIR=PREFIX/share	(/usr/share)
-MANDIR=SHAREDIR/man	(/usr/share/man)
-DOCDIR=SHAREDIR/doc	(/usr/share/doc)
-BINDIR=PREFIX/bin	(/usr/bin)
+  PREFIX=/usr
+  SHAREDIR=PREFIX/share	(/usr/share)
+  MANDIR=SHAREDIR/man	(/usr/share/man)
+  DOCDIR=SHAREDIR/doc	(/usr/share/doc)
+  BINDIR=PREFIX/bin	(/usr/bin)
+  ZONEINFO=		(see "zoneinfo Locations" below)
 
 To change one or more of these settings, simply pass the appropriate parameters
 when calling "make install:"
@@ -30,7 +31,30 @@ when calling "make install:"
 DESTDIR is also available, and will install everything under the specified
 DESTDIR:
 
-  make DESTDIR=/tmp/wclock-0.1.1 MANDIR=/usr/man install
+  make DESTDIR=/tmp/wclock-0.1.2 MANDIR=/usr/man install
 
 When using "make uninstall," be sure to pass the same parameters that were used
 for "make install." Editing Makefile directly may be convenient.
+
+  **********************
+  * zoneinfo Locations *
+  **********************
+
+By default, wclock uses the following priority order when finding a zoneinfo
+directory at run time:
+
+  /usr/share/zoneinfo-leaps
+  /usr/share/zoneinfo
+  /usr/local/share/zoneinfo-leaps
+  /usr/local/share/zoneinfo
+  /etc/zoneinfo-leaps
+  /etc/zoneinfo
+
+To force the use of one of these locations in preference to a higher-priority
+directory, or to pass a different zoneinfo directory to wclock, use the
+ZONEINFO parameter:
+
+  make ZONEINFO=/usr/local/share/zoneinfo PREFIX=/usr/local install
+
+Please note that if the ZONEINFO parameter is set improperly, wclock will not
+work; the default priority should be acceptable in most cases.

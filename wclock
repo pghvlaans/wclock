@@ -41,10 +41,28 @@ unset ZONEINFO
 unset DONE
 unset EXTRAS
 unset COMPAT
+unset ZONEPRELIM
 
-# Most distributions use /usr/share/zoneinfo, but some don't, e.g. NixOS.
-if [ -d "/usr/share/zoneinfo" ]; then
+# "make install" sets these values at installation time.
+VER=
+SHAREDIR=
+ZONEPRELIM=
+ZONEINFO="$ZONEPRELIM"
+
+# This method selects an appropriate zoneinfo directory, if none was provided
+# when running "make install."
+
+getzoneinfo (){
+if [ -d "/usr/share/zoneinfo-leaps" ]; then
+	ZONEINFO=/usr/share/zoneinfo-leaps
+elif [ -d "/usr/share/zoneinfo" ]; then
 	ZONEINFO=/usr/share/zoneinfo
+elif [ -d "/usr/local/share/zoneinfo-leaps" ]; then
+	ZONEINFO=/usr/local/share/zoneinfo-leaps
+elif [ -d "/usr/local/share/zoneinfo" ]; then
+	ZONEINFO=/usr/local/share/zoneinfo
+elif [ -d "/etc/zoneinfo-leaps" ]; then
+	ZONEINFO=/etc/zoneinfo-leaps
 elif [ -d "/etc/zoneinfo" ]; then
 	ZONEINFO=/etc/zoneinfo
 # To get compatibility for another zoneinfo location, please don't hesitate to
@@ -55,17 +73,7 @@ else
 	echo
 	exit
 fi
-
-# Although both posix and right should be available in Linux installations, just
-# to be safe.
-if [ -d "$ZONEINFO/posix" ]; then
-	SUFFIX="posix/"
-elif [ -d "$ZONEINFO/right" ]; then
-	SUFFIX="right/"
-fi
-
-SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
-SLASHES=$((SLASHES + 1))
+}
 
 # If a local time zone cannot be found when calling --local, this method will
 # apply an offset to the time check parameters as a fallback.
@@ -270,10 +278,6 @@ fi
 # The main loop for each country/city search argument.
 
 main (){
-# "make install" will fill this part in with SHAREDIR. SHAREDIR is PREFIX/share 
-# by default.
-SHAREDIR=
-
 # For users without a HOME directory, use /tmp instead.
 if [ -n "$HOME" ] && [ -d "$HOME" ]; then
 	ZONETEMP="$HOME/.zonetemp"
@@ -293,6 +297,20 @@ fi
 
 EXTRAS="$SHAREDIR"/wclock/extras
 COMPAT="$SHAREDIR"/wclock/compat
+
+# Acquiring zoneinfo if necessary, exiting if none can be found.
+[ -z "$ZONEINFO" ] || [ ! -d "$ZONEINFO" ] && getzoneinfo
+
+# Although at least one of these should be available in Linux installations,
+# just to be safe.
+if [ -d "$ZONEINFO/right" ]; then
+	SUFFIX="right/"
+elif [ -d "$ZONEINFO/posix" ]; then
+	SUFFIX="posix/"
+fi
+
+SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
+SLASHES=$((SLASHES + 1))
 
 [ "$QUERY" != "yes" ] && [ -z "$city" ] && echo && echo '	'No search arguments. && wclock --help && exit
 # A blank query mode call displays available directories.
@@ -488,6 +506,10 @@ for arg in "$@"; do
 		echo -l\|--local - Find the time in SEARCH when it is DATETIME in your time. Like "date," the TZ
 		echo '	'parameter can be used to spoof a different local time zone.
 		echo
+		echo -v\|--version - Show wclock\'s version and tzdata compatibility information.
+		echo
+		echo -h\|--help - Show this help menu.
+		echo
 		echo SEARCH - A city or country. Available cities include the namesakes of all defined time zones, as
 		echo '	'well as a selection of other areas with a population of 400,000 or more.
 		echo
@@ -501,6 +523,13 @@ for arg in "$@"; do
 		echo '	'See date\(1\) for more information about formatting.
 		echo
 		echo A man page can be found at wclock\(1\).
+		echo
+		exit
+		;;
+		-v|--version)
+		echo
+		echo wclock-"$VER"
+		echo Written against tzdata-2021b \(compatible from tzdata-2012a onward\).
 		echo
 		exit
 		;;
