@@ -20,7 +20,7 @@ install:
 	@mkdir -p $(DESTDIR)$(BINDIR)
 	@sed 's|SHAREDIR=|SHAREDIR=$(SHAREDIR)|' wclock > wclock2
 	@sed -i 's|VER=|VER=$(VER)|' wclock2
-	@sed -i 's|ZONEPRELIM=|ZONEPRELIM=$(ZONEINFO)|1' wclock2
+	@sed -i 's|ZONEPRELIM=|ZONEPRELIM=$(ZONEINFO)|' wclock2
 	@echo
 	@rm -rf man-gz
 	@cp -v -L wclock2 $(DESTDIR)$(BINDIR)/wclock
