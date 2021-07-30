@@ -87,7 +87,7 @@ unset PWD
 PWD="$(pwd)"
 cd "$(dirname "$1")"
 CHECKER="$(file "$(readlink "$1")" | cut -d':' -f2- | grep timezone)"
-[ -n "$CHECKER" ] && HEREZONE="$(readlink "$1")"
+[ -n "$CHECKER" ] && HEREZONE="$1"
 cd "$PWD"
 # The file is a text document with a time zone.
 if [ ! -h "$1" ] && [ -z "$HEREZONE" ]; then
