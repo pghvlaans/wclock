@@ -533,7 +533,7 @@ for arg in "$@"; do
 		-v|--version)
 		echo
 		echo '	'wclock-"$VER"
-		echo '	'Written against tzdata-2021b \(compatible from tzdata-2012a onward\).
+		echo '	'Written against tzdata-2021a \(compatible from tzdata-2012a onward\).
 		echo
 		exit
 		;;
