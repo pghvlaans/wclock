@@ -5,6 +5,7 @@ Abuja	Africa/Lagos
 Acapulco_de_Juarez	America/Mexico_City
 Acre	America/Rio_Branco
 Ad_Dammam	Asia/Riyadh
+Ad_Diwaniyah	Asia/Baghdad
 Adama	Africa/Addis_Ababa
 Adana	Asia/Istanbul
 Ado-Ekiti	Africa/Lagos
@@ -19,6 +20,7 @@ Ajmer	Asia/Kolkata
 Akola	Asia/Kolkata
 Akron	America/New_York
 Aksu	Asia/Shanghai
+Aktobe	Asia/Aqtobe
 Akure	Africa/Lagos
 Al_Ayn	Asia/Riyadh
 Al_Basrah	Asia/Baghdad
@@ -82,16 +84,19 @@ Argentina	America/Argentina/San_Luis
 Argentina	America/Argentina/Tucuman
 Argentina	America/Argentina/Ushuaia
 Arizona	America/Phoenix
+Arlington	America/Chicago
 Armenia	Asia/Yerevan
 Arusha	Africa/Dar_es_Salaam
 As_Sulaymaniyah	Asia/Riyadh
 Asansol	Asia/Kolkata
 Ashkhabad	Asia/Ashgabat
 Asmera	Africa/Asmara
+Asyut	Africa/Cairo
 At_Ta'if	Asia/Riyadh
 At_Taif	Asia/Riyadh
 Atka	America/Adak
 Atlanta	America/New_York
+Augusta	America/New_York
 Aurangabad	Asia/Kolkata
 Austin	America/Chicago
 Australia	Australia/Hobart
@@ -163,6 +168,7 @@ Belgaon	Asia/Kolkata
 Belgaum	Asia/Kolkata
 Belgavi	Asia/Kolkata
 Belgium	Europe/Brussels
+Belgorod	Europe/Moscow
 Bellary	Asia/Kolkata
 Belo_Horizonte	America/Sao_Paulo
 Bengbu	Asia/Shanghai
@@ -174,9 +180,11 @@ Bennenagari	Asia/Kolkata
 Benxi	Asia/Shanghai
 Bezwada	Asia/Kolkata
 Bhagalpur	Asia/Kolkata
+Bhatpara	Asia/Kolkata
 Bhavnagar	Asia/Kolkata
 Bhayandar	Asia/Kolkata
 Bhilai	Asia/Kolkata
+Bhilwara	Asia/Kolkata
 Bhiwandi	Asia/Kolkata
 Bhopal	Asia/Kolkata
 Bhubaneshwar	Asia/Kolkata
@@ -188,7 +196,9 @@ Binzhou	Asia/Shanghai
 Birmingham	Europe/London
 Bndar-e_Abbas	Asia/Tehran
 Bogor	Asia/Jakarta
+Boise	America/Denver
 Bolivia	America/La_Paz
+Bologna	Europe/Rome
 Bosnia-Herzegovina	Europe/Sarajevo
 Bosnia_and_Herzegovina	Europe/Sarajevo
 Boston	America/New_York
@@ -210,6 +220,7 @@ British_Virgin_Islands	America/Tortola
 Bronx	America/New_York
 Brookhaven	America/New_York
 Brooklyn	America/New_York
+Brno	Europe/Prague
 Bryansk	Europe/Moscow
 Bucaramanga	America/Bogota
 Bucheon	Asia/Seoul
@@ -244,6 +255,7 @@ Cambodia	Asia/Phnom_Penh
 Cameroon	Africa/Douala
 Campina_Grande	America/Sao_Paulo
 Campinas	America/Sao_Paulo
+Campos	America/Sao_Paulo
 Can_Tho	Asia/Ho_Chi_Minh
 Canada	America/St_Johns
 Canada	America/Halifax
@@ -262,6 +274,7 @@ Canoas	America/Sao_Paulo
 Cape_Coral	America/New_York
 Cape_Town	Africa/Johannesburg
 Cape_Verde	Atlantic/Cape_Verde
+Carapicuiba	America/Sao_Paulo
 Cardiff	Europe/London
 Caribbean_Netherlands	America/Kralendijk
 Carrefour	America/Port-au-Prince
@@ -332,6 +345,7 @@ Chungking	Asia/Shanghai
 Chuxiong	Asia/Shanghai
 Chuzhou	Asia/Shanghai
 Cilacap	Asia/Jakarta
+Cilegon	Asia/Jakarta
 Cimahi	Asia/Jakarta
 Cincinnati	America/New_York
 City_of_Calamba	Asia/Manila
@@ -352,6 +366,7 @@ Colorado_Springs	America/Denver
 Columbia	America/New_York
 Columbus	America/New_York
 Comayaguela	America/Tegucigalpa
+Comilla	Asia/Dhaka
 ComodRivadavia	America/Argentina/Catamarca
 Comoros	Indian/Comoro
 Concord	America/Los_Angeles
@@ -450,6 +465,7 @@ Ecuador	America/Guayaquil
 Ecuador	Pacific/Galapagos
 Edinburgh	Europe/London
 Egypt	Africa/Cairo
+Eindhoven	Europe/Amsterdam
 Eire	Europe/Dublin
 El_Mahallah_el_Kubra	Africa/Cairo
 El_Obeid	Africa/Khartoum
@@ -491,6 +507,7 @@ Fenyang	Asia/Shanghai
 Fes	Africa/Casablanca
 Fez	Africa/Casablanca
 Finland	Europe/Helsinki
+Florence	Europe/Rome
 Florianopolis	America/Sao_Paulo
 Fort_Wayne	America/Indiana/Indianapolis
 Fort_Worth	America/Chicago
@@ -592,6 +609,8 @@ Gwalior	Asia/Kolkata
 Gwangju	Asia/Shanghai
 HST	Pacific/Honolulu
 Hachioji	Asia/Tokyo
+Ha'il	Asia/Riyadh
+Hail	Asia/Riyadh
 Hai'an	Asia/Shanghai
 Hai_Duong	Asia/Ho_Chi_Minh
 Haian	Asia/Shanghai
@@ -606,6 +625,7 @@ Hamamatsu	Asia/Tokyo
 Hamburg	Europe/Berlin
 Hamhung	Asia/Pyongyang
 Hamilton	America/Toronto
+Hancheng	Asia/Shanghai
 Hanchuan	Asia/Shanghai
 Handan	Asia/Shanghai
 Hangzhou	Asia/Shanghai
@@ -623,6 +643,7 @@ Hefei	Asia/Shanghai
 Hegang	Asia/Shanghai
 Heihe	Asia/Shanghai
 Hejian	Asia/Shanghai
+Hejin	Asia/Shanghai
 Hempstead	Europe/London
 Hengshui	Asia/Shanghai
 Hengyang	Asia/Shanghai
@@ -685,7 +706,6 @@ Indio	America/Los_Angeles
 Indonesia	Asia/Jakarta
 Indonesia	Asia/Makassar
 Indonesia	Asia/Jayapura
-Indonesia	Asia/Pontianak
 Indore	Asia/Kolkata
 Ipatinga	America/Sao_Paulo
 Ipoh	Asia/Kuala_Lumpur
@@ -772,6 +792,7 @@ Kagoshima	Asia/Tokyo
 Kahramanmaras	Asia/Istanbul
 Kaihua	Asia/Shanghai
 Kaiyuan	Asia/Shanghai
+Kakinada	Asia/Kolkata
 Kalyan	Asia/Kolkata
 Kananga	Africa/Kinshasa
 Kanazawa	Asia/Tokyo
@@ -782,6 +803,7 @@ Kansas_City	America/Chicago
 Kaohsiung	Asia/Taipei
 Karaganda	Asia/Almaty
 Karaj	Asia/Tehran
+Karamay	Asia/Shanghai
 Karbala'	Asia/Baghdad
 Kashan	Asia/Tehran
 Kashgar	Asia/Urumqi
@@ -819,6 +841,7 @@ Kiribati	Pacific/Enderbury
 Kiribati	Pacific/Kiritimati
 Kirkuk	Asia/Baghdad
 Kisangani	Africa/Lubumbashi
+Kissimmee	America/New_York
 Kisumu	Africa/Nairobi
 Kitchener	America/Toronto
 Kitwe	Africa/Lusaka
@@ -891,6 +914,7 @@ Lhasa	Asia/Shanghai
 Lianjiang	Asia/Shanghai
 Lianshan	Asia/Shanghai
 Lianyuan	Asia/Shanghai
+Lianzhou	Asia/Shanghai
 Liaocheng	Asia/Shanghai
 Liaoyang	Asia/Shanghai
 Liaoyuan	Asia/Shanghai
@@ -964,6 +988,7 @@ Mali	Africa/Bamako
 Manado	Asia/Makassar
 Manchester	Europe/London
 Mandalay	Asia/Yangon
+Mandaluyong	Asia/Manila
 Mangalore	Asia/Kolkata
 Mangaluru	Asia/Kolkata
 Manhattan	America/New_York
@@ -1010,6 +1035,7 @@ Mendoza	America/Argentina/Mendoza
 Mersin	Asia/Istanbul
 Meru	Africa/Nairobi
 Mesa	America/Phoenix
+Metz	Europe/Paris
 Mexicali	America/Tijuana
 Mexico	America/Cancun
 Mexico	America/Mexico_City
@@ -1026,13 +1052,16 @@ Micronesia	Pacific/Kosrae
 Micronesia	Pacific/Pohnpei
 Milan	Europe/Rome
 Milwaukee	America/Chicago
+Minamisuita	Asia/Tokyo
 Mingguang	Asia/Shanghai
 Minneapolis	America/Chicago
 Minzhu	Asia/Shanghai
 Mirzapur	Asia/Kolkata
 Mission_Viejo	America/Los_Angeles
 Mississauga	America/Toronto
+Miyazaki	Asia/Tokyo
 Mizhou	Asia/Shanghai
+Modesto	America/Los_Angeles
 Mogi_das_Cruzes	America/Sao_Paulo
 Moldova	Europe/Chisinau
 Mombasa	Africa/Nairobi
@@ -1055,6 +1084,8 @@ Munich	Europe/Berlin
 Muntinlupa_City	Asia/Manila
 Murcia	Europe/Madrid
 Murrieta	America/Los_Angeles
+Muzzafarnagar	Asia/Kolkata
+Mwanza	Africa/Dar_Es_Salaam
 Myanmar	Asia/Yangon
 Mykolaiv	Europe/Kiev
 Mysore	Asia/Kolkata
@@ -1111,6 +1142,7 @@ New_Zealand	Pacific/Chatham
 Newcastle	Europe/London
 Newfoundland	America/St_Johns
 Neza	America/Mexico_City
+Nha_Trang	Asia/Ho_Chi_Minh
 Nicaragua	America/Managua
 Nice	Europe/Paris
 Niger	Africa/Niamey
@@ -1123,6 +1155,7 @@ Ningbo	Asia/Shanghai
 Ningde	Asia/Shanghai
 Nishinomiya-hama	Asia/Tokyo
 Niteroi	America/Sao_Paulo
+Nizamabad	Asia/Kolkata
 Nizhniy_Novgorod	Europe/Moscow
 Njinji	Africa/Brazzaville
 Norfolk_Island	Pacific/Norfolk
@@ -1143,6 +1176,7 @@ Ogbomoso	Africa/Lagos
 Ogden	America/Denver
 Oita	Asia/Tokyo
 Okayama	Asia/Tokyo
+Okazaki	Asia/Tokyo
 Oklahoma_City	America/Chicago
 Olinda	America/Sao_Paulo
 Omaha	America/Chicago
@@ -1159,6 +1193,7 @@ Osogbo	Africa/Lagos
 Ottawa	America/Toronto
 Oujda-Angad	Africa/Casablanca
 Owerri	Africa/Lagos
+Oxnard	America/Los_Angeles
 Oyo	Africa/Lagos
 PRC	Asia/Shanghai
 PRC	Asia/Urumqi
@@ -1182,6 +1217,7 @@ Paraguay	America/Asuncion
 Pasay_City	Asia/Manila
 Pasig	Asia/Manila
 Pasig_City	Asia/Manila
+Pasto	America/Bogota
 Patam	Asia/Yangon
 Patna	Asia/Kolkata
 Pekanbaru	Asia/Jakarta
@@ -1205,6 +1241,7 @@ Piraeus	Europe/Athens
 Pittsburgh	America/New_York
 Piura	America/Lima
 Pizhou	Asia/Shanghai
+Plodiv	Europe/Sofia
 Pohang	Asia/Seoul
 Pointe-Noire	Africa/Brazzaville
 Poland	Europe/Warsaw
@@ -1221,6 +1258,7 @@ Portsmouth	Europe/London
 Portugal	Europe/Lisbon
 Portugal	Atlantic/Madeira
 Portugal	Atlantic/Azores
+Poughkeepsie	America/New_York
 Poznan	Europe/Warsaw
 Prayagraj	Asia/Kolkata
 Pretoria	Africa/Johannesburg
@@ -1236,6 +1274,7 @@ Puyang	Asia/Shanghai
 Pyeongtaek	Asia/Seoul
 Qamdo	Asia/Shanghai
 Qaraghandy	Asia/Almaty
+Qazvin	Asia/Tehran
 Qian'an	Asia/Shanghai
 Qianan	Asia/Shanghai
 Qinbaling	Asia/Shanghai
@@ -1261,6 +1300,7 @@ Queretaro	America/Mexico_City
 Quetta	Asia/Karachi
 Quezon_City	Asia/Manila
 Qufu	Asia/Shanghai
+Quilon	Asia/Kolkata
 Quito	America/Guayaquil
 Qujing	Asia/Shanghai
 Qum	Asia/Tehran
@@ -1341,12 +1381,14 @@ San_Diego	America/Los_Angeles
 San_Francisco	America/Los_Angeles
 San_Jose	America/Los_Angeles
 San_Jose_del_Monte	Asia/Manila
+San_Lorenzo	America/Asuncion
 San_Luis_Potosi	America/Mexico_City
 San_Miguel_de_Tucuman	America/Argentina/Tucuman
 San_Nicolas_de_los_Garza	America/Mexico_City
 San_Pedro_Sula	America/Tegucigalpa
 San_Salvador	America/El_Salvador
 Sanaa	Asia/Riyadh
+Sandankan	Asia/Kuala_Lumpur
 Sangli	Asia/Kolkata
 Sanhe	Asia/Shanghai
 Sanliurfa	Asia/Istanbul
@@ -1372,6 +1414,7 @@ Sarasota	America/New_York
 Sargodha	Asia/Karachi
 Saskatchewan	America/Regina
 Saudi_Arabia	Asia/Riyadh
+Scranton	America/New_York
 Seattle	America/Los_Angeles
 Semarang	Asia/Jakarta
 Sendai	Asia/Tokyo
@@ -1464,6 +1507,7 @@ St_Louis	America/Chicago
 St_Petersburg	Europe/Moscow
 Staten_Island	America/New_York
 Stavropol	Europe/Moscow
+Stockton	America/Los_Angeles
 Strasbourg	Europe/Paris
 Stuttgart	Europe/Berlin
 Sudan	Africa/Khartoum
@@ -1527,6 +1571,7 @@ Tel_Aviv	Asia/Jerusalem
 Teresina	America/Sao_Paulo
 Thailand	Asia/Bangkok
 Thane	Asia/Kolkata
+Thanh_Hoa	Asia/Ho_Chi_Minh
 The_Bahamas	America/Nassau
 The_Gambia	Africa/Banjul
 The_Hague	Europe/Amsterdam
@@ -1537,6 +1582,7 @@ Thiruvananthapuram	Asia/Kolkata
 Thoothukudi	Asia/Kolkata
 Tianchang	Asia/Shanghai
 Tianjin	Asia/Shanghai
+Tieli	Asia/Shanghai
 Tieling	Asia/Shanghai
 Timbuktu	Africa/Abidjan
 Timor-Leste	Asia/Dili
@@ -1577,6 +1623,7 @@ Tucson	America/Phoenix
 Tula	Europe/Moscow
 Tulsa	America/Chicago
 Tultitlan_de_Mariano_Escobedo	America/Mexico_City
+Tumkur	Asia/Kolkata
 Tunisia	Africa/Tunis
 Turin	Europe/Rome
 Turkey	Asia/Istanbul
@@ -1774,6 +1821,7 @@ Yemen	Asia/Aden
 Yibin	Asia/Shanghai
 Yicheng	Asia/Shanghai
 Yichun	Asia/Shanghai
+Yidu	Asia/Shanghai
 Yinchuan	Asia/Shanghai
 Yingcheng	Asia/Shanghai
 Yingchuan	Asia/Shanghai
@@ -1783,6 +1831,7 @@ Yiwu	Asia/Shanghai
 Yiyang	Asia/Shanghai
 Yogyakarta	Asia/Jakarta
 Yokohama	Asia/Tokyo
+Yola	Africa/Lagos
 Yongcheng	Asia/Shanghai
 Yongji	Asia/Shanghai
 Yongzhou	Asia/Shanghai
