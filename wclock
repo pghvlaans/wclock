@@ -281,7 +281,7 @@ if [ "$HERE" = "yes" ]; then
 			esac
 		fi
 	fi
-	if [ -n "$HEREZONE" ]; then
+	if [ -n "$HEREZONE" ] && [ -z "$WASMISSING" ]; then
 		# Etc/* time zones have inverted signs; fix this here if
 		# needed.
 		if [ -z "$HEREZONEOK" ] && [ -n "$(echo "$HEREZONE" | grep "Etc/")" ]; then
