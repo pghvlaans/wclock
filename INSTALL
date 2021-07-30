@@ -22,6 +22,7 @@ The default installation settings are as follows:
   DOCDIR=SHAREDIR/doc	(/usr/share/doc)
   BINDIR=PREFIX/bin	(/usr/bin)
   ZONEINFO=		(see "zoneinfo Locations" below)
+  TIMESETTER=		(see "Time Setter" below)
 
 To change one or more of these settings, simply pass the appropriate parameters
 when calling "make install:"
@@ -56,5 +57,28 @@ ZONEINFO parameter:
 
   make ZONEINFO=/usr/local/share/zoneinfo PREFIX=/usr/local install
 
-Please note that if the ZONEINFO parameter is set improperly, wclock will not
-work; the default priority should be acceptable in most cases.
+The default priority should be acceptable in most cases; if ZONEINFO is not set
+to a well-formed zoneinfo directory, wclock will revert to the priority list.
+
+  ***************
+  * Time Setter *
+  ***************
+
+For --local time checks, wclock attempts to use /etc/localtime or /etc/timezone
+to determine the local time zone string. If neither of these locations is
+available, it instead attempts to determine a time zone using "date +%z".
+
+To avoid this behavior, users whose systems do not use /etc/localtime or
+/etc/timezone can set TIMESETTER to a full path:
+
+  make TIMESETTER=/path/to/file/or/symlink install
+
+TIMESETTER can be any of the following:
+
+  * A time zone file
+  * A symlink to a time zone file
+  * A text file containing the name of a valid time zone (and nothing else)
+
+The TIMESETTER parameter will not be necessary in the vast majority of cases.
+Before using TIMESETTER, consider checking your distribution's documentation
+for details about setting the time zone.

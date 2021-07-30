@@ -6,6 +6,7 @@ MANDIR ?= $(SHAREDIR)/man
 DOCDIR ?= $(SHAREDIR)/doc
 BINDIR ?= $(PREFIX)/bin
 ZONEINFO ?=
+TIMESETTER ?=
 
 all:
 	@echo
@@ -17,10 +18,17 @@ all:
 	@echo
 
 install:
+	@chmod 755 share/validate-zoneinfo
+	@share/validate-zoneinfo $(ZONEINFO) MAKEFILE
+	@chmod 755 ./validate-timesetter
+	@./validate-timesetter
+	@chmod 644 share/validate-zoneinfo
+	@chmod 644 ./validate-timesetter
 	@mkdir -p $(DESTDIR)$(BINDIR)
 	@sed 's|SHAREDIR=|SHAREDIR=$(SHAREDIR)|' wclock > wclock2
 	@sed -i 's|VER=|VER=$(VER)|' wclock2
 	@sed -i 's|ZONEPRELIM=|ZONEPRELIM=$(ZONEINFO)|' wclock2
+	@sed -i 's|TIMESETTER=|TIMESETTER=$(TIMESETTER)|' wclock2
 	@echo
 	@rm -rf man-gz
 	@cp -v -L wclock2 $(DESTDIR)$(BINDIR)/wclock
@@ -43,7 +51,9 @@ install:
 	@cp -v -L doc/* $(DESTDIR)$(DOCDIR)/wclock-$(VER)
 	@mkdir -p $(DESTDIR)$(SHAREDIR)/wclock
 	@cp -v -L share/* $(DESTDIR)$(SHAREDIR)/wclock
-	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/*
+	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/compat
+	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/extras
+	@chmod 755 $(DESTDIR)$(SHAREDIR)/wclock/validate-zoneinfo
 	@echo
 	@echo Done.
 	@echo
@@ -52,6 +62,8 @@ clean:
 	@echo
 	@rm -rvf man-gz
 	@rm -rvf doc
+	@chmod 644 share/validate-zoneinfo
+	@chmod 644 ./validate-timesetter
 	@echo
 	
 uninstall:
