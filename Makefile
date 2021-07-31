@@ -18,12 +18,12 @@ all:
 	@echo
 
 install:
-	@chmod 755 share/validate-zoneinfo
+	@chmod +x share/validate-zoneinfo
 	@share/validate-zoneinfo $(ZONEINFO) MAKEFILE
-	@chmod 755 ./validate-timesetter
+	@chmod +x ./validate-timesetter
 	@./validate-timesetter
-	@chmod 644 share/validate-zoneinfo
-	@chmod 644 ./validate-timesetter
+	@chmod a-x share/validate-zoneinfo
+	@chmod a-x ./validate-timesetter
 	@mkdir -p $(DESTDIR)$(BINDIR)
 	@sed 's|SHAREDIR=|SHAREDIR=$(SHAREDIR)|' wclock > wclock2
 	@sed -i 's|VER=|VER=$(VER)|' wclock2
@@ -62,8 +62,8 @@ clean:
 	@echo
 	@rm -rvf man-gz
 	@rm -rvf doc
-	@chmod 644 share/validate-zoneinfo
-	@chmod 644 ./validate-timesetter
+	@chmod a-x share/validate-zoneinfo
+	@chmod a-x ./validate-timesetter
 	@echo
 	
 uninstall:
