@@ -86,7 +86,7 @@ tzfilecheck (){
 unset PWD
 PWD="$(pwd)"
 cd "$(dirname "$1")"
-CHECKER="$(file "$(readlink "$1")" | cut -d':' -f2- | grep timezone)"
+CHECKER="$(file -b "$(readlink "$1")" | grep timezone)"
 [ -n "$CHECKER" ] && HEREZONE="$1"
 cd "$PWD"
 # The file is a text document with a time zone.

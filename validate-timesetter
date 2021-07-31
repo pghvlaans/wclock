@@ -63,7 +63,7 @@ done
 unset PWD
 PWD="$(pwd)"
 cd "$(dirname "$TIMESETTER")"
-CHECKER="$(file "$(readlink "$TIMESETTER")" | cut -d':' -f2- | grep timezone)"
+CHECKER="$(file -b "$(readlink "$TIMESETTER")" | grep timezone)"
 [ -n "$CHECKER" ] && cd "$PWD" && exit
 cd "$PWD"
 if [ ! -h "$TIMESETTER" ]; then
