@@ -34,6 +34,7 @@
 unset CHECKZONEINFO
 
 if 	[ ! -f "$1"/America/Sao_Paulo ] || \
+	[ ! -f "$1"/America/Argentina/Cordoba ] || \
 	[ ! -f "$1"/Europe/Moscow ] || \
 	[ ! -f "$1"/Africa/Cairo ] || \
 	[ ! -f "$1"/Asia/Tokyo ] || \
