@@ -8,7 +8,7 @@ Acre	America/Rio_Branco
 Ad_Dammam	Asia/Riyadh
 Ad_Diwaniyah	Asia/Baghdad
 Adama	Africa/Addis_Ababa
-Adana	Asia/Istanbul
+Adana	Europe/Istanbul
 Ado-Ekiti	Africa/Lagos
 Afghanistan	Asia/Kabul
 Agadir	Africa/Casablanca
@@ -63,14 +63,14 @@ Angeles_City	Asia/Manila
 Angola	Africa/Luanda
 Anguo	Asia/Shanghai
 Ankang	Asia/Shanghai
-Ankara	Asia/Istanbul
+Ankara	Europe/Istanbul
 Anlu	Asia/Shanghai
 Anqing	Asia/Shanghai
 Anqiu	Asia/Shanghai
 Ansan	Asia/Seoul
 Anshan	Asia/Shanghai
 Anshun	Asia/Shanghai
-Antalya	Asia/Istanbul
+Antalya	Europe/Istanbul
 Antigua	America/Antigua
 Antigua_and_Barbuda	America/Antigua
 Antipolo	Asia/Manila
@@ -166,7 +166,7 @@ Barquisimeto	America/Caracas
 Barranquilla	America/Bogota
 Basra	Asia/Baghdad
 Basuo	Asia/Shanghai
-Batman	Asia/Istanbul
+Batman	Europe/Istanbul
 Baton_Rouge	America/New_York
 Bauchi	Africa/Lagos
 Bauru	America/Sao_Paulo
@@ -253,7 +253,7 @@ Bulgaria	Europe/Sofia
 Buraydah	Asia/Riyadh
 Burkina_Faso	Africa/Ouagadougou
 Burma	Asia/Yangon
-Bursa	Asia/Istanbul
+Bursa	Europe/Istanbul
 Burundi	Africa/Bujumbura
 Busan	Asia/Seoul
 Buesingen	Europe/Busingen
@@ -449,7 +449,7 @@ Dehui	Asia/Shanghai
 Delhi	Asia/Kolkata
 Democratic_Republic_of_the_Congo	Africa/Kinshasa
 Democratic_Republic_of_the_Congo	Africa/Lubumbashi
-Denizli	Asia/Istanbul
+Denizli	Europe/Istanbul
 Denmark	Europe/Copenhagen
 Denpasar	Asia/Makassar
 Denton	America/Chicago
@@ -464,7 +464,7 @@ Diadema	America/Sao_Paulo
 Dingxi	Asia/Shanghai
 Dingzhou	Asia/Shanghai
 Dispur	Asia/Kolkata
-Diyarbakir	Asia/Istanbul
+Diyarbakir	Europe/Istanbul
 Dnipro	Europe/Kiev
 Dodoma	Africa/Dar_es_Salaam
 Doha	Asia/Qatar
@@ -502,16 +502,16 @@ Eire	Europe/Dublin
 El_Mahallah_el_Kubra	Africa/Cairo
 El_Obeid	Africa/Khartoum
 El_Paso	America/Denver
-Elazig	Asia/Istanbul
+Elazig	Europe/Istanbul
 Encheng	Asia/Shanghai
 Ensenada	America/Tijuana
 Enugu	Africa/Lagos
 Equatorial_Guinea	Africa/Malabo
 Erbil	Asia/Baghdad
 Eritrea	Africa/Asmara
-Erzurum	Asia/Istanbul
+Erzurum	Europe/Istanbul
 Esfahan	Asia/Tehran
-Eskisehir	Asia/Istanbul
+Eskisehir	Europe/Istanbul
 Eslamshahr	Asia/Tehran
 Essen	Europe/Berlin
 Estonia	Europe/Tallinn
@@ -519,7 +519,6 @@ Eswatini	Africa/Mbabane
 Ethiopia	Africa/Addis_Ababa
 Ezhou	Asia/Shanghai
 FSM	Pacific/Chuuk
-FSM	Pacific/Kosrae
 FSM	Pacific/Pohnpei
 Faeroe	Atlantic/Faroe
 Faisalabad	Asia/Karachi
@@ -531,7 +530,6 @@ Faroe_Islands	Atlantic/Faroe
 Faroes	Atlantic/Faroe
 Fayetteville	America/Chicago
 Federated_States_of_Micronesia	Pacific/Chuuk
-Federated_States_of_Micronesia	Pacific/Kosrae
 Federated_States_of_Micronesia	Pacific/Pohnpei
 Feicheng	Asia/Shanghai
 Feira_de_Santana	America/Sao_Paulo
@@ -582,7 +580,7 @@ Gaoping	Asia/Shanghai
 Gaoyou	Asia/Shanghai
 Gaozhou	Asia/Shanghai
 Gaya	Asia/Kolkata
-Gaziantep	Asia/Istanbul
+Gaziantep	Europe/Istanbul
 Gdansk	Europe/Warsaw
 Gedaref	Africa/Khartoum
 General	America/Mexico_City
@@ -674,7 +672,7 @@ Haora	Asia/Kolkata
 Harbin	Asia/Shanghai
 Harrisburg	America/New_York
 Hartford	America/New_York
-Hatay	Asia/Istanbul
+Hatay	Europe/Istanbul
 Hawaii	Pacific/Honolulu
 Hebi	Asia/Shanghai
 Hechi	Asia/Shanghai
@@ -771,7 +769,7 @@ Ivanovo	Europe/Moscow
 Ivory_Coast	Africa/Abidjan
 Ixtapaluca	America/Mexico_City
 Izhevsk	Europe/Samara
-Izmir	Asia/Istanbul
+Izmir	Europe/Istanbul
 Jabalpur	Asia/Kolkata
 Jaboatao	America/Sao_Paulo
 Jacksonville	America/New_York
@@ -840,7 +838,7 @@ Jundiai	America/Sao_Paulo
 Jurong	Asia/Shanghai
 Kaduna	Africa/Lagos
 Kagoshima	Asia/Tokyo
-Kahramanmaras	Asia/Istanbul
+Kahramanmaras	Europe/Istanbul
 Kaihua	Asia/Shanghai
 Kaiyuan	Asia/Shanghai
 Kakinada	Asia/Kolkata
@@ -864,7 +862,7 @@ Katmandu	Asia/Kathmandu
 Katsina	Africa/Lagos
 Kawaguchi	Asia/Tokyo
 Kawanakajima	Asia/Tokyo
-Kayseri	Asia/Istanbul
+Kayseri	Europe/Istanbul
 Kazakhstan	Asia/Almaty
 Kazakhstan	Asia/Qyzylorda
 Kazan	Europe/Moscow
@@ -897,12 +895,12 @@ Klang	Asia/Kuala_Lumpur
 Knox_IN	America/Indiana/Knox
 Knoxville	America/New_York
 Kobe	Asia/Tokyo
-Kocaeli	Asia/Istanbul
+Kocaeli	Europe/Istanbul
 Kochi	Asia/Kolkata
 Koeln	Europe/Berlin
 Kolhapur	Asia/Kolkata
 Kolwezi	Africa/Lubumbashi
-Konya	Asia/Istanbul
+Konya	Europe/Istanbul
 Korla	Asia/Shanghai
 Koshigaya	Asia/Tokyo
 Kota	Asia/Kolkata
@@ -1036,7 +1034,7 @@ Malabon	Asia/Manila
 Malacca	Asia/Kuala_Lumpur
 Malaga	Europe/Madrid
 Malang	Asia/Jakarta
-Malatya	Asia/Istanbul
+Malatya	Europe/Istanbul
 Malawi	Africa/Blantyre
 Malaysia	Asia/Kuala_Lumpur
 Malegaon	Asia/Kolkata
@@ -1091,7 +1089,7 @@ Meknes	Africa/Casablanca
 Melaka	Asia/Kuala_Lumpur
 Memphis	America/Chicago
 Mendoza	America/Argentina/Mendoza
-Mersin	Asia/Istanbul
+Mersin	Europe/Istanbul
 Meru	Africa/Nairobi
 Mesa	America/Phoenix
 Metz	Europe/Paris
@@ -1107,7 +1105,6 @@ Miami	America/New_York
 Mianyang	Asia/Shanghai
 Michigan	America/Detroit
 Micronesia	Pacific/Chuuk
-Micronesia	Pacific/Kosrae
 Micronesia	Pacific/Pohnpei
 Milan	Europe/Rome
 Milwaukee	America/Chicago
@@ -1472,7 +1469,7 @@ Sanandaj	Asia/Tehran
 Sandankan	Asia/Kuala_Lumpur
 Sangli	Asia/Kolkata
 Sanhe	Asia/Shanghai
-Sanliurfa	Asia/Istanbul
+Sanliurfa	Europe/Istanbul
 Sanmenxia	Asia/Shanghai
 Sanming	Asia/Shanghai
 Santa_Cruz	America/La_Paz
@@ -1560,7 +1557,7 @@ Singapore	Asia/Singapore
 Sint_Maarten	America/Lower_Princes
 Sinujiu	Asia/Pyongyang
 Siping	Asia/Shanghai
-Sivas	Asia/Istanbul
+Sivas	Europe/Istanbul
 Sizhan	Asia/Shanghai
 Slovakia	Europe/Bratislava
 Slovenia	Europe/Ljubljana
@@ -1662,7 +1659,7 @@ Taraz	Asia/Almaty
 Tasikmalaya	Asia/Jakarta
 Tasmania	Australia/Hobart
 Tecamac	America/Mexico_City
-Tekirdag	Asia/Istanbul
+Tekirdag	Europe/Istanbul
 Tel_Aviv	Asia/Jerusalem
 Teresina	America/Sao_Paulo
 Tetouan	Africa/Casablanca
@@ -1711,7 +1708,7 @@ Toulouse	Europe/Paris
 Toyama	Asia/Tokyo
 Toyohashi	Asia/Tokyo
 Toyota	Asia/Tokyo
-Trabzon	Asia/Istanbul
+Trabzon	Europe/Istanbul
 Trichinopoly	Asia/Kolkata
 Trinidad_and_Tobago	America/Port_of_Spain
 Trivandrum	Asia/Kolkata
@@ -1725,7 +1722,7 @@ Tultitlan_de_Mariano_Escobedo	America/Mexico_City
 Tumkur	Asia/Kolkata
 Tunisia	Africa/Tunis
 Turin	Europe/Rome
-Turkey	Asia/Istanbul
+Turkey	Europe/Istanbul
 Turkmenabat	Asia/Ashgabat
 Turkmenistan	Asia/Ashgabat
 Turks_and_Caicos	America/Grand_Turk
@@ -1788,7 +1785,7 @@ United_States_of_America	America/Anchorage
 United_States_of_America	Pacific/Honolulu
 United_States_of_America	America/Phoenix
 Universal	Etc/UTC
-Urfa	Asia/Istanbul
+Urfa	Europe/Istanbul
 Urmia	Asia/Tehran
 Uruguay	America/Montevideo
 Usulutan	America/El_Salvador
@@ -1800,7 +1797,7 @@ Vadodara	Asia/Kolkata
 Valencia	Europe/Madrid
 Valenzuela	Asia/Manila
 Valledupar	America/Bogota
-Van	Asia/Istanbul
+Van	Europe/Istanbul
 Vanuatu	Pacific/Efate
 Varanasi	Asia/Kolkata
 Varna	Europe/Sofia
