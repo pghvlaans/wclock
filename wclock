@@ -103,20 +103,20 @@ fi
 
 timedisplay (){
 case "$1" in
-        NOFIGURE)
-        [ -z "$WRITTEN2" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
-        echo '	'"$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")"'	'"$headup"
-        ;;
-        *)
-        if [ "$X" != "1 $ZONETEMP" ] && [ "$1" != "ALWAYSPLACE" ]; then
-                headup="$place"
-                [ -z "$WRITTEN" ] && echo '	'"$name" && echo && WRITTEN=yes
-        else
-                headup="$name ($place)"
-        fi
-        [ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
-        [ -n "$TCPARAMS" ] && comparemethod
-        ;;
+	NOFIGURE)
+	[ -z "$WRITTEN2" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
+	echo '	'"$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")"'	'"$headup"
+	;;
+	*)
+	if [ "$1" != "NOHEADER" ]; then
+		headup="$place"
+		[ -z "$WRITTEN" ] && echo '	'"$name" && WRITTEN=yes
+	else
+		headup="$name ($place)"
+	fi
+	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+	[ -n "$TCPARAMS" ] && comparemethod
+	;;
 esac
 }
 
@@ -373,6 +373,7 @@ unset DONE
 unset WRITTEN
 unset WRITTEN2
 unset WRITTEN3
+unset ISCOUNTRY
 [ -f "$ZONETEMP" ] && while read -r line; do
 	X="$(wc -l "$ZONETEMP")"
 	unset name
@@ -380,7 +381,6 @@ unset WRITTEN3
 	# "name" is the name of the city; "place" is the time zone.
 	name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
 	place="$(echo "$line" | cut -d'	' -f2-)"
-
 	# For backwards compatibility, only use the time zone from the extras
 	# file if that time zone actually exists on the system. If it does not,
 	# proceed to the COMPAT loop.
@@ -416,7 +416,7 @@ if [ -z "$DONE" ]; then
 		done < "$ZONETEMP"
 	fi
 	if [ -z "$EXACTMATCH" ] || [ ! -f "$ZONETEMP" ]; then
-		[ -f "$EXTRAS" ] && zones="$(grep -i "$city\w*[[:space:]]" "$EXTRAS")"
+		[ -f "$EXTRAS" ] && zones="$(grep -i "$city[[:punct:][:alnum:]]*[[:space:]]" "$EXTRAS")"
 	fi
 
 	# If one or more matches was found among the named time zones, display.
@@ -425,7 +425,11 @@ if [ -z "$DONE" ]; then
 			# For display purposes.
 			name="$(basename "$place" | tr '_' ' ')"
 			X="$(wc -l "$ZONETEMP")"
-			timedisplay ALWAYSPLACE
+			if [ "$X" != "1 $ZONETEMP" ] || [ -n "$zones" ]; then	
+				timedisplay NOHEADER
+			else
+				timedisplay
+			fi
 			DONE2=yes
 		done < "$ZONETEMP"
 	fi
@@ -441,11 +445,19 @@ if [ -z "$DONE" ]; then
 			name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
 			place="$(echo "$line" | cut -d'	' -f2-)"
 			if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
-				timedisplay ALWAYSPLACE
+				if [ "$X" != "1 $ZONETEMP" ] || [ -n "$zone" ]; then	
+					timedisplay NOHEADER
+				else
+					timedisplay
+				fi
 				DONE2=yes
 			elif [ -f "$COMPAT" ] && [ -n "$(grep -m 1 "$place" "$COMPAT")" ]; then
 				place="$(grep -m 1 "$place" "$COMPAT" | cut -d'	' -f2-)"
-				timedisplay ALWAYSPLACE
+				if [ "$X" != "1 $ZONETEMP" ] || [ -n "$zone" ]; then	
+					timedisplay NOHEADER
+				else
+					timedisplay
+				fi
 				DONE2=yes
 			fi
 		done < "$ZONETEMP"
@@ -464,7 +476,13 @@ if [ -z "$DONE" ]; then
 			unset place
 			name="$(echo "$line" | cut -d'/' -f2- | cut -d'	' -f1 | tr '_' ' ')"
 			place="$(echo "$line" | cut -d'	' -f2-)"
-			[ -f "$ZONEINFO/$SUFFIX""$place" ] && timedisplay
+			if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
+				if [ "$X" != "1 $ZONETEMP" ]; then	
+					timedisplay NOHEADER
+				else
+					timedisplay
+				fi
+			fi
 		done < "$ZONETEMP"
 	fi
 

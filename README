@@ -8,7 +8,7 @@ insensitive, spaces OK).
 The following features are included for increased convenience:
 
 * Extra cities: A list of cities, metro areas, etc. with a population of over 
-  350,000 is referenced in addition to the named time zones. For example,
+  250,000 is referenced in addition to the named time zones. For example,
   
     wclock washington 
   
