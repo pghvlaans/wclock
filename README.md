@@ -12,7 +12,7 @@ The following features are included for increased convenience:
 * Time and date check: use -t to find your local time at a given day and time in the search location: `wclock -t 10:00 2021/07/13 -b finland`
 * Reverse time and date check: Alternatively, use -l to find the time in the search location when it is the given time in your local time zone: `wclock -l 10:00 2021/07/13 -b lagos`
 
-[![screenshot](https://user-images.githubusercontent.com/74497663/126334543-be612228-80d2-4bda-9dc0-73d9ab60bcbf.png?raw=true)](https://user-images.githubusercontent.com/74497663/126334543-be612228-80d2-4bda-9dc0-73d9ab60bcbf.png?raw=true)
+[![screenshot](https://user-images.githubusercontent.com/74497663/127774859-9b1a4b5b-5d50-445f-ba35-5facaf979a43.png?raw=true)](https://user-images.githubusercontent.com/74497663/127774859-9b1a4b5b-5d50-445f-ba35-5facaf979a43.png?raw=true)
 
 *Dependencies*
 
@@ -22,14 +22,10 @@ wclock needs the following in place to work properly:
 * findutils
 * coreutils
 * grep
+* sed
 * A POSIX-compliant shell, or any other shell with a POSIX compliance mode
 
-The following are installation dependencies:
-
-* sed
-* gzip
-
-These packages should be included on almost any Linux installation.
+In addition, gzip is an installation dependency. These packages should be included on almost any Linux installation.
 
 *Compatibility*
 
