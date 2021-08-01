@@ -48,7 +48,6 @@ Al_Mubarraz	Asia/Riyadh
 Al_Qatif	Asia/Riyadh
 Al_`Amarah	Asia/Baghdad
 Al_`Ayn	Asia/Riyadh
-Aland	Europe/Mariehamn
 Aland_Islands	Europe/Mariehamn
 Alanya	Europe/Istanbul
 Alaska	America/Anchorage
@@ -91,7 +90,6 @@ Anshan	Asia/Shanghai
 Anshun	Asia/Shanghai
 Antalya	Europe/Istanbul
 Antigua_and_Barbuda	America/Antigua
-Antigua	America/Antigua
 Antipolo	Asia/Manila
 Antofagasta	America/Santiago
 Antsirabe	Indian/Antananarivo
@@ -111,6 +109,7 @@ Argentina	America/Argentina/Catamarca
 Argentina	America/Argentina/Jujuy
 Argentina	America/Argentina/La_Rioja
 Argentina	America/Argentina/Mendoza
+Argentina	America/Argentina/Rio_Gallegos
 Argentina	America/Argentina/Salta
 Argentina	America/Argentina/San_Juan
 Argentina	America/Argentina/San_Luis
@@ -272,7 +271,7 @@ Birmingham	Europe/London
 Blida	Africa/Algiers
 Bloemfontein	Africa/Johannesburg
 Blumenau	America/Sao_Paulo
-Bndar-e_Abbas	Asia/Tehran
+Bandar-e_Abbas	Asia/Tehran
 Boa_Vista	America/Cuiaba
 Boaco	America/Managua
 Bobo-Dioulasso	Africa/Ouagadougou
@@ -366,6 +365,7 @@ Canada	America/Toronto
 Canada	America/Winnipeg
 Canada	America/Regina
 Canada	America/Edmonton
+Canada	America/Whitehorse
 Canada	America/Vancouver
 Canada	America/Blanc-Sablon
 Canada	America/Creston
@@ -1273,7 +1273,6 @@ MST7MDT	America/Denver
 Ma'anshan	Asia/Shanghai
 Maanshan	Asia/Shanghai
 Mabalacat	Asia/Manila
-Macao	Asia/Macau
 Macapa	America/Sao_Paulo
 Macheng	Asia/Shanghai
 Machida	Asia/Tokyo
@@ -2229,13 +2228,6 @@ United_States_of_America	America/Los_Angeles
 United_States_of_America	America/Anchorage
 United_States_of_America	Pacific/Honolulu
 United_States_of_America	America/Phoenix
-United_States	America/New_York
-United_States	America/Chicago
-United_States	America/Denver
-United_States	America/Los_Angeles
-United_States	America/Anchorage
-United_States	Pacific/Honolulu
-United_States	America/Phoenix
 Universal	Etc/UTC
 Urfa	Europe/Istanbul
 Urmia	Asia/Tehran
@@ -2257,7 +2249,6 @@ Van	Europe/Istanbul
 Vanuatu	Pacific/Efate
 Varanasi	Asia/Kolkata
 Varna	Europe/Sofia
-Vatican	Europe/Vatican
 Vatican_City	Europe/Vatican
 Vaughan	America/Toronto
 Venezuela	America/Caracas
