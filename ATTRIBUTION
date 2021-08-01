@@ -13,9 +13,9 @@ pages:
 
 In the course of adaptation, the following changes were made to the data:
 
-* Removed entries for cities with a population of under 400,000
+* Removed entries for cities with a population of under 250,000.
 * Removed cities with names matching a defined time zone (New York, London,
-  Shanghai, etc.)
+  Shanghai, etc.).
 * Removed all data except for the city names in ASCII.
 * Placed the remainder in a text file.
 * Added alternate spellings.
