@@ -86,7 +86,7 @@ tzfilecheck (){
 unset PWD
 PWD="$(pwd)"
 cd "$(dirname "$1")"
-CHECKER="$(file -b "$(readlink "$1")" | grep timezone)"
+CHECKER="$(file -b "$(readlink -e "$1")" | grep timezone)"
 [ -n "$CHECKER" ] && HEREZONE="$1"
 cd "$PWD"
 # The file is a text document with a time zone.
@@ -351,6 +351,8 @@ fi
 
 EXTRAS="$SHAREDIR"/wclock/extras
 COMPAT="$SHAREDIR"/wclock/compat
+DEPREC="$SHAREDIR"/wclock/deprecated
+NODOUB="$SHAREDIR"/wclock/nodoubled
 
 [ -z "$NOECHO" ] && echo
 
@@ -370,12 +372,12 @@ unset DONE
 # If there's an exact match in the extras file, go with that.
 [ -f "$EXTRAS" ] && zone="$(grep -i "^$city	" "$EXTRAS")"
 [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+
 unset WRITTEN
 unset WRITTEN2
 unset WRITTEN3
 unset ISCOUNTRY
 [ -f "$ZONETEMP" ] && while read -r line; do
-	X="$(wc -l "$ZONETEMP")"
 	unset name
 	unset place
 	# "name" is the name of the city; "place" is the time zone.
@@ -399,15 +401,18 @@ unset DONE2
 
 if [ -z "$DONE" ]; then
 	# Otherwise, search for a match among the named time zones.
+	rm -f "$ZONETEMP"
 	unset zone
+	unset CHECKLIST
+	unset X
 	zone="$(find "$ZONEINFO"/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
 	
 	[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+	[ -f "$ZONETEMP" ] && CHECKLIST=yes
 
 	# If an exact match was found, don't search extras again.
 	unset EXACTMATCH
 	if [ -f "$ZONETEMP" ]; then
-		X="$(wc -l "$ZONETEMP")"
 		while read -r line; do
 			unset Y
 			line2="$(basename "$line")"
@@ -417,48 +422,124 @@ if [ -z "$DONE" ]; then
 	fi
 	if [ -z "$EXACTMATCH" ] || [ ! -f "$ZONETEMP" ]; then
 		[ -f "$EXTRAS" ] && zones="$(grep -i "$city[[:punct:][:alnum:]]*[[:space:]]" "$EXTRAS")"
+		if [ -n "$zones" ]; then
+			echo "$zones" >> "$ZONETEMP"
+			
+			# If any of the new lines show up on the "nodoubled"
+			# list, that means they would already have shown up in
+			# the first search. Don't need to see them again, so
+			# remove.
+			if [ -n "$CHECKLIST" ] && [ -f "$NODOUB" ]; then
+				while read -r line; do
+
+					if [ -n "$line" ] && [ -n "$(echo "$line" | grep -m 1 '	')" ]; then
+						[ -n "$(grep -i -x "$line" "$NODOUB")" ] && sed -i "s|$line||g" "$ZONETEMP"
+					fi
+				done < "$ZONETEMP"
+			fi
+		fi
+	fi
+
+	# To keep results neat and tidy, deprecated time zones should not
+	# appear together with their current counterparts (provided that they
+	# are in the same ISO-designated country); the "deprecated" list is used
+	# here.
+	if [ -f "$ZONETEMP" ] && [ -f "$DEPREC" ]; then
+		while read -r line; do
+			if [ -n "$line" ]; then
+				unset DEPRECATED
+				unset CURRENT
+				# Drawn only from the matches in the zoneinfo
+				# directory.
+				DEPRECATED="$(grep -i "^$line	" "$DEPREC")"
+				[ -n "$DEPRECATED" ] && CURRENT="$(echo "$DEPRECATED" | cut -d'	' -f2-)"
+				[ -n "$CURRENT" ] && [ -n "$(grep -i "$CURRENT" "$ZONETEMP")" ] && sed -i "s|^$line$||g" "$ZONETEMP"
+			fi	       
+		done < "$ZONETEMP"
+	fi
+
+	# Now that there might be blank lines, calculate X once and carry
+	# through.
+	if [ -f "$ZONETEMP" ]; then
+		X="$(cat "$ZONETEMP" | wc -l)"
+		Y="$(grep -x ^$ "$ZONETEMP" | wc -l)"
+		# This gives the number of lines with content. 
+		X=$((X - Y))
+	fi
+
+	# Skip directly to the last compatibility mode check if ZONETEMP is
+	# devoid of content.
+	[ "$X" = 0 ] && rm -f "$ZONETEMP"
+
+	# Re-evaluate zone and zones to make sure everything displays properly.
+	if [ -f "$ZONETEMP" ] && [ -n "$zone" ]; then
+		unset HAVEZONE
+		unset HAVEZONES
+		while read -r line; do
+			if [ -n "$line" ]; then
+				[ -z "$(echo "$line" | grep -m 1 '	')" ] && HAVEZONE=yes
+				[ -n "$(echo "$line" | grep -m 1 '	')" ] && HAVEZONES=yes
+			fi
+		done < "$ZONETEMP"
+		[ -z "$HAVEZONE" ] && unset zone
+		[ -z "$HAVEZONES" ] && unset zones
+	fi
+
+	# If there are multiple results, but they all have the same "name," the
+	# header should be displayed. Handling that now.
+	unset name
+	unset lastname
+	unset NOHEADER
+	samename=yes
+	if [ -f "$ZONETEMP" ]; then
+		while read -r line; do
+			[ -n "$name" ] && lastname="$name"
+			if [ -n "$samename" ] && [ -n "$line" ]; then
+				# Result originated in zoneinfo.
+				if [ -z "$(echo "$line" | grep -m 1 '	')" ]; then
+					name="$(basename "$line")"
+				# Result originated in extras.
+				else
+					name="$(echo "$line" | cut -d'	' -f1)"
+				fi
+				[ -n "$lastname" ] && [ "$name" != "$lastname" ] && unset samename
+			fi
+		done < "$ZONETEMP"
+		[ -z "$samename" ] && NOHEADER=NOHEADER
 	fi
 
 	# If one or more matches was found among the named time zones, display.
 	if [ -n "$zone" ] && [ -f "$ZONETEMP" ]; then
 		while read -r place; do
-			# For display purposes.
-			name="$(basename "$place" | tr '_' ' ')"
-			X="$(wc -l "$ZONETEMP")"
-			if [ "$X" != "1 $ZONETEMP" ] || [ -n "$zones" ]; then	
-				timedisplay NOHEADER
-			else
-				timedisplay
+			# The interesting lines have no tabs; time zone names
+			# only.
+			if [ -n "$place" ] && [ -z "$(echo "$place" | grep -m 1 '	')" ]; then
+				# For display purposes.
+				name="$(basename "$place" | tr '_' ' ')"
+				timedisplay "$NOHEADER"
+				DONE2=yes
 			fi
-			DONE2=yes
 		done < "$ZONETEMP"
 	fi
 
-	# Only go forward if no exact match found up to this point ("zones"
-	# cannot exist otherwise).
+	# Only go forward if no exact match found up to this point (zones cannot
+	# exist otherwise).
 	if [ -n "$zones" ]; then
-		echo "$zones" > "$ZONETEMP"
 		[ -f "$ZONETEMP" ] && while read -r line; do
-			X="$(wc -l "$ZONETEMP")"
-			unset name
-			unset place
-			name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
-			place="$(echo "$line" | cut -d'	' -f2-)"
-			if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
-				if [ "$X" != "1 $ZONETEMP" ] || [ -n "$zone" ]; then	
-					timedisplay NOHEADER
-				else
-					timedisplay
+			# Only interested in lines with tabs this time.
+			if [ -n "$(echo "$line" | grep -m 1 '	')" ]; then
+				unset name
+				unset place
+				name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
+				place="$(echo "$line" | cut -d'	' -f2-)"
+				if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
+					timedisplay "$NOHEADER"
+					DONE2=yes
+				elif [ -f "$COMPAT" ] && [ -n "$(grep -m 1 "$place" "$COMPAT")" ]; then
+					place="$(grep -m 1 "$place" "$COMPAT" | cut -d'	' -f2-)"
+					timedisplay "$NOHEADER"
+					DONE2=yes
 				fi
-				DONE2=yes
-			elif [ -f "$COMPAT" ] && [ -n "$(grep -m 1 "$place" "$COMPAT")" ]; then
-				place="$(grep -m 1 "$place" "$COMPAT" | cut -d'	' -f2-)"
-				if [ "$X" != "1 $ZONETEMP" ] || [ -n "$zone" ]; then	
-					timedisplay NOHEADER
-				else
-					timedisplay
-				fi
-				DONE2=yes
 			fi
 		done < "$ZONETEMP"
 	fi
@@ -466,12 +547,14 @@ if [ -z "$DONE" ]; then
 	# A last-ditch attempt with COMPAT, in case of old version and unlucky
 	# time zone check.
 	if [ -z "$DONE2" ] && [ -f "$COMPAT" ]; then
+		rm -f "$ZONETEMP"
 		unset zone
+		unset X
 		zone="$(grep -i "/$city	" "$COMPAT")"
 		[ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
+		[ -f "$ZONETEMP" ] && X="$(cat "$ZONETEMP" | wc -l)"
 		unset WRITTEN
 		[ -f "$ZONETEMP" ] && while read -r line; do
-			X="$(wc -l "$ZONETEMP")"
 			unset name
 			unset place
 			name="$(echo "$line" | cut -d'/' -f2- | cut -d'	' -f1 | tr '_' ' ')"
