@@ -39,14 +39,11 @@ wclock needs the following in place to work properly:
 * findutils
 * coreutils
 * grep
+* sed
 * A POSIX-compliant shell, or any other shell with a POSIX compliance mode
 
-The following are installation dependencies:
-
-* sed
-* gzip
-
-These packages should be included on almost any Linux installation.
+In addition, gzip is an installation dependency. These packages should be
+included on almost any Linux installation.
 
 *Compatibility*
 
