@@ -7,7 +7,9 @@ wclock-0.1.2 Installation Guide
 Makefile accepts the following instructions:
 
   make install	 - Install wclock under a specified DESTDIR
-  make clean	 - Remove the zipped man page and doc from the source directory
+  make clean	 - Remove the zipped man page and doc from the source directory;
+		   remove temporary executive permissions from the "validate"
+		   scripts.
   make uninstall - Remove wclock from a specified DESTDIR
 
   ************

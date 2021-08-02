@@ -107,15 +107,26 @@ case "$1" in
 	[ -z "$WRITTEN2" ] && echo '	'"$(date "$ENTRY" +"%X %Z %x (%a)")"'	'Here
 	echo '	'"$(TZ="$place" date "$ENTRY" +"%X %Z %x (%a)")"'	'"$headup"
 	;;
-	*)
-	if [ "$1" != "NOHEADER" ]; then
-		headup="$place"
-		[ -z "$WRITTEN" ] && echo '	'"$name" && WRITTEN=yes
-	else
-		headup="$name ($place)"
-	fi
+	NOCHECK)
+	headup="$place"
+	[ -z "$WRITTEN" ] && echo '	'"$name" && WRITTEN=yes
 	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
 	[ -n "$TCPARAMS" ] && comparemethod
+	;;
+	NOHEADER)
+	headup="$name ($place)"
+	[ -n "$(echo "$headups" | grep -m 1 "$headup")" ] && return
+	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+	[ -n "$TCPARAMS" ] && comparemethod
+	headups="$headups $headup"
+	;;
+	*)
+	headup="$place"
+	[ -z "$WRITTEN" ] && echo '	'"$name" && WRITTEN=yes
+	[ -n "$(echo "$headups" | grep -m 1 "$headup")" ] && return
+	[ -z "$TCPARAMS" ] && echo '	'"$(TZ="$place" date +"%X %Z %x (%a)")"'	'"$headup"
+	[ -n "$TCPARAMS" ] && comparemethod
+	headups="$headups $headup"
 	;;
 esac
 }
@@ -332,6 +343,12 @@ main (){
 # arguments are cleared during the case loop.
 [ -z "$city" ] && echo && echo '	'No search arguments. && return
 
+# Want to ignore punctuation; clear all existing punctuation first.
+city="$(echo "$city" | sed 's|[[:punct:]]||g')"
+# Surround all letters with the possibility of punctuation.
+city="$(echo "$city" | sed "s|\([aA-zZ]\)|\1[[:punct:]]*|g")"
+city="[[:punct:]]*$city"
+
 # For users without a HOME directory, use /tmp instead.
 if [ -n "$HOME" ] && [ -d "$HOME" ]; then
 	ZONETEMP="$HOME/.zonetemp"
@@ -352,7 +369,6 @@ fi
 EXTRAS="$SHAREDIR"/wclock/extras
 COMPAT="$SHAREDIR"/wclock/compat
 DEPREC="$SHAREDIR"/wclock/deprecated
-NODOUB="$SHAREDIR"/wclock/nodoubled
 
 [ -z "$NOECHO" ] && echo
 
@@ -368,6 +384,7 @@ fi
 
 unset zone
 unset headup
+unset headups
 unset DONE
 # If there's an exact match in the extras file, go with that.
 [ -f "$EXTRAS" ] && zone="$(grep -i "^$city	" "$EXTRAS")"
@@ -376,23 +393,23 @@ unset DONE
 unset WRITTEN
 unset WRITTEN2
 unset WRITTEN3
-unset ISCOUNTRY
 [ -f "$ZONETEMP" ] && while read -r line; do
 	unset name
 	unset place
 	# "name" is the name of the city; "place" is the time zone.
 	name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
+	name="$(echo "$name" | sed 's|^Saint |St. |g')"
 	place="$(echo "$line" | cut -d'	' -f2-)"
 	# For backwards compatibility, only use the time zone from the extras
 	# file if that time zone actually exists on the system. If it does not,
 	# proceed to the COMPAT loop.
 	if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
-		timedisplay
+		timedisplay NOCHECK
 		DONE=yes
 	# For old versions of tzdata (back to 2012a)
 	elif [ -f "$COMPAT" ] && [ -n "$(grep -m 1 "$place" "$COMPAT")" ]; then
 		place="$(grep -m 1 "$place" "$COMPAT" | cut -d'	' -f2-)"
-		timedisplay
+		timedisplay NOCHECK
 		DONE=yes
 	fi
 done < "$ZONETEMP"
@@ -422,22 +439,7 @@ if [ -z "$DONE" ]; then
 	fi
 	if [ -z "$EXACTMATCH" ] || [ ! -f "$ZONETEMP" ]; then
 		[ -f "$EXTRAS" ] && zones="$(grep -i "$city[[:punct:][:alnum:]]*[[:space:]]" "$EXTRAS")"
-		if [ -n "$zones" ]; then
-			echo "$zones" >> "$ZONETEMP"
-			
-			# If any of the new lines show up on the "nodoubled"
-			# list, that means they would already have shown up in
-			# the first search. Don't need to see them again, so
-			# remove.
-			if [ -n "$CHECKLIST" ] && [ -f "$NODOUB" ]; then
-				while read -r line; do
-
-					if [ -n "$line" ] && [ -n "$(echo "$line" | grep -m 1 '	')" ]; then
-						[ -n "$(grep -i -x "$line" "$NODOUB")" ] && sed -i "s|$line||g" "$ZONETEMP"
-					fi
-				done < "$ZONETEMP"
-			fi
-		fi
+		[ -n "$zones" ] && echo "$zones" >> "$ZONETEMP"
 	fi
 
 	# To keep results neat and tidy, deprecated time zones should not
@@ -516,6 +518,8 @@ if [ -z "$DONE" ]; then
 			if [ -n "$place" ] && [ -z "$(echo "$place" | grep -m 1 '	')" ]; then
 				# For display purposes.
 				name="$(basename "$place" | tr '_' ' ')"
+				name="$(echo "$name" | sed 's|^Saint |St. |g')"
+				name="$(echo "$name" | sed 's|^St |St. |g')"
 				timedisplay "$NOHEADER"
 				DONE2=yes
 			fi
@@ -531,6 +535,7 @@ if [ -z "$DONE" ]; then
 				unset name
 				unset place
 				name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
+				name="$(echo "$name" | sed 's|^Saint |St. |g')"
 				place="$(echo "$line" | cut -d'	' -f2-)"
 				if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
 					timedisplay "$NOHEADER"
@@ -558,9 +563,11 @@ if [ -z "$DONE" ]; then
 			unset name
 			unset place
 			name="$(echo "$line" | cut -d'/' -f2- | cut -d'	' -f1 | tr '_' ' ')"
+			name="$(echo "$name" | sed 's|^Saint |St. |g')"
+			name="$(echo "$name" | sed 's|^St |St. |g')"
 			place="$(echo "$line" | cut -d'	' -f2-)"
 			if [ -f "$ZONEINFO/$SUFFIX""$place" ]; then
-				if [ "$X" != "1 $ZONETEMP" ]; then	
+				if [ "$X" != "1" ]; then	
 					timedisplay NOHEADER
 				else
 					timedisplay
@@ -676,8 +683,7 @@ for arg in "$@"; do
 			fi
 		else
 			# Accounting for multi-word city and country names.
-			[ -n "$city" ] && city="$city"_"$arg"
-			[ -z "$city" ] && city="$arg"
+			city="$city""$arg"
 		fi
 		;;
 	esac

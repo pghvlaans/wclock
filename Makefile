@@ -36,6 +36,7 @@ install:
 	@chmod 755 $(DESTDIR)$(BINDIR)/wclock
 	@mkdir man-gz
 	@sed 's|SHAREDIR|$(SHAREDIR)|g' man/wclock.1 > man/wclock.1.2
+	@sed -i 's|DOCDIR|$(DOCDIR)|g' man/wclock.1.2
 	@cp -v -L man/wclock.1.2 man-gz/wclock.1
 	@rm -f man/wclock.1.2
 	@gzip man-gz/*
@@ -46,6 +47,7 @@ install:
 	@cp -v -L ./SIMPLEMAPS-LICENSE doc/
 	@cp -v -L ./README doc/
 	@cp -v -L ./ATTRIBUTION doc/
+	@cp -v -L ./INSTALL doc/
 	@chmod 644 doc/* 
 	@mkdir -p $(DESTDIR)$(DOCDIR)/wclock-$(VER)
 	@cp -v -L doc/* $(DESTDIR)$(DOCDIR)/wclock-$(VER)

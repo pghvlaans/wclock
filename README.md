@@ -20,12 +20,12 @@ wclock needs the following in place to work properly:
 
 * `tzdata`
 * `findutils`
-* `coreutils`
-* `grep`
+* `GNU coreutils`
+* `GNU grep`
 * `sed`
 * A POSIX-compliant shell, or any other shell with a POSIX compliance mode
 
-In addition, `gzip` is an installation dependency. These packages should be included on almost any Linux installation.
+In addition, `gzip` is an installation dependency. These packages should be included on almost any GNU/Linux installation.
 
 *Compatibility*
 
