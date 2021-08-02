@@ -346,7 +346,7 @@ main (){
 # Want to ignore punctuation; clear all existing punctuation first.
 city="$(echo "$city" | sed 's|[[:punct:]]||g')"
 # Surround all letters with the possibility of punctuation.
-city="$(echo "$city" | sed "s|\([aA-zZ]\)|\1[[:punct:]]*|g")"
+city="$(echo "$city" | sed "s|\([[:alpha:]]\)|\1[[:punct:]]*|g")"
 city="[[:punct:]]*$city"
 
 # For users without a HOME directory, use /tmp instead.
@@ -398,6 +398,9 @@ unset WRITTEN3
 	unset place
 	# "name" is the name of the city; "place" is the time zone.
 	name="$(echo "$line" | cut -d'	' -f1 | tr '_' ' ')"
+	# This sed seems kind of dumb, but "Saint/St./St" is the main source of
+	# useless doubles. "St" sed statements appear later, but are not
+	# relevant here.
 	name="$(echo "$name" | sed 's|^Saint |St. |g')"
 	place="$(echo "$line" | cut -d'	' -f2-)"
 	# For backwards compatibility, only use the time zone from the extras
@@ -417,7 +420,8 @@ done < "$ZONETEMP"
 unset DONE2
 
 if [ -z "$DONE" ]; then
-	# Otherwise, search for a match among the named time zones.
+	# Search for a match among the named time zones if no exact match was
+	# found in extras.
 	rm -f "$ZONETEMP"
 	unset zone
 	unset CHECKLIST
@@ -505,6 +509,9 @@ if [ -z "$DONE" ]; then
 				# For display purposes.
 				name="$(basename "$place" | tr '_' ' ')"
 				name="$(echo "$name" | sed 's|^Saint |St. |g')"
+				# The extras file contains "St." instead of
+				# "St" by design, so this statement is only
+				# relevant for zoneinfo matches.
 				name="$(echo "$name" | sed 's|^St |St. |g')"
 				timedisplay "$NOHEADER"
 				DONE2=yes

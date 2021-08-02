@@ -1,6 +1,8 @@
 **wclock-0.1.2**
 
-wclock is a shell program to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and the zoneinfo directory to acquire time zones that match user-provided search terms (case- and punctuation-insensitive, spaces OK).
+*Please Note:* This is a development version of `wclock`. As such, it may not have been tested as thoroughly as `wclock-0.1.1`, the stable version.
+
+wclock is a shell program to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and the zoneinfo directory to acquire time zones that match user-provided search terms (case-insensitive, spaces OK).
 
 The following features are included for increased convenience:
 
