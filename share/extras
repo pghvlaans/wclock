@@ -29,10 +29,7 @@ Aksaray	Europe/Istanbul
 Aksu	Asia/Shanghai
 Aktobe	Asia/Aqtobe
 Akure	Africa/Lagos
-Al_Amarah	Asia/Baghdad
-Al_Ayn	Asia/Riyadh
 Al_Basrah	Asia/Baghdad
-Al_Bayda	Africa/Tripoli
 Al_Bayda'	Africa/Tripoli
 Al_Fallujah	Asia/Baghdad
 Al_Fayyum	Africa/Cairo
@@ -131,7 +128,6 @@ Asmera	Africa/Asmara
 Aswan	Africa/Cairo
 Asyut	Africa/Cairo
 At_Ta'if	Asia/Riyadh
-At_Taif	Asia/Riyadh
 Atka	America/Adak
 Atlanta	America/New_York
 Augsburg	Europe/Berlin
@@ -152,7 +148,6 @@ Austria	Europe/Vienna
 Awasa	Africa/Addis_Ababa
 Awka	Africa/Niamey
 Az_Zaqaziq	Africa/Cairo
-Az_Zarqa	Asia/Amman
 Az_Zarqa'	Asia/Amman
 Az_Zubayr	Asia/Baghdad
 Azerbaijan	Asia/Baku
@@ -182,8 +177,7 @@ Ballari	Asia/Kolkata
 Baltimore	America/New_York
 Bamenda	Africa/Douala
 Bamiantong	Asia/Shanghai
-Bandar-e-Abbas	Asia/Tehran
-Bandar_Abbas	Asia/Tehran
+Bandar-e_'Abbas	Asia/Tehran
 Bandar_Lampung	Asia/Jakarta
 Bandar_`Abbas	Asia/Tehran
 Bandung	Asia/Jakarta
@@ -194,7 +188,6 @@ Baoding	Asia/Shanghai
 Baojishi	Asia/Shanghai
 Baoshan	Asia/Shanghai
 Baotou	Asia/Shanghai
-Baqubah	Asia/Baghdad
 Barasat	Asia/Kolkata
 Barcelona	Europe/Madrid
 Barddhaman	Asia/Kolkata
@@ -271,11 +264,9 @@ Birmingham	Europe/London
 Blida	Africa/Algiers
 Bloemfontein	Africa/Johannesburg
 Blumenau	America/Sao_Paulo
-Bandar-e_Abbas	Asia/Tehran
 Boa_Vista	America/Cuiaba
 Boaco	America/Managua
 Bobo-Dioulasso	Africa/Ouagadougou
-Bobo_Dioulasso	Africa/Ouagadougou
 Bochum	Europe/Berlin
 Bogor	Asia/Jakarta
 Boise	America/Denver
@@ -452,7 +443,6 @@ Chita	Asia/Yakutsk
 Chittagong	Asia/Dhaka
 Chitungwiza	Africa/Harare
 Chizhou	Asia/Shanghai
-Chongjin	Asia/Shanghai
 Chongqing	Asia/Shanghai
 Chongzuo	Asia/Shanghai
 Christchurch	Pacific/Auckland
@@ -509,7 +499,6 @@ Corrientes	America/Argentina/Cordoba
 Corum	Europe/Istanbul
 Cotabato	Asia/Manila
 Cote_d'Ivoire	Africa/Abidjan
-Cote_dIvoire	Africa/Abidjan
 Cotonou	Africa/Lagos
 Coventry	Europe/London
 Craiova	Europe/Bucharest
@@ -647,7 +636,6 @@ Eswatini	Africa/Mbabane
 Etawah	Asia/Kolkata
 Ethiopia	Africa/Addis_Ababa
 Eugene	America/Los_Angeles
-Ezhou	Asia/Shanghai
 FSM	Pacific/Chuuk
 FSM	Pacific/Pohnpei
 Faeroe	Atlantic/Faroe
@@ -656,7 +644,6 @@ Falkland_Islands	Atlantic/Stanley
 Falklands	Atlantic/Stanley
 Fangting	Asia/Shanghai
 Farg`ona	Asia/Tashkent
-Fargona	Asia/Tashkent
 Faridabad	Asia/Kolkata
 Faroe_Islands	Atlantic/Faroe
 Faeroe_Islands	Atlantic/Faroe
@@ -691,7 +678,6 @@ French_Polynesia	Pacific/Marquesas
 French_Southern_and_Antarctic_Lands	Indian/Kerguelen
 Fresno	America/Los_Angeles
 Fu'an	Asia/Shanghai
-Fuan	Asia/Shanghai
 Fuchu	Asia/Tokyo
 Fuding	Asia/Shanghai
 Fujin	Asia/Shanghai
@@ -793,7 +779,6 @@ Guigang	Asia/Shanghai
 Guilin	Asia/Shanghai
 Guinea	Africa/Conakry
 Guinea-Bissau	Africa/Bissau
-Guinea_Bissau	Africa/Bissau
 Guiping	Asia/Shanghai
 Guixi	Asia/Shanghai
 Guiyang	Asia/Shanghai
@@ -814,11 +799,9 @@ Haarlem	Europe/Amsterdam
 Hachioji	Asia/Tokyo
 Hai'an	Asia/Shanghai
 Hai_Duong	Asia/Ho_Chi_Minh
-Haian	Asia/Shanghai
 Haicheng	Asia/Shanghai
 Haifa	Asia/Jerusalem
 Haikou	Asia/Shanghai
-Hail	Asia/Riyadh
 Hailin	Asia/Shanghai
 Hailun	Asia/Shanghai
 Haiphong	Asia/Shanghai
@@ -868,7 +851,6 @@ Hisar	Asia/Kolkata
 Hohhot	Asia/Shanghai
 Holguin	America/Havana
 Homs	Asia/Tehran
-Homyel	Europe/Minsk
 Homyel'	Europe/Minsk
 Honduras	America/Tegucigalpa
 Hong'an	Asia/Shanghai
@@ -885,7 +867,6 @@ Hrodna	Europe/Minsk
 Hsinchu	Asia/Taipei
 Huadian	Asia/Shanghai
 Huai'an	Asia/Shanghai
-Huaian	Asia/Shanghai
 Huaibei	Asia/Shanghai
 Huaihua	Asia/Shanghai
 Huainan	Asia/Shanghai
@@ -993,7 +974,6 @@ Jhansi	Asia/Shanghai
 Ji'an	Asia/Shanghai
 Jiaji	Asia/Shanghai
 Jiamusi	Asia/Shanghai
-Jian	Asia/Shanghai
 Jian'ou	Asia/Shanghai
 Jiangguanchi	Asia/Shanghai
 Jiangjiafan	Asia/Shanghai
@@ -1002,7 +982,6 @@ Jiangshan	Asia/Shanghai
 Jianguang	Asia/Shanghai
 Jiangyin	Asia/Shanghai
 Jiannan	Asia/Shanghai
-Jianou	Asia/Shanghai
 Jianshe	Asia/Shanghai
 Jiaojiangcun	Asia/Shanghai
 Jiaozhou	Asia/Shanghai
@@ -1016,7 +995,6 @@ Jin'e	Asia/Shanghai
 Jinan	Asia/Shanghai
 Jinchang	Asia/Shanghai
 Jincheng	Asia/Shanghai
-Jine	Asia/Shanghai
 Jingcheng	Asia/Shanghai
 Jingdezhen	Asia/Shanghai
 Jinghong	Asia/Shanghai
@@ -1150,7 +1128,6 @@ Kumul	Asia/Shanghai
 Kunduz	Asia/Kabul
 Kunming	Asia/Shanghai
 Kunp'o	Asia/Seoul
-Kunpo	Asia/Seoul
 Kunsan	Asia/Seoul
 Kupang	Asia/Makassar
 Kurgan	Asia/Yekaterinburg
@@ -1250,7 +1227,6 @@ Los_Teques	America/Caracas
 Loudi	Asia/Shanghai
 Louisville	America/Kentucky/Louisville
 Lu'an	Asia/Shanghai
-Luan	Asia/Shanghai
 Luanzhou	Asia/Shanghai
 Lubbock	America/Chicago
 Lublin	Europe/Warsaw
@@ -1271,7 +1247,6 @@ MET	Europe/Berlin
 MST	America/Phoenix
 MST7MDT	America/Denver
 Ma'anshan	Asia/Shanghai
-Maanshan	Asia/Shanghai
 Mabalacat	Asia/Manila
 Macapa	America/Sao_Paulo
 Macheng	Asia/Shanghai
@@ -1342,10 +1317,8 @@ Maturin	America/Caracas
 Maua	America/Sao_Paulo
 Mauritania	Africa/Nouakchott
 Mawlamyine	Asia/Yangon
-Mazar-e-Sharif	Asia/Kabul
 Mazar-e_Sharif	Asia/Kabul
 Mazar-i-Sharif	Asia/Kabul
-Mazar-i_Sharif	Asia/Kabul
 Mbale	Africa/Kampala
 Mbandaka	Africa/Kinshasa
 Mbeya	Africa/Dar_es_Salaam
@@ -1459,7 +1432,6 @@ Nam_Dinh	Asia/Ho_Chi_Minh
 Namangan	Asia/Tashkent
 Namibia	Africa/Windhoek
 Namp'o	Asia/Pyongyang
-Nampo	Asia/Pyongyang
 Nampula	Africa/Maputo
 Nanchang	Asia/Shanghai
 Nanchong	Asia/Shanghai
@@ -1514,10 +1486,8 @@ Nigeria	Africa/Lagos
 Niigata	Asia/Tokyo
 Nikolaev	Europe/Kiev
 Ning'an	Asia/Shanghai
-Ningan	Asia/Shanghai
 Ningbo	Asia/Shanghai
 Ningde	Asia/Shanghai
-Nishinomiya-hama	Asia/Tokyo
 Niteroi	America/Sao_Paulo
 Nizamabad	Asia/Kolkata
 Nizhnevartovsk	Asia/Yekaterinburg
@@ -1626,7 +1596,6 @@ Peru	America/Lima
 Peshawar	Asia/Karachi
 Petaling_Jaya	Asia/Kuala_Lumpur
 Petion-Ville	America/Port-au-Prince
-Petion_Ville	America/Port-au-Prince
 Petrolina	America/Sao_Paulo
 Petrozavodsk	Europe/Moscow
 Philadelphia	America/New_York
@@ -1662,12 +1631,10 @@ Port_Elizabeth	Africa/Johannesburg
 Port_Harcourt	Africa/Lagos
 Port_Said	Africa/Cairo
 Port_St._Lucie	America/New_York
-Port_St_Lucie	America/New_York
 Port_Sudan	Africa/Khartoum
 Portland	America/Los_Angeles
 Porto_Acre	America/Rio_Branco
 Porto_Alegre	America/Sao_Paulo
-Porto_Novo	Africa/Porto-Novo
 Porto_Velho	America/Cuiaba
 Portsmouth	Europe/London
 Portugal	Europe/Lisbon
@@ -1699,7 +1666,6 @@ Qaraghandy	Asia/Almaty
 Qarshi	Asia/Tashkent
 Qazvin	Asia/Tehran
 Qian'an	Asia/Shanghai
-Qianan	Asia/Shanghai
 Qianzhou	Asia/Shanghai
 Qinbaling	Asia/Shanghai
 Qincheng	Asia/Shanghai
@@ -1714,9 +1680,9 @@ Qinhuangdao	Asia/Shanghai
 Qinzhou	Asia/Shanghai
 Qionghu	Asia/Shanghai
 Qiqihar	Asia/Shanghai
+Qods	Asia/Tehran
 Qo`qon	Asia/Tashkent
 Qom	Asia/Tehran
-Qoqon	Asia/Tashkent
 Quang_Ha	Asia/Ho_Chi_Minh
 Quang_Ngai	Asia/Ho_Chi_Minh
 Quanzhou	Asia/Shanghai
@@ -1784,7 +1750,6 @@ Rouen	Europe/Paris
 Round_Lake_Beach	America/Chicago
 Rucheng	Asia/Shanghai
 Rui'an	Asia/Shanghai
-Ruian	Asia/Shanghai
 Ruiming	Asia/Shanghai
 Russia	Europe/Kaliningrad
 Russia	Europe/Moscow
@@ -1805,13 +1770,16 @@ Sagamihara	Asia/Tokyo
 Saharanpur	Asia/Kolkata
 Saidu_Sharif	Asia/Karachi
 Saigon	Asia/Ho_Chi_Minh
-Saint_Barts	America/St_Barthelemy
+Saint_Barthelemy	America/Barthelemy
+Saint_Barts	America/Barthelemy
+Saint_Catharines	America/Toronto
 Saint_Kitts_and_Nevis	America/St_Kitts
+Saint_Louis	America/Chicago
 Saint_Lucia	America/St_Lucia
 Saint_Martin	America/Marigot
+Saint_Paul	America/Chicago
 Saint_Petersburg	Europe/Moscow
 Saint_Pierre_and_Miquelon	America/Miquelon
-Saint_Vincent	America/St_Vincent
 Saint_Vincent_and_the_Grenadines	America/St_Vincent
 Saitama	Asia/Tokyo
 Sakarya	Europe/Istanbul
@@ -1851,7 +1819,6 @@ Sanmenxia	Asia/Shanghai
 Sanming	Asia/Shanghai
 Sannai	Asia/Kolkata
 Santa_Ana	America/El_Salvador
-Santa_Catarina	America/Mexico_City
 Santa_Clarita	America/Los_Angeles
 Santa_Cruz	America/La_Paz
 Santa_Fe	America/Denver
@@ -1904,9 +1871,7 @@ Shache	Asia/Shanghai
 Shah_Alam	Asia/Kuala_Lumpur
 Shahe	Asia/Shanghai
 Shahjanpur	Asia/Kolkata
-Shahr-e-Qods	Asia/Tehran
 Shahr-e_Qods	Asia/Tehran
-Shahr_e_Qods	Asia/Tehran
 Shahriar	Asia/Tehran
 Shangqiu	Asia/Shanghai
 Shangrao	Asia/Shanghai
@@ -1991,23 +1956,23 @@ Spokane	America/Los_Angeles
 Springfield	America/Chicago
 Sri_Lanka	Asia/Colombo
 Srinagar	Asia/Kolkata
+St._Barthelemy	America/Barthelemy
+St._Barts	America/Barthelemy
 St._Catharines	America/Toronto
 St._Kitts_and_Nevis	America/St_Kitts
 St._Louis	America/Chicago
 St._Lucia	America/St_Lucia
+St._Martin	America/Marigot
 St._Paul	America/Chicago
 St._Petersburg	Europe/Moscow
-St_Catharines	America/Toronto
-St_Kitts_and_Nevis	America/St_Kitts
-St_Louis	America/Chicago
-St_Petersburg	Europe/Moscow
+St._Pierre_and_Miquelon	America/Miquelon
+St._Vincent_and_the_Grenadines	America/St_Vincent
 Staten_Island	America/New_York
 Stavropol	Europe/Moscow
 Sterlitamak	Asia/Yekaterinburg
 Stockton	America/Los_Angeles
 Stoke	Europe/London
 Stoke-on-Trent	Europe/London
-Stoke_on_Trent	Europe/London
 Strasbourg	Europe/Paris
 Stuttgart	Europe/Berlin
 Sucre	America/La_Paz
@@ -2022,7 +1987,6 @@ Sumqayit	Asia/Baku
 Sumy	Europe/Kiev
 Sunch'on	Asia/Pyongyang
 Suncheon	Asia/Seoul
-Sunchon	Asia/Pyongyang
 Sungai_Petani	Asia/Kuala_Lumpur
 Suqian	Asia/Shanghai
 Surabaya	Asia/Jakarta
@@ -2051,7 +2015,6 @@ Taganrog	Europe/Moscow
 Taguig_City	Asia/Manila
 Tagum	Asia/Manila
 Tai'an	Asia/Shanghai
-Taian	Asia/Shanghai
 Taichung	Asia/Taipei
 Taihe	Asia/Shanghai
 Tainan	Asia/Taipei
@@ -2060,7 +2023,6 @@ Taishan	Asia/Shanghai
 Taiwan	Asia/Taipei
 Taixing	Asia/Shanghai
 Taiyuan	Asia/Shanghai
-Taiz	Asia/Aden
 Taizhou	Asia/Shanghai
 Tajikistan	Asia/Dushanbe
 Takamatsu	Asia/Tokyo
@@ -2072,7 +2034,6 @@ Tampa	America/New_York
 Tampico	America/Mexico_City
 Tanbei	Asia/Shanghai
 Tanch'on	Asia/Pyongyang
-Tanchon	Asia/Pyongyang
 Tangdong	Asia/Shanghai
 Tangerang	Asia/Jakarta
 Tangier	Africa/Casablanca
@@ -2120,7 +2081,6 @@ Tieling	Asia/Shanghai
 Timbuktu	Africa/Abidjan
 Timisoara	Europe/Bucharest
 Timor-Leste	Asia/Dili
-Timor_Leste	Asia/Dili
 Tinnevelly	Asia/Kolkata
 Tirana	Europe/Tirane
 Tiraspol	Europe/Chisinau
@@ -2320,7 +2280,6 @@ Wonsan	Asia/Pyongyang
 Worcester	Europe/London
 Wroclaw	Europe/Warsaw
 Wu'an	Asia/Shanghai
-Wuan	Asia/Shanghai
 Wuchuan	Asia/Shanghai
 Wudalianchi	Asia/Shanghai
 Wugang	Asia/Shanghai
@@ -2338,7 +2297,6 @@ Wuzhou	Asia/Shanghai
 Xalapa	America/Mexico_City
 Xi'an	Asia/Shanghai
 Xiamen	Asia/Shanghai
-Xian	Asia/Shanghai
 Xiangtan	Asia/Shanghai
 Xiangxiang	Asia/Shanghai
 Xiangyang	Asia/Shanghai
@@ -2354,7 +2312,6 @@ Xicheng	Asia/Shanghai
 Xigaze	Asia/Shanghai
 Ximeicun	Asia/Shanghai
 Xin'an	Asia/Shanghai
-Xinan	Asia/Shanghai
 Xindi	Asia/Shanghai
 Xingcheng	Asia/Shanghai
 Xingren	Asia/Shanghai
@@ -2381,7 +2338,6 @@ Yakeshi	Asia/Shanghai
 Yakou	Asia/Shanghai
 Yamoussoukro	Africa/Abidjan
 Yan'an	Asia/Shanghai
-Yanan	Asia/Shanghai
 Yanbu`	Asia/Riyadh
 Yancheng	Asia/Shanghai
 Yancowinna	Australia/Broken_Hill
@@ -2419,7 +2375,6 @@ Yokkaichi	Asia/Tokyo
 Yokohama	Asia/Tokyo
 Yola	Africa/Lagos
 Yong'an	Asia/Shanghai
-Yongan	Asia/Shanghai
 Yongcheng	Asia/Shanghai
 Yongji	Asia/Shanghai
 Yongzhou	Asia/Shanghai
