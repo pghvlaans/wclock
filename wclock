@@ -490,9 +490,12 @@ if [ -z "$DONE" ]; then
 				# Result originated in zoneinfo.
 				if [ -z "$(echo "$line" | grep -m 1 '	')" ]; then
 					name="$(basename "$line")"
+					name="$(echo "$name" | sed 's|^Saint_|St._|g')"
+					name="$(echo "$name" | sed 's|^St_|St._|g')"
 				# Result originated in extras.
 				else
 					name="$(echo "$line" | cut -d'	' -f1)"
+					name="$(echo "$name" | sed 's|^Saint_|St._|g')"
 				fi
 				[ -n "$lastname" ] && [ "$name" != "$lastname" ] && unset samename
 			fi
