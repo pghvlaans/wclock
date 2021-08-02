@@ -473,20 +473,6 @@ if [ -z "$DONE" ]; then
 	# devoid of content.
 	[ "$X" = 0 ] && rm -f "$ZONETEMP"
 
-	# Re-evaluate zone and zones to make sure everything displays properly.
-	if [ -f "$ZONETEMP" ] && [ -n "$zone" ]; then
-		unset HAVEZONE
-		unset HAVEZONES
-		while read -r line; do
-			if [ -n "$line" ]; then
-				[ -z "$(echo "$line" | grep -m 1 '	')" ] && HAVEZONE=yes
-				[ -n "$(echo "$line" | grep -m 1 '	')" ] && HAVEZONES=yes
-			fi
-		done < "$ZONETEMP"
-		[ -z "$HAVEZONE" ] && unset zone
-		[ -z "$HAVEZONES" ] && unset zones
-	fi
-
 	# If there are multiple results, but they all have the same "name," the
 	# header should be displayed. Handling that now.
 	unset name
