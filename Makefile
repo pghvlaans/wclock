@@ -55,6 +55,7 @@ install:
 	@cp -v -L share/* $(DESTDIR)$(SHAREDIR)/wclock
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/compat
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/extras
+	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/deprecated
 	@chmod 755 $(DESTDIR)$(SHAREDIR)/wclock/validate-zoneinfo
 	@echo
 	@echo Done.
