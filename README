@@ -1,4 +1,4 @@
-wclock-0.1.1
+wclock-0.1.2
 
 wclock is a shell program to conveniently get times from around the world in
 terminal emulators and tty. It interfaces with "date" and the zoneinfo 
@@ -8,7 +8,7 @@ insensitive, spaces OK).
 The following features are included for increased convenience:
 
 * Extra cities: A list of cities, metro areas, etc. with a population of over 
-  400,000 is referenced in addition to the named time zones. For example,
+  250,000 is referenced in addition to the named time zones. For example,
   
     wclock washington 
   
@@ -31,30 +31,19 @@ The following features are included for increased convenience:
 
     wclock -l 10:00 2021/07/13 -b lagos
 
-* Query mode: Use -q with a continent (or any other directory inside 
-  /usr/share/zoneinfo/posix) to get a list of available time zones, e.g. 
-  
-    wclock -q asia 
-
-  -q without further parameters gives a list of such directories.
-
 *Dependencies*
 
 wclock needs the following in place to work properly:
 
-* tzdata (specifically, time zone data in /usr/share/zoneinfo or /etc/zoneinfo)
+* tzdata
 * findutils
-* coreutils
-* grep
-* less
+* GNU coreutils
+* GNU grep
+* sed
 * A POSIX-compliant shell, or any other shell with a POSIX compliance mode
 
-The following are installation dependencies:
-
-* sed
-* gzip
-
-These packages should be included on almost any Linux installation.
+In addition, gzip is an installation dependency. These packages should be
+included on almost any GNU/Linux installation.
 
 *Compatibility*
 
@@ -79,8 +68,8 @@ details. The overall SimpleMaps.com license can be found in SIMPLEMAPS-LICENSE.
 
 *Disclaimer*
 
-No listing (or absence of listing) in the "extras" document is intended as a
-political statement or as an endorsement of any particular interpretation of
-statehood claims or national borders. Any extra names, old spellings, etc. were
-added for making the search functionality more convenient or avoiding deprecated
-time zones.
+No listing (or absence of listing) in any document included with this software
+is intended as a political statement or as an endorsement of any particular 
+interpretation of statehood claims or national borders. Any extra names, old
+spellings, etc. were added for making the search functionality more convenient
+or avoiding deprecated time zones.

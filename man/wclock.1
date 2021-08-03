@@ -1,20 +1,26 @@
 .\" Manpage for wclock
 .\" Contact (kvngncrlsn@gmail.com) to correct errors or typos.
-.TH man 1 "25 July 2021" "0.1.1" "wclock man page"
+.TH man 1 "02 August 2021" "0.1.2" "wclock man page"
 .SH NAME
 wclock \- check times from around the world in a terminal emulator or tty 
 .SH SYNOPSIS
-wclock [-t|--there DATETIME -b] SEARCH [-b|--break SEARCH] ...
+wclock [-t|--there DATETIME -b|--break] SEARCH [-b|--break SEARCH] ...
 
-wclock [-l|--local DATETIME -b] SEARCH [-b|--break SEARCH] ...
-.SH QUERY MODE
-wclock -q|--query [DIRECTORY]
+wclock [-l|--local DATETIME -b|--break] SEARCH [-b|--break SEARCH] ...
 .SH DESCRIPTION
-wclock is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in /usr/share/zoneinfo (or /etc/zoneinfo, throughout) to retrieve the correct time zone, and passes this time zone to date(1) to report world times matching a search term. 
+wclock is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in /usr/share/zoneinfo (or /usr/share/zoneinfo-leaps, or /usr/local/share or /etc, throughout) to retrieve the correct time zone, and passes this time zone to date(1) to report world times matching a search term.
 
-Oustide of query mode, the search term can be either a city or a country; wclock will first check SHAREDIR/wclock/extras for an exact match. This file contains a selection of cities and metro areas with a population of over 400,000, as well as countries with ISO codes in the tz database. Aside from time zone namesakes, nearly 1400 additional cities and almost every country are searchable in this manner.
+The search functionality is case- and punctuation-insensitive, and spaces can be used. For this reason, search terms should not be quoted. As an example, any of the following arguments will produce an exact match with "Mazar-e Sharif:"
 
-If an exact match is not found, defined time zones are searched. If the exact search term has still not been found, SHAREDIR/wclock/extras is checked once more for non-exact matches.
+\t mazar-e sharif
+\t mazare sharif
+\t mazar-e-sharif
+\t mazaresharif
+\t mazar e sharif 
+
+The search term can be either a city or a country; wclock will first check SHAREDIR/wclock/extras for an exact match. This file contains a selection of cities and metro areas with a population of over 250,000, as well as countries with ISO codes in the tz database. Around 2000 cities and almost every country are searchable in this manner.
+
+If an exact match is not found, defined time zones are searched. If the exact search term has still not been found, SHAREDIR/wclock/extras and the zoneinfo directory are checked once more for non-exact matches. At every stage, SHAREDIR/wclock/compat is used if the desired time zone is not installed on the system. This is for compatibility with previous versions of tzdata.
 
 To fetch times for multiple locations, place -b (--break) between the individual search terms. -b has no effect before the first search term, unless -t (--there) or -l (--local) is used.
 
@@ -37,20 +43,18 @@ Because wclock will add time zone information to DATETIME, only the time (and da
 \t wclock -l 16:00 -b glasgow -t 10:00 next Wed -b kiev
 
 # "local": Glasgow; "there": Kiev
-
-In query mode (-q or --query), wclock will show defined time zones asociated with a directory under /usr/share/zoneinfo (if DIRECTORY is given). If DIRECTORY is not given, it will show a list of directories that contain time zone data. 
 .SH COMPATIBILITY
 This version of wclock was written against tzdata-2021a. However, it should be compatible with past versions of tzdata to tzdata-2012a at the latest. Those time zones added to the database since are accounted for by checks against SHAREDIR/wclock/compat. These checks only occur if the given time zone is not installed on the system.
+
+Alternative zoneinfo directory locations and time zone setting files can be passed to wclock upon installation. This is not necessary in most cases. See DOCDIR/wclock-0.1.2/INSTALL for details.
 .SH OPTIONS
 SEARCH - A search term for the desired time; this can be a time zone as named in /usr/share/zoneinfo, a city included in SHAREDIR/wclock/extras, or a country.
 
--q|--query - With a search term, display all time zones associated with that directory in /usr/share/zoneinfo. Without a search term, show a list of directories in /usr/share/zoneinfo. Incompatible with -b, -t and -l.
+-b|--break - For multiple searches, use -b between each search term. Incompatible with -v and -h.
 
--b|--break - For multiple searches, use -b between each search term. Incompatible with -q.
+-t|--there - Find your local time when it is DATETIME in SEARCH. Incompatible with -v and -h.
 
--t|--there - Find your local time when it is DATETIME in SEARCH. Incompatible with -q.
-
--l|--local - Find the time in SEARCH when it is DATETIME in your local time. Incompatible with -q.
+-l|--local - Find the time in SEARCH when it is DATETIME in your local time. Incompatible with -v and -h.
 
 DATETIME - A future or past time to check. This parameter is passed to date(1); wclock handles setting TZ and passing the local time zone (or offset, if necessary) automatically. Input should not be quoted. Time is mandatory, and day is optional: [DAY] TIME [DAY], where DAY can be a date, an English day of the week, or an English relative term (e.g., "tomorrow."). As an example,
 
@@ -64,9 +68,11 @@ shows the time in Luxembourg at 12:00 local time, tomorrow.
 
 When passing DATETIME with --local or --there, all subsequent search arguments will have the check applied until -l or -t is used again.
 
+-v|--version - Display version and tzdata compatibility information for wclock.
+
 -h|--help - Display the help menu.
 .SH SEE ALSO
-date(1)
+date(1), DOCDIR/wclock-0.1.2/INSTALL
 .SH BUGS
 Antarctica/Troll is unaccounted for in SHAREDIR/wclock/compat for performance reasons (affects systems with tzdata-2014a and earlier).
 
