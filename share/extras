@@ -391,7 +391,6 @@ Chamdo	Asia/Shanghai
 Chandigarh	Asia/Kolkata
 Chandler	America/Phoenix
 Chang'an	Asia/Shanghai
-Changan	Asia/Shanghai
 Changchun	Asia/Shanghai
 Changde	Asia/Shanghai
 Changhua	Asia/Taipei
@@ -547,7 +546,6 @@ Daye	Asia/Shanghai
 Dayton	America/New_York
 Dazhou	Asia/Shanghai
 DeNoronha	America/Noronha
-Dehra_Dun	Asia/Kolkata
 Dehradun	Asia/Kolkata
 Dehui	Asia/Shanghai
 Delhi	Asia/Kolkata
@@ -605,7 +603,6 @@ EST5EDT	America/New_York
 East-Indiana	America/Indiana/Indianapolis
 East_London	Africa/Johannesburg
 East_Timor	Asia/Dili
-EasterIsland	Pacific/Easter
 Easter_Island	Pacific/Easter
 Ecatepec	America/Mexico_City
 Ecuador	America/Guayaquil
@@ -1456,7 +1453,6 @@ Nawabshah	Asia/Karachi
 Nay_Pyi_Taw	Asia/Yangon
 Naypyidaw	Asia/Yangon
 Nazret	Africa/Addis_Ababa
-Ndjamena	Africa/Lagos
 Ndjindji	Africa/Brazzaville
 Ndola	Africa/Lusaka
 Nehe	Asia/Shanghai
@@ -1586,7 +1582,6 @@ Pavlodar	Asia/Almaty
 Pekalongan	Asia/Jakarta
 Pekanbaru	Asia/Jakarta
 Pelotas	America/Sao_Paulo
-Pematang_Siantar	Asia/Jakarta
 Pematangsiantar	Asia/Jakarta
 Pensacola	America/New_York
 Penza	Europe/Moscow
@@ -1620,7 +1615,6 @@ Plymouth	Europe/London
 Podolsk	Europe/Moscow
 Pohang	Asia/Seoul
 Pointe-Noire	Africa/Brazzaville
-Pointe_Noire	Africa/Brazzaville
 Pokhara	Asia/Kathmandu
 Poland	Europe/Warsaw
 Poltava	Europe/Kiev
