@@ -23,7 +23,7 @@ wclock needs the following in place to work properly:
 * `sed`
 * A POSIX-compliant shell, or any other shell with a POSIX compliance mode
 
-In addition, `gzip` is an installation dependency. These packages should be included on almost any GNU/Linux installation.
+In addition, `gzip` is an installation dependency. These packages should be included on almost any Linux installation with GNU tools. (`wclock` also works on GNU Hurd, interestingly enough.)
 
 *Compatibility*
 
