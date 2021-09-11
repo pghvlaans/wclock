@@ -1,81 +1,264 @@
 .\" Manpage for wclock
 .\" Contact (kvngncrlsn@gmail.com) to correct errors or typos.
-.TH man 1 "02 August 2021" "0.1.2" "wclock man page"
+.TH man 1 "10 September 2021" "0.1.2" "wclock man page"
 .SH NAME
-wclock \- check times from around the world in a terminal emulator or tty 
+.B wclock
+\(em check times from around the world in a terminal emulator or tty 
 .SH SYNOPSIS
-wclock [-t|--there DATETIME -b|--break] SEARCH [-b|--break SEARCH] ...
+.B wclock [-t|--there DATETIME -b|--break] SEARCH [-b|--break SEARCH] ...
 
-wclock [-l|--local DATETIME -b|--break] SEARCH [-b|--break SEARCH] ...
+.B wclock [-l|--local DATETIME -b|--break] SEARCH [-b|--break SEARCH] ...
 .SH DESCRIPTION
-wclock is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in /usr/share/zoneinfo (or /usr/share/zoneinfo-leaps, or /usr/local/share or /etc, throughout) to retrieve the correct time zone, and passes this time zone to date(1) to report world times matching a search term.
+.B wclock
+is a shell script for checking times from any time zone while using a tty or terminal emulator. It interfaces with the time zone data in 
+.I /usr/share/zoneinfo
+(or 
+.I /usr/share/zoneinfo-leaps\fR\
+, or 
+.I /usr/local/share\fR\
+, or 
+.I /etc\fR\
+, throughout) to retrieve the correct time zone, and passes this time zone to 
+.B date(1)
+to report world times matching a search term.
 
-The search functionality is case- and punctuation-insensitive, and spaces can be used. For this reason, search terms should not be quoted. As an example, any of the following arguments will produce an exact match with "Mazar-e Sharif:"
+The search functionality is case- and punctuation-insensitive, and spaces can be used. For this reason, search terms should not be quoted. As an example, any of the following arguments will produce an exact match with \(lqMazar-e Sharif:\(rq
+.TP
+.B \t mazar-e sharif
+.TQ
+.B \t mazare sharif
+.TQ
+.B \t mazar-e-sharif
+.TQ
+.B \t mazaresharif
+.TQ
+.B \t mazar e sharif 
 
-\t mazar-e sharif
-\t mazare sharif
-\t mazar-e-sharif
-\t mazaresharif
-\t mazar e sharif 
+.P
+The search term can be either a city or a country;
+.B wclock
+will first check 
+.I SHAREDIR/wclock/extras
+for an exact match. This file contains a selection of cities and metro areas with a population of over 250,000, as well as countries with ISO codes in the tz database. Around 2000 cities and almost every country are searchable in this manner.
 
-The search term can be either a city or a country; wclock will first check SHAREDIR/wclock/extras for an exact match. This file contains a selection of cities and metro areas with a population of over 250,000, as well as countries with ISO codes in the tz database. Around 2000 cities and almost every country are searchable in this manner.
+If an exact match is not found, defined time zones are searched. If the exact search term has still not been found, 
+.I SHAREDIR/wclock/extras
+and the zoneinfo directory are checked once more for non-exact matches. At every stage,
+.I SHAREDIR/wclock/compat
+is used if the desired time zone is not installed on the system. This is for compatibility with previous versions of 
+.B tzdata\fR\
+\&.
 
-If an exact match is not found, defined time zones are searched. If the exact search term has still not been found, SHAREDIR/wclock/extras and the zoneinfo directory are checked once more for non-exact matches. At every stage, SHAREDIR/wclock/compat is used if the desired time zone is not installed on the system. This is for compatibility with previous versions of tzdata.
+To fetch times for multiple locations, place 
+.B --break (-b)
+between the individual search terms.
+.B --break
+has no effect before the first search term, unless
+.B --there (-t)
+or 
+.B -local (-l)
+is used.
 
-To fetch times for multiple locations, place -b (--break) between the individual search terms. -b has no effect before the first search term, unless -t (--there) or -l (--local) is used.
+.B --there
+and
+.B --local
+pass a 
+.B DATETIME
+parameter to
+.B date(1)\fR\
+:
 
---there and --local are used to pass a DATETIME parameter to date(1):
+.B \t --there\fR\
+: Find your local time at
+.B DATETIME
+in the
+.B SEARCH
+time zone.
 
-\t --there: Find your local time at DATETIME in the SEARCH time zone.
+.B \t --local\fR\
+: Find the time in 
+.B SEARCH
+at
+.B DATETIME
+in your local time zone.
 
-\t --local: Find the time in SEARCH at DATETIME in your local time zone.
+.P
+Because
+.B wclock
+will add time zone information to
+.B DATETIME\fR\
+, only the time (and day, if desired) are needed. For more information, see \(lqDATETIME\(rq below;
+.B date(1)
+is another useful reference. When using
+.B --there
+and
+.B --local\fR\
+, any following search arguments will have the specified
+.B DATETIME
+check, until
+.B --there
+or
+.B --local
+is passed again:
 
-Because wclock will add time zone information to DATETIME, only the time (and day, if desired) are needed. For more information, see "DATETIME" below; date(1) is another useful reference. When using --there and --local, any following search arguments will have the corresponding DATETIME check, until -l or -t is used again:
+.TP
+.B \t wclock -t 10:00 next Wed -b glasgow -b kiev
+.B \t
+#
+.B --there
+checks for Glasgow and Kiev.
 
-\t wclock -t 10:00 next Wed -b glasgow -b kiev
+.TP
+.B \t wclock glasgow -t 10:00 next Wed -b kiev
+.B \t
+# 
+.B --there
+check for Kiev only.
 
-# "there" checks for Glasgow and Kiev.
-
-\t wclock glasgow -t 10:00 next Wed -b kiev
-
-# "there" check for Kiev only.
-
-\t wclock -l 16:00 -b glasgow -t 10:00 next Wed -b kiev
-
-# "local": Glasgow; "there": Kiev
+.TP
+.B \t wclock -l 16:00 -b glasgow -t 10:00 next Wed -b kiev
+.B \t
+#
+.B --local\fR\
+: Glasgow;
+.B --there\fR\
+: Kiev
 .SH COMPATIBILITY
-This version of wclock was written against tzdata-2021a. However, it should be compatible with past versions of tzdata to tzdata-2012a at the latest. Those time zones added to the database since are accounted for by checks against SHAREDIR/wclock/compat. These checks only occur if the given time zone is not installed on the system.
+This version of
+.B wclock
+was written against
+.B tzdata-2021a\fR\
+\&. However, it should be compatible with past versions of
+.B tzdata
+to 
+.B tzdata-2012a
+at the latest. Those time zones added to the database since are accounted for by checks against
+.I SHAREDIR/wclock/compat\fR\
+\&. Such checks only occur if the given time zone is not installed on the system.
 
-Alternative zoneinfo directory locations and time zone setting files can be passed to wclock upon installation. This is not necessary in most cases. See DOCDIR/wclock-0.1.2/INSTALL for details.
+Alternative zoneinfo directory locations and time zone setting files can be passed to
+.B wclock
+upon installation. This is not necessary in most cases. See
+.I DOCDIR/wclock-0.1.2/INSTALL
+for details.
 .SH OPTIONS
-SEARCH - A search term for the desired time; this can be a time zone as named in /usr/share/zoneinfo, a city included in SHAREDIR/wclock/extras, or a country.
+.TQ
+.B SEARCH
+.br    
+A search term for the desired time; this can be a time zone as named in
+.I /usr/share/zoneinfo\fR\
+, a city included in
+.I SHAREDIR/wclock/extras\fR\
+, or a country.
 
--b|--break - For multiple searches, use -b between each search term. Incompatible with -v and -h.
+.TQ
+.B -b|--break
+.br
+For multiple searches, use 
+.B -b
+between each search term. Incompatible with
+.B -v
+and
+.B -h\fR\
+\&.
 
--t|--there - Find your local time when it is DATETIME in SEARCH. Incompatible with -v and -h.
+.TQ
+.B -t|--there
+.br
+Find your local time when it is
+.B DATETIME
+in
+.B SEARCH\fR\
+\&. Incompatible with
+.B -v
+and
+.B -h\fR\
+\&.
 
--l|--local - Find the time in SEARCH when it is DATETIME in your local time. Incompatible with -v and -h.
+.TQ
+.B -l|--local
+.br
+Find the time in
+.B SEARCH
+when it is
+.B DATETIME
+in your local time. Incompatible with
+.B -v
+and
+.B -h\fR\
+\&.
 
-DATETIME - A future or past time to check. This parameter is passed to date(1); wclock handles setting TZ and passing the local time zone (or offset, if necessary) automatically. Input should not be quoted. Time is mandatory, and day is optional: [DAY] TIME [DAY], where DAY can be a date, an English day of the week, or an English relative term (e.g., "tomorrow."). As an example,
+.TQ
+.B DATETIME
+.br
+A future or past time to check. This parameter is passed to
+.B date(1)\fR\
+; 
+.B wclock
+handles setting
+.B TZ
+and passing the local time zone (or offset, if necessary) automatically. Input should not be quoted. Time is mandatory, and day is optional:
+.B [DAY] TIME [DAY]\fR\
+, where
+.B DAY
+can be a date, an English day of the week, or an English relative term \(em
+.B tomorrow\fR\
+,
+.B next Thursday\fR\
+, etc. As an example,
 
-\t wclock -t 16:00 2021/07/17 -b minneapolis
+.B \t wclock -t 16:00 2021/07/17 -b minneapolis
 
 shows the local time when it is 16:00 in Minneapolis on July 17th.
 
-\t wclock -l tomorrow 12 -b luxembourg
+.B \t wclock -l tomorrow 12 -b luxembourg
 
 shows the time in Luxembourg at 12:00 local time, tomorrow.
 
-When passing DATETIME with --local or --there, all subsequent search arguments will have the check applied until -l or -t is used again.
+When passing 
+.B DATETIME
+with
+.B --local
+or 
+.B --there\fR\
+, all subsequent search arguments will have the check applied until
+.B --local
+or 
+.B --there
+is used again.
 
--v|--version - Display version and tzdata compatibility information for wclock.
+.TQ
+.B -v|--version
+.br
+Display version and 
+.B tzdata
+compatibility information for
+.B wclock\fR\
+\&.
 
--h|--help - Display the help menu.
+.TQ
+.B -h|--help
+.br
+Display the help menu.
 .SH SEE ALSO
-date(1), DOCDIR/wclock-0.1.2/INSTALL
+.B date(1)\fR\
+,
+.I DOCDIR/wclock-0.1.2/INSTALL
 .SH BUGS
-Antarctica/Troll is unaccounted for in SHAREDIR/wclock/compat for performance reasons (affects systems with tzdata-2014a and earlier).
+\(lqAntarctica/Troll\(rq is unaccounted for in
+.I SHAREDIR/wclock/compat
+for performance reasons (affects systems with
+.B tzdata-2014a
+and earlier).
 
-To report bugs, request additional entries in SHAREDIR/wclock/extras, etc., email the author directly or open an issue at wclock's home on GitHub: https://github.com/pghvlaans/wclock.
+To report bugs, request additional entries in
+.I SHAREDIR/wclock/extras\fR\
+, etc., email the author directly or open an issue at
+.B wclock\fR\
+\&'s home on GitHub:
+.UR https://github.com/pghvlaans/wclock
+.UE\&.
 .SH AUTHOR
-K. Eugene Carlson (kvngncrlsn@gmail.com)
+K. Eugene Carlson 
+.MT kvngncrlsn@gmail.com
+.ME
