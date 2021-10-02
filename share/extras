@@ -1080,7 +1080,7 @@ Kimhae	Asia/Seoul
 Kindu	Africa/Kinshasa
 Kingston	America/Jamaica
 Kiribati	Pacific/Tarawa
-Kiribati	Pacific/Enderbury
+Kiribati	Pacific/Kanton
 Kiribati	Pacific/Kiritimati
 Kirkuk	Asia/Baghdad
 Kisangani	Africa/Lubumbashi
@@ -2469,7 +2469,8 @@ Pohnpei	Pacific/Pohnpei
 Tarawa	Pacific/Tarawa
 Apia	Pacific/Apia
 Majuro	Pacific/Majuro
-Enderbury	Pacific/Enderbury
+Enderbury	Pacific/Kanton
+Kanton	Pacific/Kanton
 Gambier	Pacific/Gambier
 Honolulu	Pacific/Honolulu
 Bougainville	Pacific/Bougainville

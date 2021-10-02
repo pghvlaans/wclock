@@ -1,6 +1,6 @@
 .\" Manpage for wclock
 .\" Contact (kvngncrlsn@gmail.com) to correct errors or typos.
-.TH man 1 "10 September 2021" "0.1.2" "wclock man page"
+.TH man 1 "2 October 2021" "0.1.3" "wclock man page"
 .SH NAME
 .B wclock
 \(em check times from around the world in a terminal emulator or tty 
@@ -22,6 +22,12 @@ is a shell script for checking times from any time zone while using a tty or ter
 .B date(1)
 to report world times matching a search term.
 
+The search term can be either a city or a country;
+.B wclock
+will first check 
+.I SHAREDIR/wclock/extras
+for an exact match. This file contains a selection of cities and metro areas with a population of over 250,000, as well as countries with ISO codes in the tz database. Around 2000 cities and almost every country are searchable in this manner.
+
 The search functionality is case- and punctuation-insensitive, and spaces can be used. For this reason, search terms should not be quoted. As an example, any of the following arguments will produce an exact match with \(lqMazar-e Sharif:\(rq
 .TP
 .B \t mazar-e sharif
@@ -35,12 +41,6 @@ The search functionality is case- and punctuation-insensitive, and spaces can be
 .B \t mazar e sharif 
 
 .P
-The search term can be either a city or a country;
-.B wclock
-will first check 
-.I SHAREDIR/wclock/extras
-for an exact match. This file contains a selection of cities and metro areas with a population of over 250,000, as well as countries with ISO codes in the tz database. Around 2000 cities and almost every country are searchable in this manner.
-
 If an exact match is not found, defined time zones are searched. If the exact search term has still not been found, 
 .I SHAREDIR/wclock/extras
 and the zoneinfo directory are checked once more for non-exact matches. At every stage,
@@ -127,7 +127,7 @@ check for Kiev only.
 This version of
 .B wclock
 was written against
-.B tzdata-2021a\fR\
+.B tzdata-2021c\fR\
 \&. However, it should be compatible with past versions of
 .B tzdata
 to 
@@ -139,7 +139,7 @@ at the latest. Those time zones added to the database since are accounted for by
 Alternative zoneinfo directory locations and time zone setting files can be passed to
 .B wclock
 upon installation. This is not necessary in most cases. See
-.I DOCDIR/wclock-0.1.2/INSTALL
+.I DOCDIR/wclock-0.1.3/INSTALL
 for details.
 .SH OPTIONS
 .TQ
@@ -243,7 +243,7 @@ Display the help menu.
 .SH SEE ALSO
 .B date(1)\fR\
 ,
-.I DOCDIR/wclock-0.1.2/INSTALL
+.I DOCDIR/wclock-0.1.3/INSTALL
 .SH BUGS
 \(lqAntarctica/Troll\(rq is unaccounted for in
 .I SHAREDIR/wclock/compat
