@@ -296,10 +296,9 @@ if [ "$HERE" = "yes" ]; then
 		# Etc/* time zones have inverted signs; fix this here if
 		# needed.
 		if [ -z "$HEREZONEOK" ] && [ -n "$(echo "$HEREZONE" | grep "Etc/")" ]; then
-			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/+' 'Etc/X')"
-			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/-' 'Etc/Y')"
-			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/X' 'Etc/-')"
-			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/Y' 'Etc/+')"
+			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/+' 'Etc/@')"
+			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/-' 'Etc/+')"
+			HEREZONE="$(echo "$HEREZONE" | tr 'Etc/@' 'Etc/-')"
 			HEREZONEOK=yes
 		fi
 		ENTRY="--date=TZ=\""$HEREZONE"\" $TCPARAMS"
@@ -637,7 +636,7 @@ for arg in "$@"; do
 		-v|--version)
 		echo
 		echo '	'wclock-"$VER"
-		echo '	'Written against tzdata-2021a \(compatible from tzdata-2012a onward\).
+		echo '	'Written against tzdata-2021c \(compatible from tzdata-2012a onward\).
 		echo
 		exit
 		;;
