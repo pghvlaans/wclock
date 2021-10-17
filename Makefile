@@ -1,4 +1,4 @@
-VER = 0.1.3
+VER = 0.1.3.2021d
 
 PREFIX ?= /usr
 SHAREDIR ?= $(PREFIX)/share
