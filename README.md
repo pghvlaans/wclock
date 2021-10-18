@@ -1,6 +1,6 @@
 **wclock-0.1.3.2021d**
 
-wclock is a shell program to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and the zoneinfo directory to acquire time zones that match user-provided search terms (case-insensitive, spaces OK).
+`wclock` is a shell program to conveniently get times from around the world in terminal emulators and tty. It interfaces with `date` and the zoneinfo directory to acquire time zones that match user-provided search terms (case-insensitive, spaces OK).
 
 The following features are included for increased convenience:
 
@@ -39,15 +39,15 @@ This version of `wclock` has been checked against `tzdata-2021d`. However, it sh
 
 *Installation*
 
-See INSTALL for installation instructions.
+See `INSTALL` for installation instructions.
 
 *Bug Reporting*
 
-To report bugs or incorrect time zones, request alternate city spellings, etc., please feel free to open a GitHub issue or email the author directly.
+To report bugs or incorrect time zones, request alternate city spellings, etc., please feel free to open a GitLab issue or email the author directly.
 
 *Acknowledgement*
 
-The list of extra cities was adapted from Chris Youderian's Basic World Cities Database at SimpleMaps.com (Pareto Software, LLC). The Basic World Cities Database is covered by the Creative Commons 4.0 License. See ATTRIBUTION for details. The overall SimpleMaps.com license can be found in SIMPLEMAPS-LICENSE.
+The list of extra cities was adapted from Chris Youderian's Basic World Cities Database at SimpleMaps.com (Pareto Software, LLC). The Basic World Cities Database is covered by the Creative Commons 4.0 License. See `ATTRIBUTION` for details. The overall SimpleMaps.com license can be found in `SIMPLEMAPS`.
 
 *Disclaimer*
 
