@@ -35,7 +35,7 @@ These packages should be included on almost any Linux installation with GNU tool
 
 *Compatibility*
 
-This version of `wclock` was written against `tzdata-2021d`. However, it should operate correctly with versions of `tzdata` dating back to `tzdata-2012a`.
+This version of `wclock` has been checked against `tzdata-2021d`. However, it should operate correctly with versions of `tzdata` dating back to `tzdata-2012a`.
 
 *Installation*
 
