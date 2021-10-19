@@ -44,7 +44,7 @@ install:
 	@cp -v -L man-gz/* $(DESTDIR)$(MANDIR)/man1
 	@mkdir -p doc
 	@cp -v -L ./LICENSE doc/
-	@cp -v -L ./SIMPLEMAPS-LICENSE doc/
+	@cp -v -L ./SIMPLEMAPS doc/
 	@cp -v -L ./README doc/
 	@cp -v -L ./ATTRIBUTION doc/
 	@cp -v -L ./INSTALL doc/
