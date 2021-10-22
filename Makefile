@@ -1,4 +1,4 @@
-VER = 0.1.3.2021d
+VER = 0.1.4.2021e
 
 PREFIX ?= /usr
 SHAREDIR ?= $(PREFIX)/share
@@ -18,11 +18,11 @@ all:
 	@echo
 
 install:
-	@chmod +x share/validate-zoneinfo
-	@share/validate-zoneinfo $(ZONEINFO) MAKEFILE
+	@chmod +x ./validate-zoneinfo
+	@./validate-zoneinfo $(ZONEINFO) MAKEFILE
 	@chmod +x ./validate-timesetter
 	@./validate-timesetter
-	@chmod a-x share/validate-zoneinfo
+	@chmod a-x ./validate-zoneinfo
 	@chmod a-x ./validate-timesetter
 	@mkdir -p $(DESTDIR)$(BINDIR)
 	@sed 's|SHAREDIR=|SHAREDIR=$(SHAREDIR)|' wclock > wclock2
@@ -56,7 +56,6 @@ install:
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/compat
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/extras
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/deprecated
-	@chmod 755 $(DESTDIR)$(SHAREDIR)/wclock/validate-zoneinfo
 	@echo
 	@echo Done.
 	@echo
@@ -65,7 +64,7 @@ clean:
 	@echo
 	@rm -rvf man-gz
 	@rm -rvf doc
-	@chmod a-x share/validate-zoneinfo
+	@chmod a-x ./validate-zoneinfo
 	@chmod a-x ./validate-timesetter
 	@echo
 	

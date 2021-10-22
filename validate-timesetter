@@ -44,7 +44,7 @@ unset NEWZONEINFO
 
 getzoneinfo (){
 if [ -n "$ZONEINFO" ]; then 
-	share/validate-zoneinfo "$ZONEINFO"
+	./validate-zoneinfo "$ZONEINFO"
 	[ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$ZONEINFO" && return
 fi
 for x in /usr/share/zoneinfo-leaps \
@@ -54,7 +54,7 @@ for x in /usr/share/zoneinfo-leaps \
 	 /etc/zoneinfo-leaps \
 	 /etc/zoneinfo; do
 	if [ -d "$x" ]; then
-		share/validate-zoneinfo "$x"
+		./validate-zoneinfo "$x"
 		[ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$x" && return
 	fi
 done

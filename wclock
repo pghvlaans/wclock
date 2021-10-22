@@ -32,6 +32,30 @@ ZONEPRELIM=
 ZONEINFO="$ZONEPRELIM"
 TIMESETTER=
 
+# This method checks the potential zoneinfo/suffix directory to make sure the
+# relevant subdirectories are populated.
+
+validate_zoneinfo () {
+unset CHECKZONEINFO
+
+if [ ! -f "$1"/Africa/Cairo ] || \
+   [ ! -f "$1"/America/Sao_Paulo ] || \
+   [ ! -f "$1"/America/Argentina/Cordoba ] || \
+   [ ! -f "$1"/America/Indiana/Indianapolis ] || \
+   [ ! -f "$1"/America/Kentucky/Louisville ] || \
+   [ ! -f "$1"/America/North_Dakota/Center ] || \
+   [ ! -f "$1"/Antarctica/McMurdo ] || \
+   [ ! -f "$1"/Asia/Tokyo ] || \
+   [ ! -f "$1"/Atlantic/Canary ] || \
+   [ ! -f "$1"/Australia/Sydney ] || \
+   [ ! -f "$1"/Etc/GMT ] || \
+   [ ! -f "$1"/Europe/Moscow ] || \
+   [ ! -f "$1"/Indian/Reunion ] || \
+   [ ! -f "$1"/Pacific/Auckland ]; then 
+	CHECKZONEINFO=yes
+fi
+}
+
 # This method selects a zoneinfo directory. If an appropriate zoneinfo directory
 # was passed to "make install," it will not run.
 
@@ -43,12 +67,23 @@ for x in /usr/share/zoneinfo-leaps \
 	 /etc/zoneinfo-leaps \
 	 /etc/zoneinfo; do
 	if [ -d "$x" ]; then
-		$SHAREDIR/wclock/validate-zoneinfo "$x"
-		[ -z "$CHECKZONEINFO" ] && ZONEINFO="$x" && return
+		for suffix in right posix; do
+			validate_zoneinfo "$x"/"$suffix"
+			if [ -z "$CHECKZONEINFO" ]; then
+				ZONEINFO="$x"
+				SUFFIX="$suffix"/
+				return
+			fi
+		done
+		validate_zoneinfo "$x"
+		if [ -z "$CHECKZONEINFO" ]; then
+			ZONEINFO="$x"
+			return
+		fi
 	fi
 done
 echo
-echo '	'A valid zoneinfo directory was not found. Exiting.
+echo '	'A well-formed zoneinfo directory was not found. Exiting.
 echo
 exit
 }
@@ -58,20 +93,16 @@ exit
 
 checkzoneinfo (){
 # Acquiring zoneinfo if necessary, exiting if none can be found.
-if [ -z "$ZONEINFO" ] || [ ! -d "$ZONEINFO" ]; then
+if [ ! -d "$ZONEINFO" ]; then
 	getzoneinfo
 else
 	# Making sure that zoneinfo is well-formed.
-	"$SHAREDIR"/wclock/validate-zoneinfo "$ZONEINFO"
+	for suffix in right posix; do
+		validate_zoneinfo "$ZONEINFO"/"$suffix"
+		[ -z "$CHECKZONEINFO" ] && SUFFIX="$suffix"/ && return
+	done
+	validate_zoneinfo "$ZONEINFO"
 	[ "$CHECKZONEINFO" = "yes" ] && getzoneinfo
-fi
-
-# Although at least one of these should be available in Linux installations,
-# just to be safe.
-if [ -d "$ZONEINFO/right" ]; then
-	SUFFIX="right/"
-elif [ -d "$ZONEINFO/posix" ]; then
-	SUFFIX="posix/"
 fi
 
 SLASHES="$(echo "$ZONEINFO/$SUFFIX" | tr -cd '/' | wc -c)"
@@ -636,7 +667,7 @@ for arg in "$@"; do
 		-v|--version)
 		echo
 		echo '	'wclock-"$VER"
-		echo '	'Checked against tzdata-2021d \(compatible from tzdata-2012a onward\).
+		echo '	'Checked against tzdata-2021e \(compatible from tzdata-2012a onward\).
 		echo
 		exit
 		;;
