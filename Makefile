@@ -1,4 +1,4 @@
-VER = 0.1.4.2021e
+VER = 0.1.4.2022a
 
 PREFIX ?= /usr
 SHAREDIR ?= $(PREFIX)/share
@@ -56,8 +56,15 @@ install:
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/compat
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/extras
 	@chmod 644 $(DESTDIR)$(SHAREDIR)/wclock/deprecated
+	@echo PREFIX=$(PREFIX) > LOG
+	@echo SHAREDIR=$(SHAREDIR) >> LOG
+	@echo MANDIR=$(MANDIR) >> LOG
+	@echo DOCDIR=$(DOCDIR) >> LOG
+	@echo BINDIR=$(BINDIR) >> LOG
+	@echo ZONEINFO=$(ZONEINFO) >> LOG
+	@echo TIMESETTER=$(TIMESETTER) >> LOG
 	@echo
-	@echo Done.
+	@echo Done. The variables have been saved to ./LOG.
 	@echo
 
 clean:

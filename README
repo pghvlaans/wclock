@@ -1,4 +1,4 @@
-wclock-0.1.4.2021e
+wclock-0.1.4.2022a
 
 wclock is a shell program to conveniently get times from around the world in
 terminal emulators and tty. It interfaces with "date" and the zoneinfo 
@@ -55,7 +55,7 @@ tools. (wclock also works on GNU Hurd, interestingly enough.)
 
 *Compatibility*
 
-This version of wclock has been checked against tzdata-2021e. However, it
+This version of wclock has been checked against tzdata-2022a. However, it
 should operate correctly with versions of tzdata dating back to tzdata-2012a.
 
 *Installation*
