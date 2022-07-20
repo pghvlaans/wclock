@@ -383,7 +383,7 @@ city="[[:punct:]]*$city"
 if [ -w "/tmp" ]; then
 	ZONETEMPDIR="$(mktemp -d /tmp/wclock.XXXXXXX)"
 elif [ -n "$HOME" ] && [ -w "$HOME" ]; then
-	ZONETEMPDIR="$(mktemp -d $HOME/wclock.XXXXXXX)"
+	ZONETEMPDIR="$(mktemp -d "$HOME"/wclock.XXXXXXX)"
 else
 	echo
 	echo '	'No writable \$HOME or /tmp directory was found.
