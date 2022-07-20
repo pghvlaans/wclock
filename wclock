@@ -379,23 +379,22 @@ city="$(echo "$city" | sed 's|[[:punct:]]||g')"
 city="$(echo "$city" | sed "s|\([[:alpha:]]\)|\1[[:punct:]]*|g")"
 city="[[:punct:]]*$city"
 
-# For users without a HOME directory, use /tmp instead.
-if [ -n "$HOME" ] && [ -d "$HOME" ]; then
-	ZONETEMP="$HOME/.zonetemp"
+# Use a writable $HOME or /tmp directory.
+if [ -w "/tmp" ]; then
+	ZONETEMPDIR="$(mktemp -d /tmp/wclock.XXXXXXX)"
+elif [ -n "$HOME" ] && [ -w "$HOME" ]; then
+	ZONETEMPDIR="$(mktemp -d $HOME/wclock.XXXXXXX)"
 else
-	ZONETEMP=/tmp/.zonetemp
-fi
-
-# Failsafe: enforcing the use of either a HOME or a writable /tmp directory.
-if [ ! -d "$HOME" ] && [ ! -w "/tmp" ]; then
 	echo
-	echo '	'Neither a home nor a writable /tmp directory was found. 
-	echo '	'Please try again with a user account that has a home 
-	echo '	'directory or write permissions in /tmp.
+	echo '	'No writable \$HOME or /tmp directory was found.
+	echo '	'
+	echo '	'Please switch to a user with a writable \$HOME directory
+	echo '	'or write permissions in /tmp and try again.
 	echo
 	exit
 fi
 
+ZONETEMP="$ZONETEMPDIR"/zonetemp
 EXTRAS="$SHAREDIR"/wclock/extras
 COMPAT="$SHAREDIR"/wclock/compat
 DEPREC="$SHAREDIR"/wclock/deprecated
@@ -404,13 +403,6 @@ DEPREC="$SHAREDIR"/wclock/deprecated
 
 # If the extras file is missing, only the directories will be checked.
 [ -z "$WARNED" ] && [ ! -f "$EXTRAS" ] && echo '	'"$EXTRAS" was not found. Only named time zones in && echo '	'"$ZONEINFO"/"$SUFFIX" will be searched. && WARNED=yes && echo
-
-unset TIMESTAMP
-
-if [ -f "$ZONETEMP" ] || [ -d "$ZONETEMP" ] || [ -h "$ZONETEMP" ]; then
-	TIMESTAMP="$(date +%s)"
-	mv "$ZONETEMP" "$ZONETEMP-$TIMESTAMP"
-fi
 
 unset zone
 unset headup
@@ -607,10 +599,7 @@ if [ -z "$DONE" ]; then
 fi
 
 # Cleaning up.
-rm -f "$ZONETEMP"
-if [ -f "$ZONETEMP-$TIMESTAMP" ] || [ -d "$ZONETEMP-$TIMESTAMP" ] || [ -h "$ZONETEMP-$TIMESTAMP" ]; then
-	mv "$ZONETEMP-$TIMESTAMP" "$ZONETEMP"
-fi
+rm -rf "$ZONETEMPDIR"
 }
 
 unset city
