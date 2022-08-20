@@ -1,4 +1,4 @@
-VER = 0.1.4.2022a
+VER = 0.1.4.2022c
 
 PREFIX ?= /usr
 SHAREDIR ?= $(PREFIX)/share
