@@ -43,7 +43,7 @@ if [ ! -f "$1"/Africa/Cairo ] || \
    [ ! -f "$1"/Etc/GMT ] || \
    [ ! -f "$1"/Europe/Moscow ] || \
    [ ! -f "$1"/Indian/Reunion ] || \
-   [ ! -f "$1"/Pacific/Auckland ]; then 
+   [ ! -f "$1"/Pacific/Auckland ]; then
   echo
   echo "$1" does not appear to be a well-formed zoneinfo directory. To continue
   echo the installation anyway, enter "y". To exit, enter any other character.

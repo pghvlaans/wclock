@@ -14,7 +14,7 @@ all:
 	@echo
 	@echo \'make uninstall\' will remove wclock from the specified DESTDIR.
 	@echo
-	@echo \'make clean\' will remove the zipped man page and doc from the source directory. 
+	@echo \'make clean\' will remove the zipped man page and doc from the source directory.
 	@echo
 
 install:
@@ -48,7 +48,7 @@ install:
 	@cp -v -L ./README doc/
 	@cp -v -L ./ATTRIBUTION doc/
 	@cp -v -L ./INSTALL doc/
-	@chmod 644 doc/* 
+	@chmod 644 doc/*
 	@mkdir -p $(DESTDIR)$(DOCDIR)/wclock-$(VER)
 	@cp -v -L doc/* $(DESTDIR)$(DOCDIR)/wclock-$(VER)
 	@mkdir -p $(DESTDIR)$(SHAREDIR)/wclock

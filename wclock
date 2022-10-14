@@ -51,7 +51,7 @@ if [ ! -f "$1"/Africa/Cairo ] || \
    [ ! -f "$1"/Etc/GMT ] || \
    [ ! -f "$1"/Europe/Moscow ] || \
    [ ! -f "$1"/Indian/Reunion ] || \
-   [ ! -f "$1"/Pacific/Auckland ]; then 
+   [ ! -f "$1"/Pacific/Auckland ]; then
   CHECKZONEINFO=yes
 fi
 }
@@ -440,7 +440,7 @@ if [ -z "$DONE" ]; then
   unset CHECKLIST
   unset X
   zone="$(find "$ZONEINFO"/"$SUFFIX"* -type f,l | grep -i "$city" | cut -d'/' -f"$SLASHES"-)"
-  
+ 
   [ -n "$zone" ] && echo "$zone" > "$ZONETEMP"
   [ -f "$ZONETEMP" ] && CHECKLIST=yes
 
@@ -471,7 +471,7 @@ if [ -z "$DONE" ]; then
         DEPRECATED="$(grep -i "^$line	" "$DEPREC")"
         [ -n "$DEPRECATED" ] && CURRENT="$(echo "$DEPRECATED" | cut -d'	' -f2-)"
         [ -n "$CURRENT" ] && [ -n "$(grep -i "$CURRENT" "$ZONETEMP")" ] && sed -i "s|^$line$||g" "$ZONETEMP"
-      fi	       
+      fi	      
     done < "$ZONETEMP"
   fi
 
@@ -479,7 +479,7 @@ if [ -z "$DONE" ]; then
   if [ -f "$ZONETEMP" ]; then
     X="$(cat "$ZONETEMP" | wc -l)"
     Y="$(grep -x ^$ "$ZONETEMP" | wc -l)"
-    # This gives the number of lines with content. 
+    # This gives the number of lines with content.
     X=$((X - Y))
   fi
 
@@ -552,7 +552,7 @@ if [ -z "$DONE" ]; then
       fi
     done < "$ZONETEMP"
   fi
-  
+ 
   # A last-ditch attempt with COMPAT, in case of old version and unlucky time
   # zone check.
   if [ -z "$DONE2" ] && [ -f "$COMPAT" ]; then
@@ -602,7 +602,7 @@ unset HEREZONEOK
 unset WASMISSING
 
 for arg in "$@"; do
-  case "$arg" in 
+  case "$arg" in
     -h|--help)
     echo
     echo wclock - Retrieve world times based on a search term.
@@ -677,7 +677,7 @@ for arg in "$@"; do
     # Gather arguments for specific time checks between -t or -l and any other
     # parameter.
     if [ "$GETPARAM" = "yes" ]; then
-      if [ -z "$TCPARAMS" ]; then 
+      if [ -z "$TCPARAMS" ]; then
         TCPARAMS="$arg"
       else
         TCPARAMS="$TCPARAMS"\ "$arg"

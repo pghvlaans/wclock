@@ -43,7 +43,7 @@ unset CHECKER2
 unset NEWZONEINFO
 
 getzoneinfo (){
-if [ -n "$ZONEINFO" ]; then 
+if [ -n "$ZONEINFO" ]; then
   ./validate-zoneinfo "$ZONEINFO"
   [ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$ZONEINFO" && return
 fi

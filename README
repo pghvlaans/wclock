@@ -1,17 +1,17 @@
 wclock-0.1.4.2022c
 
 wclock is a shell program to conveniently get times from around the world in
-terminal emulators and tty. It interfaces with "date" and the zoneinfo 
+terminal emulators and tty. It interfaces with "date" and the zoneinfo
 directory to acquire time zones that match user-provided search terms (case-
 insensitive, spaces OK).
 
 The following features are included for increased convenience:
 
-* Extra cities: A list of cities, metro areas, etc. with a population of over 
+* Extra cities: A list of cities, metro areas, etc. with a population of over
   250,000 is referenced in addition to the named time zones. For example,
-  
-    wclock washington 
-  
+ 
+    wclock washington
+ 
   will return a time for Washington, DC using the America/New_York time zone.
 
 * Country search: Look up time zones by country.
@@ -77,7 +77,7 @@ details. The overall SimpleMaps.com license can be found in SIMPLEMAPS.
 *Disclaimer*
 
 No listing (or absence of listing) in any document included with this software
-is intended as a political statement or as an endorsement of any particular 
+is intended as a political statement or as an endorsement of any particular
 interpretation of statehood claims or national borders. Any extra names, old
 spellings, etc. were added for making the search functionality more convenient
 or avoiding deprecated time zones.
