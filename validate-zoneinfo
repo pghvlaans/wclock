@@ -30,25 +30,25 @@
 
 [ -z "$1" ] || [ "$1" = "MAKEFILE" ] && exit
 
-if	[ ! -f "$1"/Africa/Cairo ] || \
- 	[ ! -f "$1"/America/Sao_Paulo ] || \
-	[ ! -f "$1"/America/Argentina/Cordoba ] || \
-	[ ! -f "$1"/America/Indiana/Indianapolis ] || \
-	[ ! -f "$1"/America/Kentucky/Louisville ] || \
-	[ ! -f "$1"/America/North_Dakota/Center ] || \
-	[ ! -f "$1"/Antarctica/McMurdo ] || \
-	[ ! -f "$1"/Asia/Tokyo ] || \
-	[ ! -f "$1"/Atlantic/Canary ] || \
-	[ ! -f "$1"/Australia/Sydney ] || \
-	[ ! -f "$1"/Etc/GMT ] || \
-	[ ! -f "$1"/Europe/Moscow ] || \
-	[ ! -f "$1"/Indian/Reunion ] || \
-	[ ! -f "$1"/Pacific/Auckland ]; then 
-	echo
-	echo "$1" does not appear to be a well-formed zoneinfo directory. To continue
-	echo the installation anyway, enter "y". To exit, enter any other character.
-	echo
-	unset INPUT
-	read -r INPUT && [ "$INPUT" != "y" ] && echo && exit 1
-	echo
+if [ ! -f "$1"/Africa/Cairo ] || \
+   [ ! -f "$1"/America/Sao_Paulo ] || \
+   [ ! -f "$1"/America/Argentina/Cordoba ] || \
+   [ ! -f "$1"/America/Indiana/Indianapolis ] || \
+   [ ! -f "$1"/America/Kentucky/Louisville ] || \
+   [ ! -f "$1"/America/North_Dakota/Center ] || \
+   [ ! -f "$1"/Antarctica/McMurdo ] || \
+   [ ! -f "$1"/Asia/Tokyo ] || \
+   [ ! -f "$1"/Atlantic/Canary ] || \
+   [ ! -f "$1"/Australia/Sydney ] || \
+   [ ! -f "$1"/Etc/GMT ] || \
+   [ ! -f "$1"/Europe/Moscow ] || \
+   [ ! -f "$1"/Indian/Reunion ] || \
+   [ ! -f "$1"/Pacific/Auckland ]; then 
+  echo
+  echo "$1" does not appear to be a well-formed zoneinfo directory. To continue
+  echo the installation anyway, enter "y". To exit, enter any other character.
+  echo
+  unset INPUT
+  read -r INPUT && [ "$INPUT" != "y" ] && echo && exit 1
+  echo
 fi

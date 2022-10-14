@@ -28,14 +28,14 @@
 
 [ -z "$TIMESETTER" ] && exit
 if [ ! -f "$TIMESETTER" ]; then
-	echo
-	echo "$TIMESETTER" does not exist. To continue the installation anyway,
-	echo enter "y". To exit, enter any other character.
-	echo
-	unset INPUT
-	read -r INPUT && [ "$INPUT" != y ] && echo && exit 1
-	echo
-	exit
+  echo
+  echo "$TIMESETTER" does not exist. To continue the installation anyway,
+  echo enter "y". To exit, enter any other character.
+  echo
+  unset INPUT
+  read -r INPUT && [ "$INPUT" != y ] && echo && exit 1
+  echo
+  exit
 fi
 
 unset CHECKER
@@ -44,19 +44,19 @@ unset NEWZONEINFO
 
 getzoneinfo (){
 if [ -n "$ZONEINFO" ]; then 
-	./validate-zoneinfo "$ZONEINFO"
-	[ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$ZONEINFO" && return
+  ./validate-zoneinfo "$ZONEINFO"
+  [ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$ZONEINFO" && return
 fi
 for x in /usr/share/zoneinfo-leaps \
-	 /usr/share/zoneinfo \
-	 /usr/local/share/zoneinfo-leaps \
-	 /usr/local/share/zoneinfo \
-	 /etc/zoneinfo-leaps \
-	 /etc/zoneinfo; do
-	if [ -d "$x" ]; then
-		./validate-zoneinfo "$x"
-		[ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$x" && return
-	fi
+         /usr/share/zoneinfo \
+         /usr/local/share/zoneinfo-leaps \
+         /usr/local/share/zoneinfo \
+         /etc/zoneinfo-leaps \
+         /etc/zoneinfo; do
+  if [ -d "$x" ]; then
+    ./validate-zoneinfo "$x"
+    [ -z "$CHECKZONEINFO" ] && NEWZONEINFO="$x" && return
+  fi
 done
 }
 
@@ -67,19 +67,19 @@ CHECKER="$(file -b "$(readlink -e "$TIMESETTER")" | grep timezone)"
 [ -n "$CHECKER" ] && cd "$PWD" && exit
 cd "$PWD"
 if [ ! -h "$TIMESETTER" ]; then
-	getzoneinfo
-	[ ! -d "$NEWZONEINFO" ] && exit
-	CHECKER="$(cat "$TIMESETTER")"
-	CHECKER2="$(find "$NEWZONEINFO" -type f,l | grep -i -m 1 "$CHECKER")"
-	if [ -z "$CHECKER2" ]; then
-		echo
-		echo "$TIMESETTER" does not appear to point to a valid time zone setting
-		echo file or symlink. To continue the installation anyway, enter "y". To
-		echo exit, enter any other character.
-		echo
-		unset INPUT
-		read -r INPUT && [ "$INPUT" != "y" ] && echo && exit 1
-		echo
-		exit
-	fi
+  getzoneinfo
+  [ ! -d "$NEWZONEINFO" ] && exit
+  CHECKER="$(cat "$TIMESETTER")"
+  CHECKER2="$(find "$NEWZONEINFO" -type f,l | grep -i -m 1 "$CHECKER")"
+  if [ -z "$CHECKER2" ]; then
+    echo
+    echo "$TIMESETTER" does not appear to point to a valid time zone setting
+    echo file or symlink. To continue the installation anyway, enter "y". To
+    echo exit, enter any other character.
+    echo
+    unset INPUT
+    read -r INPUT && [ "$INPUT" != "y" ] && echo && exit 1
+    echo
+    exit
+  fi
 fi
